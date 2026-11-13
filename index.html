@@ -2,213 +2,613 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGE - Gestão Escolar</title>
 
-    <title>Minha Calculadora</title>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+body {
+    background: #f1f5f9;
+    color: #1e293b;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #101827;
-            font-family: Arial, sans-serif;
-        }
+header {
+    background: #102b50;
+    color: white;
+    padding: 22px;
+}
 
-        .calculadora {
-            width: 320px;
-            padding: 20px;
-            background: #1e293b;
-            border-radius: 18px;
-        }
+header h1 {
+    font-size: 25px;
+}
 
-        h2 {
-            color: white;
-            text-align: center;
-        }
+header p {
+    color: #cbd5e1;
+    margin-top: 5px;
+}
 
-        #visor {
-            width: 100%;
-            height: 65px;
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 28px;
-            text-align: right;
-            border: none;
-            border-radius: 8px;
-            background: #e2e8f0;
-        }
+nav {
+    background: #173b65;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 10px;
+}
 
-        .botoes {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 9px;
-        }
+nav button {
+    background: transparent;
+    color: white;
+    border: 0;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
 
-        button {
-            height: 58px;
-            border: none;
-            border-radius: 9px;
-            font-size: 21px;
-            cursor: pointer;
-            background: #334155;
-            color: white;
-        }
+nav button:hover,
+nav button.active {
+    background: #2563eb;
+}
 
-        button:active {
-            opacity: 0.7;
-        }
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 22px;
+}
 
-        .operador {
-            background: #2563eb;
-        }
+h2 {
+    margin-bottom: 18px;
+}
 
-        .limpar {
-            background: #dc2626;
-        }
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
 
-        .igual {
-            background: #16a34a;
-        }
-    </style>
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0000000d;
+}
+
+.card h3 {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2563eb;
+    margin-top: 12px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+input {
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+button.action {
+    background: #2563eb;
+    color: white;
+    padding: 11px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+
+button.delete {
+    background: #dc2626;
+    color: white;
+    border: 0;
+    padding: 7px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.edit {
+    background: #0f766e;
+    color: white;
+    border: 0;
+    padding: 7px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: #e2e8f0;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.notice {
+    margin-top: 15px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+@media(max-width:600px) {
+    main {
+        padding: 12px;
+    }
+
+    nav button {
+        font-size: 12px;
+        padding: 9px;
+    }
+
+    th, td {
+        padding: 9px;
+        font-size: 13px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="calculadora">
+<header>
+    <h1>SIGE</h1>
+    <p>Sistema Integrado de Gestão Escolar</p>
+</header>
 
-        <h2>Minha Calculadora</h2>
+<nav id="navigation">
+    <button class="active" data-page="dashboard">Início</button>
+    <button data-page="alunos">Alunos</button>
+    <button data-page="professores">Professores</button>
+    <button data-page="turmas">Turmas</button>
+    <button data-page="disciplinas">Disciplinas</button>
+    <button data-page="notas">Notas</button>
+</nav>
 
-        <input
-            type="text"
-            id="visor"
-            value="0"
-            readonly
-        >
+<main>
 
-        <div class="botoes">
+<section id="dashboard" class="section active">
+    <h2>Painel Principal</h2>
 
-            <button class="limpar" onclick="limpar()">C</button>
-            <button onclick="apagar()">⌫</button>
-            <button class="operador" onclick="operacao('/')">÷</button>
-            <button class="operador" onclick="operacao('*')">×</button>
+    <div class="stats">
+        <div class="card">
+            <h3>Total de alunos</h3>
+            <p id="totalAlunos">0</p>
+        </div>
 
-            <button onclick="adicionar('7')">7</button>
-            <button onclick="adicionar('8')">8</button>
-            <button onclick="adicionar('9')">9</button>
-            <button class="operador" onclick="operacao('-')">−</button>
+        <div class="card">
+            <h3>Professores</h3>
+            <p id="totalProfessores">0</p>
+        </div>
 
-            <button onclick="adicionar('4')">4</button>
-            <button onclick="adicionar('5')">5</button>
-            <button onclick="adicionar('6')">6</button>
-            <button class="operador" onclick="operacao('+')">+</button>
+        <div class="card">
+            <h3>Turmas</h3>
+            <p id="totalTurmas">0</p>
+        </div>
 
-            <button onclick="adicionar('1')">1</button>
-            <button onclick="adicionar('2')">2</button>
-            <button onclick="adicionar('3')">3</button>
-            <button class="igual" onclick="calcular()">=</button>
-
-            <button onclick="adicionar('0')">0</button>
-            <button onclick="adicionar('.')">.</button>
-
+        <div class="card">
+            <h3>Disciplinas</h3>
+            <p id="totalDisciplinas">0</p>
         </div>
     </div>
 
-    <script>
-        const visor = document.getElementById("visor");
+    <div class="card">
+        <h3>Bem-vindo ao SIGE!</h3>
+        <p style="font-size:16px;color:#334155">
+            Sistema de administração e gestão escolar.
+        </p>
+        <p class="notice">
+            Utilize o menu para gerir os dados da instituição.
+        </p>
+    </div>
+</section>
 
-        let primeiroNumero = null;
-        let operador = null;
-        let iniciarNovoNumero = false;
+<section id="alunos" class="section">
+    <h2>Gestão de Alunos</h2>
 
-        function adicionar(valor) {
+    <input id="nomeAluno" placeholder="Nome completo">
+    <input id="idadeAluno" type="number" placeholder="Idade">
+    <input id="turmaAluno" placeholder="Turma">
 
-            if (iniciarNovoNumero || visor.value === "0") {
-                visor.value = valor;
-                iniciarNovoNumero = false;
-            } else {
-                visor.value += valor;
-            }
+    <button class="action" onclick="adicionar('alunos')">
+        Guardar Aluno
+    </button>
 
+    <input id="pesquisaAlunos" placeholder="Pesquisar aluno..."
+    oninput="renderizar('alunos')">
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Turma</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaAlunos"></tbody>
+        </table>
+    </div>
+</section>
+
+<section id="professores" class="section">
+    <h2>Gestão de Professores</h2>
+
+    <input id="nomeProfessor" placeholder="Nome do professor">
+    <input id="especialidadeProfessor" placeholder="Especialidade">
+
+    <button class="action" onclick="adicionar('professores')">
+        Guardar Professor
+    </button>
+
+    <input id="pesquisaProfessores"
+    placeholder="Pesquisar professor..."
+    oninput="renderizar('professores')">
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Especialidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaProfessores"></tbody>
+        </table>
+    </div>
+</section>
+
+<section id="turmas" class="section">
+    <h2>Gestão de Turmas</h2>
+
+    <input id="nomeTurma" placeholder="Ex: 10ª Informática">
+    <input id="salaTurma" placeholder="Sala">
+
+    <button class="action" onclick="adicionar('turmas')">
+        Guardar Turma
+    </button>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Turma</th>
+                    <th>Sala</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaTurmas"></tbody>
+        </table>
+    </div>
+</section>
+
+<section id="disciplinas" class="section">
+    <h2>Gestão de Disciplinas</h2>
+
+    <input id="nomeDisciplina" placeholder="Nome da disciplina">
+
+    <button class="action" onclick="adicionar('disciplinas')">
+        Guardar Disciplina
+    </button>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Disciplina</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaDisciplinas"></tbody>
+        </table>
+    </div>
+</section>
+
+<section id="notas" class="section">
+    <h2>Registo de Notas</h2>
+
+    <input id="alunoNota" placeholder="Nome do aluno">
+    <input id="disciplinaNota" placeholder="Disciplina">
+    <input id="valorNota" type="number" min="0" max="20"
+    step="0.1" placeholder="Nota (0 a 20)">
+
+    <button class="action" onclick="adicionar('notas')">
+        Registar Nota
+    </button>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Disciplina</th>
+                    <th>Nota</th>
+                    <th>Resultado</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaNotas"></tbody>
+        </table>
+    </div>
+</section>
+
+</main>
+
+<script>
+// BASE DE DADOS LOCAL
+
+const dados = {
+    alunos: JSON.parse(localStorage.getItem('sige_alunos') || '[]'),
+    professores: JSON.parse(localStorage.getItem('sige_professores') || '[]'),
+    turmas: JSON.parse(localStorage.getItem('sige_turmas') || '[]'),
+    disciplinas: JSON.parse(localStorage.getItem('sige_disciplinas') || '[]'),
+    notas: JSON.parse(localStorage.getItem('sige_notas') || '[]')
+};
+
+const campos = {
+    alunos: ['nomeAluno', 'idadeAluno', 'turmaAluno'],
+    professores: ['nomeProfessor', 'especialidadeProfessor'],
+    turmas: ['nomeTurma', 'salaTurma'],
+    disciplinas: ['nomeDisciplina'],
+    notas: ['alunoNota', 'disciplinaNota', 'valorNota']
+};
+
+const propriedades = {
+    alunos: ['Nome', 'Idade', 'Turma'],
+    professores: ['Nome', 'Especialidade'],
+    turmas: ['Turma', 'Sala'],
+    disciplinas: ['Disciplina'],
+    notas: ['Aluno', 'Disciplina', 'Nota']
+};
+
+const armazenamento = {
+    alunos: 'sige_alunos',
+    professores: 'sige_professores',
+    turmas: 'sige_turmas',
+    disciplinas: 'sige_disciplinas',
+    notas: 'sige_notas'
+};
+
+let edicao = null;
+
+// GUARDAR DADOS
+
+function guardar(tipo) {
+    localStorage.setItem(
+        armazenamento[tipo],
+        JSON.stringify(dados[tipo])
+    );
+}
+
+// LIMPAR FORMULÁRIO
+
+function limpar(tipo) {
+    campos[tipo].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+}
+
+// ADICIONAR OU EDITAR
+
+function adicionar(tipo) {
+    const valores = campos[tipo].map(id =>
+        document.getElementById(id).value.trim()
+    );
+
+    if (valores.some(v => v === '')) {
+        alert('Preencha todos os campos!');
+        return;
+    }
+
+    if (tipo === 'notas') {
+        const nota = Number(valores[2]);
+
+        if (!Number.isFinite(nota) || nota < 0 || nota > 20) {
+            alert('A nota deve estar entre 0 e 20.');
+            return;
         }
 
-        function limpar() {
+        valores[2] = nota;
+    }
 
-            visor.value = "0";
-            primeiroNumero = null;
-            operador = null;
-            iniciarNovoNumero = false;
+    if (tipo === 'alunos') {
+        const idade = Number(valores[1]);
 
+        if (!Number.isInteger(idade) || idade < 1 || idade > 120) {
+            alert('Introduza uma idade válida.');
+            return;
         }
 
-        function apagar() {
+        valores[1] = idade;
+    }
 
-            if (iniciarNovoNumero) return;
+    const registro = {
+        id: edicao ?? Date.now(),
+        valores: valores
+    };
 
-            visor.value = visor.value.slice(0, -1) || "0";
+    if (edicao !== null) {
+        const index = dados[tipo].findIndex(
+            item => item.id === edicao
+        );
+        dados[tipo][index] = registro;
+        edicao = null;
+    } else {
+        dados[tipo].push(registro);
+    }
 
+    guardar(tipo);
+    limpar(tipo);
+    renderizar(tipo);
+    atualizarPainel();
+}
+
+// EXIBIR DADOS
+
+function renderizar(tipo) {
+    const tbody = document.getElementById('lista' +
+        tipo.charAt(0).toUpperCase() + tipo.slice(1));
+
+    const pesquisa = tipo === 'alunos'
+        ? document.getElementById('pesquisaAlunos').value
+        : tipo === 'professores'
+        ? document.getElementById('pesquisaProfessores').value
+        : '';
+
+    tbody.innerHTML = '';
+
+    dados[tipo]
+        .filter(item => item.valores.join(' ')
+        .toLowerCase().includes(pesquisa.toLowerCase()))
+        .forEach(item => {
+
+        const tr = document.createElement('tr');
+
+        item.valores.forEach((valor, index) => {
+            const td = document.createElement('td');
+            td.textContent = valor;
+            tr.appendChild(td);
+        });
+
+        if (tipo === 'notas') {
+            const td = document.createElement('td');
+            td.textContent = item.valores[2] >= 10
+                ? 'Aprovado'
+                : 'Não aprovado';
+            tr.appendChild(td);
         }
 
-        function operacao(sinal) {
+        const td = document.createElement('td');
 
-            primeiroNumero = Number(visor.value);
-            operador = sinal;
-            iniciarNovoNumero = true;
+        const editar = document.createElement('button');
+        editar.textContent = 'Editar';
+        editar.className = 'edit';
+        editar.onclick = () => editarRegistro(tipo, item.id);
 
-        }
+        const excluir = document.createElement('button');
+        excluir.textContent = 'Eliminar';
+        excluir.className = 'delete';
+        excluir.onclick = () => eliminar(tipo, item.id);
 
-        function calcular() {
+        td.append(editar, excluir);
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+    });
+}
 
-            if (primeiroNumero === null || operador === null) {
-                return;
-            }
+// EDITAR REGISTRO
 
-            const segundoNumero = Number(visor.value);
-            let resultado;
+function editarRegistro(tipo, id) {
+    const item = dados[tipo].find(r => r.id === id);
 
-            switch (operador) {
+    if (!item) return;
 
-                case "+":
-                    resultado = primeiroNumero + segundoNumero;
-                    break;
+    campos[tipo].forEach((campo, index) => {
+        document.getElementById(campo).value =
+            item.valores[index];
+    });
 
-                case "-":
-                    resultado = primeiroNumero - segundoNumero;
-                    break;
+    edicao = id;
 
-                case "*":
-                    resultado = primeiroNumero * segundoNumero;
-                    break;
+    document.getElementById(campos[tipo][0])
+        .scrollIntoView({ behavior: 'smooth' });
+}
 
-                case "/":
-                    if (segundoNumero === 0) {
-                        visor.value = "Erro";
-                        primeiroNumero = null;
-                        operador = null;
-                        iniciarNovoNumero = true;
-                        return;
-                    }
+// ELIMINAR REGISTRO
 
-                    resultado = primeiroNumero / segundoNumero;
-                    break;
+function eliminar(tipo, id) {
+    if (!confirm('Deseja realmente eliminar este registo?')) {
+        return;
+    }
 
-            }
+    dados[tipo] = dados[tipo].filter(
+        item => item.id !== id
+    );
 
-            visor.value = String(resultado);
+    guardar(tipo);
+    renderizar(tipo);
+    atualizarPainel();
+}
 
-            primeiroNumero = null;
-            operador = null;
-            iniciarNovoNumero = true;
+// ATUALIZAR ESTATÍSTICAS
 
-        }
-    </script>
+function atualizarPainel() {
+    document.getElementById('totalAlunos').textContent =
+        dados.alunos.length;
+
+    document.getElementById('totalProfessores').textContent =
+        dados.professores.length;
+
+    document.getElementById('totalTurmas').textContent =
+        dados.turmas.length;
+
+    document.getElementById('totalDisciplinas').textContent =
+        dados.disciplinas.length;
+}
+
+// NAVEGAÇÃO
+
+document.getElementById('navigation').addEventListener(
+    'click', event => {
+        const botao = event.target.closest('button[data-page]');
+        if (!botao) return;
+
+        document.querySelectorAll('.section').forEach(secao => {
+            secao.classList.remove('active');
+        });
+
+        document.querySelectorAll('nav button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        document.getElementById(botao.dataset.page)
+            .classList.add('active');
+
+        botao.classList.add('active');
+    }
+);
+
+// INICIALIZAÇÃO
+
+Object.keys(dados).forEach(tipo => renderizar(tipo));
+atualizarPainel();
+
+</script>
 
 </body>
 </html>
