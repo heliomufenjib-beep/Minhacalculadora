@@ -3,1047 +3,1098 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SIGE - Sistema Integrado de Gestão Escolar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGE | Sistema Integrado de Gestão Escolar</title>
 
 <style>
+:root{
+  --primary:#3157d5;
+  --primary-dark:#2443ad;
+  --bg:#f4f6fb;
+  --surface:#ffffff;
+  --text:#172033;
+  --muted:#7c879b;
+  --border:#e7eaf1;
+  --green:#159b69;
+  --red:#dc4c4c;
+  --shadow:0 8px 28px rgba(25,40,80,.06);
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172554}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
 button,input,select,textarea{font:inherit}
-button{border:0;border-radius:8px;padding:11px 15px;cursor:pointer}
-.primary{background:#2563eb;color:white}
-.secondary{background:#e0eaff;color:#1d4ed8}
-.danger{background:#fee2e2;color:#b91c1c}
+button{cursor:pointer}
 .hidden{display:none!important}
-.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#10213f,#2563eb)}
-.authbox{width:100%;max-width:420px;background:white;padding:28px;border-radius:18px}
-.logo{font-size:30px;font-weight:bold;color:#2563eb}
-.authbox button{width:100%;margin-top:12px}
-input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;background:white}
-label{display:block;margin:12px 0 6px;font-size:13px;font-weight:bold}
-.msg{font-size:13px;color:#dc2626;margin-top:12px}
-.success{color:#15803d}
-header{background:white;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0;gap:10px}
-.layout{display:flex;min-height:calc(100vh - 65px)}
-aside{width:230px;background:#14213d;padding:12px;flex-shrink:0}
-aside button{display:block;width:100%;text-align:left;margin:4px 0;background:transparent;color:#dbeafe}
-aside button.active,aside button:hover{background:#263e67}
-main{padding:22px;width:100%;min-width:0}
-.page{display:none}
-.page.active{display:block}
-.card{background:white;padding:18px;border-radius:13px;border:1px solid #e2e8f0;margin:14px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-.stat strong{display:block;font-size:28px;color:#2563eb;margin-top:9px}
-.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
-.tablewrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:520px}
-th,td{padding:11px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:14px}
-th{background:#f8fafc}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.toolbar input{max-width:350px}
-.notice{background:#eff6ff;padding:12px;border-radius:8px;color:#1e40af;margin:12px 0}
-footer{text-align:center;color:#64748b;padding:20px;font-size:12px}
-.muted{color:#64748b}
-.tag{background:#dcfce7;color:#166534;padding:4px 8px;border-radius:15px;font-size:12px}
-.actions{display:flex;gap:5px;flex-wrap:wrap}
-.actions button{padding:6px 9px;font-size:12px}
-@media(max-width:750px){
-.layout{display:block}
-aside{width:100%;display:flex;overflow-x:auto}
-aside button{white-space:nowrap;width:auto}
-main{padding:13px}
-header{padding:12px}
+
+/* LOGIN */
+#authScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:linear-gradient(135deg,#14285e,#3157d5);
+}
+.auth-card{
+  width:100%;
+  max-width:420px;
+  background:white;
+  padding:35px;
+  border-radius:20px;
+  box-shadow:0 20px 60px #09163c55;
+}
+.logo{
+  width:52px;height:52px;
+  display:grid;place-items:center;
+  background:#eaf0ff;
+  color:var(--primary);
+  border-radius:15px;
+  font-size:25px;font-weight:800;
+}
+.auth-card h1{margin:18px 0 5px;font-size:25px}
+.auth-card p{color:var(--muted);font-size:14px}
+.field{margin:16px 0}
+.field label{
+  display:block;font-size:13px;
+  font-weight:700;margin-bottom:7px;
+}
+.field input,.field select,.field textarea{
+  width:100%;padding:12px 13px;
+  border:1px solid var(--border);
+  border-radius:9px;outline:none;
+  background:white;
+}
+.field input:focus,.field select:focus{
+  border-color:var(--primary);
+}
+.primary-btn{
+  background:var(--primary);color:white;
+  border:0;border-radius:9px;
+  padding:12px 17px;font-weight:700;
+}
+.primary-btn:hover{background:var(--primary-dark)}
+.full{width:100%}
+.link-btn{
+  border:0;background:none;color:var(--primary);
+  font-weight:700;padding:10px;
+}
+.message{font-size:13px;color:var(--red);min-height:18px}
+
+/* APPLICATION */
+#application{display:none;min-height:100vh}
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;
+  width:250px;background:#17264b;
+  color:white;padding:22px 15px;
+  overflow-y:auto;z-index:5;
+}
+.brand{
+  display:flex;align-items:center;gap:12px;
+  padding:5px 10px 25px;
+  border-bottom:1px solid #ffffff20;
+}
+.brand-icon{
+  width:40px;height:40px;border-radius:12px;
+  background:#4169e1;display:grid;place-items:center;
+  font-weight:900;font-size:20px;
+}
+.brand strong{font-size:17px}
+.brand small{display:block;color:#aebcdd;margin-top:3px}
+.nav-title{
+  color:#8999bc;font-size:10px;
+  font-weight:800;letter-spacing:1.5px;
+  margin:24px 10px 9px;
+}
+.nav-btn{
+  width:100%;display:flex;align-items:center;
+  gap:12px;padding:12px 13px;
+  border:0;border-radius:9px;
+  background:transparent;color:#cbd5ec;
+  text-align:left;margin:3px 0;font-size:13px;
+}
+.nav-btn:hover,.nav-btn.active{
+  background:#ffffff18;color:white;
+}
+.nav-btn .ico{width:20px;text-align:center;font-size:16px}
+.sidebar-footer{
+  border-top:1px solid #ffffff20;
+  margin-top:25px;padding:18px 10px;
+  color:#aebcdd;font-size:11px;line-height:1.6;
+}
+.main{margin-left:250px;min-height:100vh}
+.topbar{
+  height:72px;background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:0 30px;position:sticky;top:0;z-index:3;
+}
+.topbar h2{font-size:17px;margin:0}
+.user-area{display:flex;align-items:center;gap:12px}
+.avatar{
+  width:37px;height:37px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#eaf0ff;color:var(--primary);
+  font-weight:800;
+}
+.user-area small{display:block;color:var(--muted);margin-top:3px}
+.content{padding:30px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.page-heading h1{font-size:25px;margin:0 0 6px}
+.page-heading p{margin:0;color:var(--muted);font-size:13px}
+.grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:17px;margin-bottom:22px;
+}
+.card,.panel{
+  background:white;border:1px solid var(--border);
+  border-radius:14px;padding:20px;
+  box-shadow:var(--shadow);
+}
+.stat{
+  display:flex;justify-content:space-between;
+  align-items:center;
+}
+.stat-icon{
+  width:43px;height:43px;border-radius:12px;
+  display:grid;place-items:center;font-size:20px;
+  background:#edf1ff;
+}
+.stat h3{font-size:26px;margin:17px 0 5px}
+.stat p{font-size:12px;color:var(--muted);margin:0}
+.panel{margin-bottom:20px}
+.panel h3{margin:0 0 17px;font-size:16px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:550px}
+th,td{
+  text-align:left;padding:13px 11px;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+th{color:var(--muted);font-size:11px;background:#fafbfe}
+td{color:#354057}
+.empty{text-align:center;color:var(--muted);padding:25px}
+.badge{
+  padding:5px 9px;border-radius:20px;
+  background:#e9f7f0;color:var(--green);
+  font-size:10px;font-weight:700;
+}
+.badge.red{background:#fff0f0;color:var(--red)}
+.action-btn{
+  border:0;background:#edf1ff;color:var(--primary);
+  padding:7px 10px;border-radius:7px;font-size:11px;
+  margin:2px;
+}
+.danger{background:#fff0f0;color:var(--red)}
+.toolbar{
+  display:flex;gap:10px;flex-wrap:wrap;
+  margin-bottom:15px;
+}
+.toolbar input{
+  flex:1;min-width:180px;
+  padding:11px;border:1px solid var(--border);
+  border-radius:8px;
+}
+.secondary-btn{
+  border:1px solid var(--border);
+  background:white;padding:10px 14px;
+  border-radius:8px;font-weight:600;font-size:12px;
+}
+.form-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:0 15px;
+}
+.form-grid .field{margin:9px 0}
+.notice{
+  padding:14px;border-radius:9px;
+  background:#edf3ff;color:#3157a7;
+  font-size:12px;line-height:1.6;margin-bottom:15px;
+}
+.notice.warning{background:#fff7e8;color:#8b641c}
+.section-note{color:var(--muted);font-size:12px;line-height:1.6}
+.footer{
+  text-align:center;color:var(--muted);
+  padding:25px;font-size:11px;
+}
+.mobile-menu{display:none}
+
+@media(max-width:1000px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .sidebar{width:250px;transform:translateX(-100%);transition:.2s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .mobile-menu{display:block;border:0;background:none;font-size:22px}
+  .topbar{padding:0 15px}
+  .content{padding:18px}
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .card{padding:14px}
+  .stat h3{font-size:22px}
+  .form-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<section id="auth" class="auth">
-<div class="authbox">
-<div class="logo">SIGE</div>
-<h2 id="authTitle">Bem-vindo ao SIGE</h2>
-<p class="muted">Sistema Integrado de Gestão Escolar</p>
+<!-- AUTENTICAÇÃO -->
+<section id="authScreen">
+  <div class="auth-card">
+    <div class="logo">S</div>
+    <h1>Bem-vindo ao SIGE</h1>
+    <p>Sistema Integrado de Gestão Escolar</p>
 
-<div id="registerFields" class="hidden">
-<label>Nome completo</label>
-<input id="regName" placeholder="Digite o seu nome">
-</div>
+    <div id="registerFields" class="hidden">
+      <div class="field">
+        <label>Nome completo</label>
+        <input id="regName" placeholder="Digite o seu nome">
+      </div>
+    </div>
 
-<label>Email</label>
-<input id="email" type="email" placeholder="exemplo@email.com">
+    <div class="field">
+      <label>Endereço de e-mail</label>
+      <input id="email" type="email" placeholder="exemplo@email.com">
+    </div>
+    <div class="field">
+      <label>Palavra-passe</label>
+      <input id="password" type="password" placeholder="Introduza a palavra-passe">
+    </div>
 
-<label>Palavra-passe</label>
-<input id="password" type="password" placeholder="Mínimo de 8 caracteres">
+    <div id="confirmField" class="field hidden">
+      <label>Confirmar palavra-passe</label>
+      <input id="confirmPassword" type="password">
+    </div>
 
-<div id="confirmField" class="hidden">
-<label>Confirmar palavra-passe</label>
-<input id="confirmPassword" type="password">
-</div>
-
-<button id="mainAuth" class="primary">ENTRAR</button>
-<button id="switchAuth" class="secondary">CRIAR CONTA</button>
-<button id="recover" class="secondary">RECUPERAR PALAVRA-PASSE</button>
-
-<div id="authMessage" class="msg"></div>
-<footer>Desenvolvido por <b>Hélio Mufenji</b></footer>
-</div>
+    <button id="authButton" class="primary-btn full">Entrar no sistema</button>
+    <button id="modeButton" class="link-btn full">Criar uma conta</button>
+    <button id="recoverButton" class="link-btn full">Recuperar palavra-passe</button>
+    <div id="authMessage" class="message"></div>
+    <p style="text-align:center;font-size:11px;margin-top:20px">
+      SIGE · Plataforma de Gestão Escolar
+    </p>
+  </div>
 </section>
 
-<!-- SISTEMA -->
-<div id="app" class="hidden">
+<!-- APLICAÇÃO -->
+<div id="application">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">S</div>
+      <div><strong>SIGE</strong><small>Gestão Escolar</small></div>
+    </div>
 
-<header>
-<div>
-<div class="logo">SIGE</div>
-<small id="schoolHeader">Sistema Integrado de Gestão Escolar</small>
-</div>
-<div>
-<span id="userName"></span>
-<button id="logout" class="danger">Sair</button>
-</div>
-</header>
+    <div class="nav-title">PRINCIPAL</div>
+    <button class="nav-btn active" data-page="dashboard"><span class="ico">▦</span>Painel de controlo</button>
 
-<div class="layout">
+    <div class="nav-title">GESTÃO ESCOLAR</div>
+    <button class="nav-btn" data-page="students"><span class="ico">🎓</span>Alunos</button>
+    <button class="nav-btn" data-page="teachers"><span class="ico">👨‍🏫</span>Professores</button>
+    <button class="nav-btn" data-page="classes"><span class="ico">🏫</span>Turmas</button>
+    <button class="nav-btn" data-page="subjects"><span class="ico">📚</span>Disciplinas</button>
+    <button class="nav-btn" data-page="grades"><span class="ico">📊</span>Notas e avaliações</button>
+    <button class="nav-btn" data-page="attendance"><span class="ico">📅</span>Assiduidade</button>
 
-<aside id="navigation">
-<button class="active" data-page="dashboard">⌂ Painel principal</button>
-<button data-page="students" data-role="admin,teacher">Alunos</button>
-<button data-page="teachers" data-role="admin">Professores</button>
-<button data-page="classes" data-role="admin,teacher">Turmas</button>
-<button data-page="subjects" data-role="admin,teacher">Disciplinas</button>
-<button data-page="grades" data-role="admin,teacher">Notas</button>
-<button data-page="attendance" data-role="admin,teacher">Presenças</button>
-<button data-page="studentArea" data-role="student">Área do aluno</button>
-<button data-page="users" data-role="admin">Utilizadores</button>
-<button data-page="notifications">Notificações</button>
-<button data-page="reports" data-role="admin,teacher">Relatórios</button>
-<button data-page="settings" data-role="admin">Configurações</button>
-<button data-page="about">Sobre o SIGE</button>
-</aside>
+    <div class="nav-title">ADMINISTRAÇÃO</div>
+    <button class="nav-btn admin-only" data-page="users"><span class="ico">👥</span>Utilizadores</button>
+    <button class="nav-btn" data-page="notifications"><span class="ico">🔔</span>Notificações</button>
+    <button class="nav-btn admin-only" data-page="reports"><span class="ico">📈</span>Relatórios</button>
 
-<main>
+    <div class="nav-title">SISTEMA</div>
+    <button class="nav-btn admin-only" data-page="settings"><span class="ico">⚙️</span>Configurações</button>
+    <button class="nav-btn admin-only" data-page="security"><span class="ico">🛡️</span>Segurança e backups</button>
+    <button class="nav-btn" data-page="about"><span class="ico">ℹ️</span>Sobre o SIGE</button>
 
-<section id="dashboard" class="page active">
-<h1>Painel principal</h1>
-<p class="muted">Bem-vindo à plataforma de gestão escolar.</p>
+    <div class="sidebar-footer">
+      Sistema Integrado de Gestão Escolar<br>
+      Desenvolvido por Hélio Mufenji
+    </div>
+  </aside>
 
-<div class="grid">
-<div class="card stat">Alunos<strong id="countStudents">0</strong></div>
-<div class="card stat">Professores<strong id="countTeachers">0</strong></div>
-<div class="card stat">Turmas<strong id="countClasses">0</strong></div>
-<div class="card stat">Disciplinas<strong id="countSubjects">0</strong></div>
-</div>
+  <main class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu" id="menuButton">☰</button>
+        <h2 id="pageTitle">Painel de controlo</h2>
+      </div>
+      <div class="user-area">
+        <div class="avatar" id="avatar">U</div>
+        <div><strong id="userName">Utilizador</strong><small id="userRole">Utilizador</small></div>
+        <button class="secondary-btn" id="logoutButton">Sair</button>
+      </div>
+    </header>
 
-<div class="card">
-<h3 id="greeting">Bem-vindo</h3>
-<p>O SIGE permite organizar e acompanhar as atividades da instituição escolar.</p>
-<div class="notice">Perfil de acesso: <b id="roleLabel"></b></div>
-</div>
-
-<div class="card">
-<h3>Últimas notificações</h3>
-<div id="recentNotices">Sem notificações.</div>
-</div>
-</section>
-
-<section id="students" class="page">
-<h1>Gestão de alunos</h1>
-<div class="card">
-<h3>Adicionar aluno</h3>
-<div class="formgrid">
-<div><label>Nome</label><input id="sName"></div>
-<div><label>Matrícula</label><input id="sNumber"></div>
-<div><label>Turma</label><input id="sClass"></div>
-<div><label>Email</label><input id="sEmail"></div>
-</div>
-<button class="primary" id="addStudent">Adicionar aluno</button>
-</div>
-<div class="toolbar"><input id="searchStudent" placeholder="Pesquisar aluno"></div>
-<div class="card tablewrap"><table id="studentsTable"></table></div>
-</section>
-
-<section id="teachers" class="page">
-<h1>Gestão de professores</h1>
-<div class="card">
-<div class="formgrid">
-<div><label>Nome</label><input id="tName"></div>
-<div><label>Especialidade</label><input id="tSpecialty"></div>
-<div><label>Email</label><input id="tEmail"></div>
-</div>
-<button class="primary" id="addTeacher">Adicionar professor</button>
-</div>
-<div class="card tablewrap"><table id="teachersTable"></table></div>
-</section>
-
-<section id="classes" class="page">
-<h1>Gestão de turmas</h1>
-<div class="card">
-<div class="formgrid">
-<div><label>Nome da turma</label><input id="cName"></div>
-<div><label>Ano letivo</label><input id="cYear"></div>
-<div><label>Diretor de turma</label><input id="cTeacher"></div>
-</div>
-<button class="primary" id="addClass">Adicionar turma</button>
-</div>
-<div class="card tablewrap"><table id="classesTable"></table></div>
-</section>
-
-<section id="subjects" class="page">
-<h1>Gestão de disciplinas</h1>
-<div class="card">
-<div class="formgrid">
-<div><label>Disciplina</label><input id="subName"></div>
-<div><label>Professor</label><input id="subTeacher"></div>
-<div><label>Turma</label><input id="subClass"></div>
-</div>
-<button class="primary" id="addSubject">Adicionar disciplina</button>
-</div>
-<div class="card tablewrap"><table id="subjectsTable"></table></div>
-</section>
-
-<section id="grades" class="page">
-<h1>Gestão de notas</h1>
-<div class="card">
-<div class="formgrid">
-<div><label>Aluno</label><select id="gradeStudent"></select></div>
-<div><label>Disciplina</label><select id="gradeSubject"></select></div>
-<div><label>Trimestre</label>
-<select id="gradeTerm">
-<option>1.º Trimestre</option>
-<option>2.º Trimestre</option>
-<option>3.º Trimestre</option>
-</select></div>
-<div><label>Nota (0-20)</label><input id="gradeValue" type="number" min="0" max="20" step="0.1"></div>
-</div>
-<button class="primary" id="addGrade">Guardar nota</button>
-</div>
-<div class="card tablewrap"><table id="gradesTable"></table></div>
-</section>
-
-<section id="attendance" class="page">
-<h1>Controlo de presenças</h1>
-<div class="card">
-<div class="formgrid">
-<div><label>Aluno</label><select id="attStudent"></select></div>
-<div><label>Data</label><input id="attDate" type="date"></div>
-<div><label>Estado</label>
-<select id="attStatus">
-<option>Presente</option>
-<option>Falta</option>
-<option>Falta justificada</option>
-</select></div>
-</div>
-<button class="primary" id="addAttendance">Registar presença</button>
-</div>
-<div class="card tablewrap"><table id="attendanceTable"></table></div>
-</section>
-
-<section id="studentArea" class="page">
-<h1>Área do aluno</h1>
-<div class="grid">
-<div class="card stat">Média geral<strong id="myAverage">—</strong></div>
-<div class="card stat">Notas<strong id="myGradeCount">0</strong></div>
-<div class="card stat">Presenças<strong id="myPresence">0</strong></div>
-</div>
-<div class="card">
-<h3>Boletim escolar</h3>
-<div class="tablewrap"><table id="myGrades"></table></div>
-<button class="primary" id="printBoletim">Imprimir / Guardar PDF</button>
-</div>
-<div class="card">
-<h3>Meu perfil</h3>
-<div id="myProfile"></div>
-</div>
-</section>
-
-<section id="users" class="page">
-<h1>Gestão de utilizadores</h1>
-<div class="notice">Primeira conta registada é administradora. As seguintes são contas de aluno.</div>
-<div class="card tablewrap"><table id="usersTable"></table></div>
-</section>
-
-<section id="notifications" class="page">
-<h1>Centro de notificações</h1>
-<div class="card" data-role="admin">
-<label>Título</label><input id="noticeTitle">
-<label>Mensagem</label><textarea id="noticeBody" rows="3"></textarea>
-<button class="primary" id="publishNotice">Publicar aviso</button>
-</div>
-<div id="noticeList"></div>
-</section>
-
-<section id="reports" class="page">
-<h1>Relatórios e estatísticas</h1>
-<div class="grid">
-<div class="card stat">Alunos<strong id="rStudents">0</strong></div>
-<div class="card stat">Notas<strong id="rGrades">0</strong></div>
-<div class="card stat">Presenças<strong id="rAttendance">0</strong></div>
-</div>
-<div class="card">
-<h3>Resumo académico</h3>
-<div id="gradeSummary"></div>
-<button class="primary" id="printReports">Imprimir relatório</button>
-</div>
-</section>
-
-<section id="settings" class="page">
-<h1>Configurações da escola</h1>
-<div class="card">
-<label>Nome da escola</label><input id="schoolName">
-<label>Ano letivo</label><input id="schoolYear">
-<label>Nota mínima de aprovação</label><input id="passMark" type="number" min="0" max="20" value="10">
-<button class="primary" id="saveSettings">Guardar configurações</button>
-</div>
-<div class="card">
-<h3>Cópia de segurança</h3>
-<button class="secondary" id="exportBackup">Exportar dados JSON</button>
-</div>
-</section>
-
-<section id="about" class="page">
-<h1>Sobre o SIGE</h1>
-<div class="card">
-<div class="logo">SIGE</div>
-<h2>Sistema Integrado de Gestão Escolar</h2>
-<p>Uma solução tecnológica concebida para apoiar a organização, administração e acompanhamento das atividades escolares.</p>
-<hr>
-<h3>Desenvolvido por Hélio Mufenji</h3>
-<p class="muted">Criador e desenvolvedor do projeto SIGE.</p>
-</div>
-</section>
-
-</main>
-</div>
-
-<footer>© 2026 SIGE — Desenvolvido por Hélio Mufenji</footer>
+    <div class="content">
+      <div id="pageContent"></div>
+      <div class="footer">SIGE © 2026 · Desenvolvido por Hélio Mufenji</div>
+    </div>
+  </main>
 </div>
 
 <script>
 "use strict";
 
+/* =====================================================
+   SIGE - SISTEMA INTEGRADO DE GESTÃO ESCOLAR
+   PROTÓTIPO LOCAL: os dados ficam neste navegador.
+   ===================================================== */
+
 const $ = id => document.getElementById(id);
+const DB_KEY = "SIGE_PRO_DATABASE_2026";
+const SESSION_KEY = "SIGE_PRO_SESSION_2026";
 
-const DBKEY = "SIGE_DATABASE_V3";
-const SESSIONKEY = "SIGE_SESSION_V3";
-
-let registering = false;
-let currentUser = null;
-
-let db = loadDatabase();
-
-function loadDatabase(){
-try{
-const saved = localStorage.getItem(DBKEY);
-if(saved) return JSON.parse(saved);
-}catch(error){
-console.error("Erro ao carregar dados:",error);
-}
-return {
-users:[],
-students:[],
-teachers:[],
-classes:[],
-subjects:[],
-grades:[],
-attendance:[],
-notifications:[],
-settings:{name:"SIGE",year:"2026",passMark:10}
+const initialDB = {
+  users:[],
+  students:[],
+  teachers:[],
+  classes:[],
+  subjects:[],
+  grades:[],
+  attendance:[],
+  notifications:[],
+  activities:[],
+  settings:{
+    schoolName:"Minha Instituição de Ensino",
+    schoolYear:"2026",
+    email:""
+  }
 };
+
+let db = loadDB();
+let currentUser = null;
+let authMode = "login";
+let currentPage = "dashboard";
+
+function loadDB(){
+  try{
+    const saved = localStorage.getItem(DB_KEY);
+    return saved ? {...initialDB,...JSON.parse(saved)} : structuredClone(initialDB);
+  }catch(e){
+    return structuredClone(initialDB);
+  }
 }
 
-function save(){
-localStorage.setItem(DBKEY,JSON.stringify(db));
+function saveDB(){
+  localStorage.setItem(DB_KEY,JSON.stringify(db));
 }
 
-function makeId(){
-return Date.now().toString(36)+Math.random().toString(36).slice(2);
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  })[c]);
 }
 
-function safe(value){
-return String(value??"").replace(/[&<>"']/g,function(c){
-return {
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-}[c];
-});
+function uid(){
+  return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 }
 
 async function hashPassword(password){
-if(!window.crypto || !window.crypto.subtle){
-throw new Error("O navegador não suporta a proteção de palavras-passe necessária. Abre o site pelo endereço HTTPS do GitHub Pages.");
-}
-const data = new TextEncoder().encode(password);
-const result = await crypto.subtle.digest("SHA-256",data);
-return Array.from(new Uint8Array(result))
-.map(b=>b.toString(16).padStart(2,"0")).join("");
-}
-
-function authMessage(text,success=false){
-$("authMessage").textContent=text;
-$("authMessage").className=success?"msg success":"msg";
+  if(!window.crypto || !crypto.subtle){
+    throw new Error("Abra o site através de HTTPS para ativar a autenticação.");
+  }
+  const bytes = new TextEncoder().encode(password);
+  const hash = await crypto.subtle.digest("SHA-256",bytes);
+  return Array.from(new Uint8Array(hash))
+    .map(b=>b.toString(16).padStart(2,"0")).join("");
 }
 
-function toggleAuth(){
-registering = !registering;
-
-$("registerFields").classList.toggle("hidden",!registering);
-$("confirmField").classList.toggle("hidden",!registering);
-
-$("authTitle").textContent=registering?"Criar uma conta":"Bem-vindo ao SIGE";
-$("mainAuth").textContent=registering?"CRIAR CONTA":"ENTRAR";
-$("switchAuth").textContent=registering?"JÁ TENHO CONTA":"CRIAR CONTA";
-
-authMessage("");
+function logActivity(action){
+  db.activities.unshift({
+    id:uid(),
+    user:currentUser?.name || "Sistema",
+    action,
+    date:new Date().toLocaleString("pt-PT")
+  });
+  db.activities=db.activities.slice(0,200);
+  saveDB();
 }
 
-async function createAccount(){
-try{
-const name=$("regName").value.trim();
-const email=$("email").value.trim().toLowerCase();
-const password=$("password").value;
-const confirmation=$("confirmPassword").value;
-
-if(!name||!email||!password){
-authMessage("Preenche todos os campos.");
-return;
+function notify(title,message){
+  db.notifications.unshift({
+    id:uid(),title,message,
+    date:new Date().toLocaleString("pt-PT"),
+    read:false
+  });
+  saveDB();
 }
 
-if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-authMessage("Introduz um endereço de email válido.");
-return;
-}
-
-if(password.length<8){
-authMessage("A palavra-passe deve ter pelo menos 8 caracteres.");
-return;
-}
-
-if(password!==confirmation){
-authMessage("As palavras-passe não coincidem.");
-return;
-}
-
-if(db.users.some(u=>u.email===email)){
-authMessage("Este email já está registado.");
-return;
-}
-
-const passwordHash=await hashPassword(password);
-
-const role=db.users.length===0?"admin":"student";
-
-const newUser={
-id:makeId(),
-name:name,
-email:email,
-passwordHash:passwordHash,
-role:role
-};
-
-db.users.push(newUser);
-save();
-
-authMessage("Conta criada com sucesso! Agora podes entrar.",true);
-
-$("email").value=email;
-$("password").value="";
-$("confirmPassword").value="";
-
-toggleAuth();
-
-}catch(error){
-authMessage(error.message);
-console.error(error);
-}
-}
-
-async function login(){
-try{
-const email=$("email").value.trim().toLowerCase();
-const password=$("password").value;
-
-if(!email||!password){
-authMessage("Introduz o email e a palavra-passe.");
-return;
-}
-
-const passwordHash=await hashPassword(password);
-
-const found=db.users.find(function(u){
-return u.email===email&&u.passwordHash===passwordHash;
-});
-
-if(!found){
-authMessage("Email ou palavra-passe incorretos.");
-return;
-}
-
-currentUser=found;
-sessionStorage.setItem(SESSIONKEY,found.id);
-
-openApp();
-
-}catch(error){
-authMessage(error.message);
-console.error(error);
-}
-}
-
-async function recoverPassword(){
-try{
-const email=$("email").value.trim().toLowerCase();
-
-if(!email){
-authMessage("Introduz primeiro o email da tua conta.");
-return;
-}
-
-const found=db.users.find(u=>u.email===email);
-
-if(!found){
-authMessage("Não foi encontrada uma conta com esse email.");
-return;
-}
-
-const newPassword=prompt("Demonstração: define uma nova palavra-passe com pelo menos 8 caracteres.");
-
-if(!newPassword||newPassword.length<8){
-authMessage("A palavra-passe deve ter pelo menos 8 caracteres.");
-return;
-}
-
-const confirmation=prompt("Confirma a nova palavra-passe.");
-
-if(newPassword!==confirmation){
-authMessage("As palavras-passe não coincidem.");
-return;
-}
-
-found.passwordHash=await hashPassword(newPassword);
-save();
-
-authMessage("Palavra-passe atualizada. Já podes iniciar sessão.",true);
-
-}catch(error){
-authMessage(error.message);
-}
-}
-
-function roleName(role){
-return {
-admin:"Administrador",
-teacher:"Professor",
-student:"Aluno"
-}[role]||role;
-}
-
-function openApp(){
-$("auth").classList.add("hidden");
-$("app").classList.remove("hidden");
-
-$("userName").textContent=currentUser.name;
-$("greeting").textContent="Bem-vindo, "+currentUser.name;
-$("roleLabel").textContent=roleName(currentUser.role);
-
-document.querySelectorAll("[data-role]").forEach(function(el){
-const roles=el.dataset.role.split(",");
-el.classList.toggle("hidden",!roles.includes(currentUser.role));
-});
-
-refresh();
-showPage("dashboard");
-}
-
-function logout(){
-currentUser=null;
-sessionStorage.removeItem(SESSIONKEY);
-$("app").classList.add("hidden");
-$("auth").classList.remove("hidden");
-$("password").value="";
-authMessage("Sessão encerrada.",true);
-}
-
-function showPage(id){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-$(id).classList.add("active");
-
-document.querySelectorAll("[data-page]").forEach(function(button){
-button.classList.toggle("active",button.dataset.page===id);
-});
+function isAdmin(){
+  return currentUser && currentUser.role==="Administrador";
 }
 
 function requireAdmin(){
-if(!currentUser||currentUser.role!=="admin"){
-throw new Error("Apenas o administrador pode executar esta operação.");
-}
-}
-
-function addRecord(type,object){
-db[type].push({id:makeId(),...object});
-save();
-refresh();
+  if(!isAdmin()){
+    alert("Esta área está disponível apenas para o administrador.");
+    return false;
+  }
+  return true;
 }
 
-function removeRecord(type,id){
-if(!currentUser||currentUser.role!=="admin"){
-alert("Apenas o administrador pode eliminar registos.");
-return;
+/* AUTENTICAÇÃO */
+
+function setAuthMode(mode){
+  authMode=mode;
+  const registering=mode==="register";
+  $("registerFields").classList.toggle("hidden",!registering);
+  $("confirmField").classList.toggle("hidden",!registering);
+  $("authButton").textContent=registering?"Criar conta":"Entrar no sistema";
+  $("modeButton").textContent=registering?"Já tenho uma conta":"Criar uma conta";
+  $("recoverButton").classList.toggle("hidden",registering);
+  $("authMessage").textContent="";
 }
 
-if(!confirm("Tens a certeza que desejas eliminar este registo?"))return;
-
-db[type]=db[type].filter(x=>x.id!==id);
-save();
-refresh();
-}
-
-function draw(id,headers,rows){
-const table=$(id);
-
-const head="<thead><tr>"+
-headers.map(h=>"<th>"+safe(h)+"</th>").join("")+
-"</tr></thead>";
-
-let body;
-
-if(rows.length){
-body="<tbody>"+rows.join("")+"</tbody>";
-}else{
-body="<tbody><tr><td colspan='"+headers.length+"'>Nenhum registo encontrado.</td></tr></tbody>";
-}
-
-table.innerHTML=head+body;
-}
-
-function deleteButton(type,item){
-if(currentUser.role!=="admin")return "";
-return '<button class="danger" onclick="removeRecord(\''+type+'\',\''+item.id+'\')">Eliminar</button>';
-}
-
-function fillSelect(id,items,label){
-$(id).innerHTML=items.map(function(item){
-return '<option value="'+safe(item.id)+'">'+safe(label(item))+'</option>';
-}).join("");
-}
-
-function refresh(){
-if(!currentUser)return;
-
-$("schoolHeader").textContent=db.settings.name;
-
-$("countStudents").textContent=db.students.length;
-$("countTeachers").textContent=db.teachers.length;
-$("countClasses").textContent=db.classes.length;
-$("countSubjects").textContent=db.subjects.length;
-
-$("rStudents").textContent=db.students.length;
-$("rGrades").textContent=db.grades.length;
-$("rAttendance").textContent=db.attendance.length;
-
-let visibleStudents=db.students;
-
-if(currentUser.role==="student"){
-visibleStudents=db.students.filter(s=>s.userId===currentUser.id);
-}
-
-const search=($("searchStudent").value||"").toLowerCase();
-
-visibleStudents=visibleStudents.filter(function(s){
-return (s.name+" "+s.registration+" "+s.className).toLowerCase().includes(search);
+$("modeButton").addEventListener("click",()=>{
+  setAuthMode(authMode==="login"?"register":"login");
 });
 
-draw("studentsTable",
-["Nome","Matrícula","Turma","Email","Ação"],
-visibleStudents.map(s=>
-"<tr><td>"+safe(s.name)+"</td><td>"+safe(s.registration)+"</td><td>"+safe(s.className)+"</td><td>"+safe(s.email)+"</td><td>"+deleteButton("students",s)+"</td></tr>"
-));
+$("authButton").addEventListener("click",async()=>{
+  const email=$("email").value.trim().toLowerCase();
+  const password=$("password").value;
+  const message=$("authMessage");
 
-draw("teachersTable",
-["Nome","Especialidade","Email","Ação"],
-db.teachers.map(t=>
-"<tr><td>"+safe(t.name)+"</td><td>"+safe(t.specialty)+"</td><td>"+safe(t.email)+"</td><td>"+deleteButton("teachers",t)+"</td></tr>"
-));
+  message.textContent="";
 
-draw("classesTable",
-["Turma","Ano","Diretor","Ação"],
-db.classes.map(c=>
-"<tr><td>"+safe(c.name)+"</td><td>"+safe(c.year)+"</td><td>"+safe(c.teacher)+"</td><td>"+deleteButton("classes",c)+"</td></tr>"
-));
+  try{
+    if(!email || !password) throw new Error("Preencha o e-mail e a palavra-passe.");
+    if(password.length<6) throw new Error("A palavra-passe deve ter pelo menos 6 caracteres.");
 
-draw("subjectsTable",
-["Disciplina","Professor","Turma","Ação"],
-db.subjects.map(s=>
-"<tr><td>"+safe(s.name)+"</td><td>"+safe(s.teacher)+"</td><td>"+safe(s.className)+"</td><td>"+deleteButton("subjects",s)+"</td></tr>"
-));
+    const hash=await hashPassword(password);
 
-const visibleGrades=currentUser.role==="student"
-?db.grades.filter(g=>g.studentId===currentUser.id)
-:db.grades;
+    if(authMode==="register"){
+      const name=$("regName").value.trim();
+      if(!name) throw new Error("Introduza o seu nome.");
+      if($("confirmPassword").value!==password) throw new Error("As palavras-passe não coincidem.");
+      if(db.users.some(u=>u.email===email)) throw new Error("Este e-mail já está registado.");
 
-draw("gradesTable",
-["Aluno","Disciplina","Trimestre","Nota","Ação"],
-visibleGrades.map(g=>
-"<tr><td>"+safe(g.studentName)+"</td><td>"+safe(g.subject)+"</td><td>"+safe(g.term)+"</td><td>"+safe(g.value)+"</td><td>"+deleteButton("grades",g)+"</td></tr>"
-));
+      const firstAccount=db.users.length===0;
+      const user={
+        id:uid(),name,email,passwordHash:hash,
+        role:firstAccount?"Administrador":"Aluno",
+        active:true
+      };
+      db.users.push(user);
+      saveDB();
+      notify("Novo registo","Foi criada uma conta para "+name+".");
+      message.style.color="green";
+      message.textContent=firstAccount
+        ?"Conta de administrador criada. Já pode entrar."
+        :"Conta criada. Aguarde a autorização do administrador.";
+      setAuthMode("login");
+      $("email").value=email;
+      return;
+    }
 
-draw("attendanceTable",
-["Aluno","Data","Estado","Ação"],
-db.attendance.map(a=>
-"<tr><td>"+safe(a.studentName)+"</td><td>"+safe(a.date)+"</td><td>"+safe(a.status)+"</td><td>"+deleteButton("attendance",a)+"</td></tr>"
-));
+    const user=db.users.find(u=>u.email===email && u.passwordHash===hash);
+    if(!user) throw new Error("E-mail ou palavra-passe incorretos.");
+    if(user.active===false) throw new Error("A sua conta está desativada.");
 
-draw("usersTable",
-["Nome","Email","Função"],
-db.users.map(u=>
-"<tr><td>"+safe(u.name)+"</td><td>"+safe(u.email)+"</td><td>"+roleName(u.role)+"</td></tr>"
-));
+    currentUser=user;
+    sessionStorage.setItem(SESSION_KEY,user.id);
+    startApplication();
 
-$("noticeList").innerHTML=db.notifications.map(n=>
-'<div class="card"><h3>'+safe(n.title)+'</h3><p>'+safe(n.body)+'</p></div>'
-).join("")||"Sem notificações.";
-
-$("recentNotices").innerHTML=db.notifications.slice(-3).reverse().map(n=>
-"<p><b>"+safe(n.title)+"</b><br>"+safe(n.body)+"</p>"
-).join("")||"Sem notificações.";
-
-fillSelect("gradeStudent",db.students,s=>s.name);
-fillSelect("attStudent",db.students,s=>s.name);
-fillSelect("gradeSubject",db.subjects,s=>s.name);
-
-const myGrades=db.grades.filter(g=>g.studentId===currentUser.id);
-
-const average=myGrades.length
-?myGrades.reduce((sum,g)=>sum+Number(g.value),0)/myGrades.length
-:null;
-
-$("myAverage").textContent=average===null?"—":average.toFixed(2)+"/20";
-$("myGradeCount").textContent=myGrades.length;
-
-$("myPresence").textContent=db.attendance.filter(a=>
-a.studentId===currentUser.id&&a.status==="Presente"
-).length;
-
-draw("myGrades",
-["Disciplina","Trimestre","Nota","Resultado"],
-myGrades.map(g=>
-"<tr><td>"+safe(g.subject)+"</td><td>"+safe(g.term)+"</td><td>"+safe(g.value)+"</td><td>"+(Number(g.value)>=Number(db.settings.passMark)?"Aprovado":"Abaixo da média")+"</td></tr>"
-));
-
-$("myProfile").innerHTML=
-"<p>Nome: "+safe(currentUser.name)+"</p>"+
-"<p>Email: "+safe(currentUser.email)+"</p>"+
-"<p>Perfil: "+roleName(currentUser.role)+"</p>";
-
-const allAverage=db.grades.length
-?db.grades.reduce((sum,g)=>sum+Number(g.value),0)/db.grades.length
-:0;
-
-$("gradeSummary").innerHTML=
-"<p>Total de notas: "+db.grades.length+"</p>"+
-"<p>Média geral: "+(db.grades.length?allAverage.toFixed(2):"—")+"</p>"+
-"<p>Registos de presenças: "+db.attendance.length+"</p>";
-
-$("schoolName").value=db.settings.name;
-$("schoolYear").value=db.settings.year;
-$("passMark").value=db.settings.passMark;
-}
-
-function printSection(id,title){
-const content=$(id).innerHTML;
-const win=window.open("","_blank");
-
-if(!win){
-alert("Permite abrir janelas de impressão no navegador.");
-return;
-}
-
-win.document.write(
-"<html><head><title>"+safe(title)+"</title>"+
-"<style>body{font-family:Arial;padding:25px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ddd;padding:8px;text-align:left}</style>"+
-"</head><body><h1>"+safe(title)+"</h1>"+
-"<p>SIGE — Desenvolvido por Hélio Mufenji</p>"+
-content+"</body></html>"
-);
-
-win.document.close();
-win.print();
-}
-
-/* EVENTOS DE AUTENTICAÇÃO */
-
-$("mainAuth").addEventListener("click",function(){
-if(registering){
-createAccount();
-}else{
-login();
-}
+  }catch(error){
+    message.style.color="#dc4c4c";
+    message.textContent=error.message;
+  }
 });
 
-$("switchAuth").addEventListener("click",toggleAuth);
-$("recover").addEventListener("click",recoverPassword);
-$("logout").addEventListener("click",logout);
+$("recoverButton").addEventListener("click",()=>{
+  alert("A recuperação por e-mail ainda não está ligada. Nesta versão de demonstração, contacte o administrador da plataforma para obter assistência. Não existe verificação de identidade nesta recuperação local.");
+});
+
+/* INICIAR E TERMINAR SESSÃO */
+
+function startApplication(){
+  $("authScreen").style.display="none";
+  $("application").style.display="block";
+  $("userName").textContent=currentUser.name;
+  $("userRole").textContent=currentUser.role;
+  $("avatar").textContent=currentUser.name.charAt(0).toUpperCase();
+
+  document.querySelectorAll(".admin-only").forEach(el=>{
+    el.classList.toggle("hidden",!isAdmin());
+  });
+
+  renderPage("dashboard");
+}
+
+$("logoutButton").addEventListener("click",()=>{
+  sessionStorage.removeItem(SESSION_KEY);
+  currentUser=null;
+  $("application").style.display="none";
+  $("authScreen").style.display="flex";
+  $("password").value="";
+});
+
+$("menuButton").addEventListener("click",()=>{
+  $("sidebar").classList.toggle("open");
+});
 
 /* NAVEGAÇÃO */
 
-document.querySelectorAll("[data-page]").forEach(function(button){
-button.addEventListener("click",function(){
-showPage(button.dataset.page);
+const pageNames={
+  dashboard:"Painel de controlo",
+  students:"Gestão de alunos",
+  teachers:"Gestão de professores",
+  classes:"Gestão de turmas",
+  subjects:"Gestão de disciplinas",
+  grades:"Notas e avaliações",
+  attendance:"Assiduidade",
+  users:"Gestão de utilizadores",
+  notifications:"Central de notificações",
+  reports:"Relatórios e estatísticas",
+  settings:"Configurações do sistema",
+  security:"Segurança e backups",
+  about:"Sobre o SIGE"
+};
+
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    renderPage(btn.dataset.page);
+    $("sidebar").classList.remove("open");
+  });
 });
-});
 
-/* ALUNOS */
+function renderPage(page){
+  if(!pageNames[page]) return;
+  if(["users","reports","settings","security"].includes(page) && !requireAdmin()) return;
 
-$("addStudent").addEventListener("click",function(){
-try{
-requireAdmin();
+  currentPage=page;
+  $("pageTitle").textContent=pageNames[page];
 
-const name=$("sName").value.trim();
-const registration=$("sNumber").value.trim();
-const className=$("sClass").value.trim();
-const email=$("sEmail").value.trim();
+  document.querySelectorAll(".nav-btn").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===page);
+  });
 
-if(!name||!registration||!className){
-alert("Preenche o nome, matrícula e turma.");
-return;
+  const renderer=pages[page];
+  $("pageContent").innerHTML=renderer();
+  bindPageActions();
 }
 
-addRecord("students",{name,registration,className,email});
+/* COMPONENTES DE INTERFACE */
 
-["sName","sNumber","sClass","sEmail"].forEach(id=>$(id).value="");
-
-}catch(e){
-alert(e.message);
-}
-});
-
-/* PROFESSORES */
-
-$("addTeacher").addEventListener("click",function(){
-try{
-requireAdmin();
-
-const name=$("tName").value.trim();
-const email=$("tEmail").value.trim();
-
-if(!name||!email){
-alert("Preenche o nome e o email.");
-return;
+function heading(title,description,button=""){
+  return `<div class="page-heading">
+    <div><h1>${title}</h1><p>${description}</p></div>
+    ${button}
+  </div>`;
 }
 
-addRecord("teachers",{
-name:name,
-specialty:$("tSpecialty").value,
-email:email
-});
-
-}catch(e){
-alert(e.message);
-}
-});
-
-/* TURMAS */
-
-$("addClass").addEventListener("click",function(){
-try{
-requireAdmin();
-
-const name=$("cName").value.trim();
-
-if(!name){
-alert("Introduz o nome da turma.");
-return;
+function statCard(icon,label,value){
+  return `<div class="card"><div class="stat">
+    <div><p>${label}</p><h3>${value}</h3></div>
+    <div class="stat-icon">${icon}</div>
+  </div></div>`;
 }
 
-addRecord("classes",{
-name:name,
-year:$("cYear").value,
-teacher:$("cTeacher").value
-});
-
-}catch(e){
-alert(e.message);
-}
-});
-
-/* DISCIPLINAS */
-
-$("addSubject").addEventListener("click",function(){
-try{
-requireAdmin();
-
-const name=$("subName").value.trim();
-
-if(!name){
-alert("Introduz o nome da disciplina.");
-return;
+function table(headers,rows){
+  return `<div class="table-wrap"><table>
+    <thead><tr>${headers.map(h=>`<th>${h}</th>`).join("")}</tr></thead>
+    <tbody>${rows.length?rows.join(""):
+      `<tr><td class="empty" colspan="${headers.length}">Não existem registos disponíveis.</td></tr>`}
+    </tbody></table></div>`;
 }
 
-addRecord("subjects",{
-name:name,
-teacher:$("subTeacher").value,
-className:$("subClass").value
-});
-
-}catch(e){
-alert(e.message);
+function addButton(label="Adicionar registo"){
+  return `<button class="primary-btn" data-action="add">${label}</button>`;
 }
-});
+
+function searchBar(){
+  return `<div class="toolbar">
+    <input id="searchInput" placeholder="Pesquisar registos...">
+  </div>`;
+}
+
+function actionButtons(id){
+  return `<button class="action-btn" data-action="edit" data-id="${id}">Editar</button>
+    <button class="action-btn danger" data-action="delete" data-id="${id}">Eliminar</button>`;
+}
+
+/* PAINEL PRINCIPAL */
+
+function dashboard(){
+  const welcome=`<div class="notice">
+    Bem-vindo, <strong>${escapeHTML(currentUser.name)}</strong>.
+    Está a utilizar o Sistema Integrado de Gestão Escolar.
+  </div>`;
+
+  const cards=[
+    statCard("🎓","Total de alunos",db.students.length),
+    statCard("👨‍🏫","Professores",db.teachers.length),
+    statCard("🏫","Turmas",db.classes.length),
+    statCard("📚","Disciplinas",db.subjects.length)
+  ].join("");
+
+  const recent=db.activities.slice(0,6).map(a=>
+    `<tr><td>${escapeHTML(a.user)}</td><td>${escapeHTML(a.action)}</td><td>${escapeHTML(a.date)}</td></tr>`
+  );
+
+  return heading("Painel de controlo","Visão geral da atividade da instituição.")
+    +welcome+`<div class="grid">${cards}</div>
+    <div class="panel"><h3>Atividade recente</h3>
+    ${table(["Utilizador","Atividade","Data"],recent)}</div>
+    <div class="panel"><h3>Resumo do sistema</h3>
+    <p class="section-note">O SIGE reúne ferramentas para organizar alunos, professores, turmas, disciplinas, avaliações e operações administrativas num único ambiente.</p></div>`;
+}
+
+/* GESTÃO GENÉRICA */
+
+const configs={
+  students:{
+    title:"Alunos",collection:"students",
+    fields:[
+      ["name","Nome completo"],["number","Número de matrícula"],
+      ["email","E-mail"],["className","Turma"]
+    ],
+    headers:["Nome","Matrícula","E-mail","Turma","Ações"]
+  },
+  teachers:{
+    title:"Professores",collection:"teachers",
+    fields:[
+      ["name","Nome completo"],["specialty","Especialidade"],
+      ["email","E-mail"],["phone","Telefone"]
+    ],
+    headers:["Nome","Especialidade","E-mail","Telefone","Ações"]
+  },
+  classes:{
+    title:"Turmas",collection:"classes",
+    fields:[
+      ["name","Nome da turma"],["year","Classe/Ano"],
+      ["shift","Turno"],["room","Sala"]
+    ],
+    headers:["Turma","Classe/Ano","Turno","Sala","Ações"]
+  },
+  subjects:{
+    title:"Disciplinas",collection:"subjects",
+    fields:[
+      ["name","Nome da disciplina"],["teacher","Professor responsável"],
+      ["className","Turma"],["hours","Carga horária"]
+    ],
+    headers:["Disciplina","Professor","Turma","Carga horária","Ações"]
+  }
+};
+
+function genericPage(type){
+  const cfg=configs[type];
+  const records=db[cfg.collection];
+
+  const rows=records.map(r=>`<tr>
+    ${cfg.fields.map(f=>`<td>${escapeHTML(r[f[0]])}</td>`).join("")}
+    <td>${actionButtons(r.id)}</td>
+  </tr>`);
+
+  return heading(cfg.title,"Consulte e organize os registos da instituição.",addButton())
+    +`<div class="panel">${searchBar()}
+    ${table(cfg.headers,rows)}</div>`;
+}
 
 /* NOTAS */
 
-$("addGrade").addEventListener("click",function(){
-if(!["admin","teacher"].includes(currentUser.role)){
-alert("Sem autorização.");
-return;
+function gradesPage(){
+  const rows=db.grades.map(g=>{
+    const student=db.students.find(s=>s.id===g.studentId);
+    return `<tr><td>${escapeHTML(student?.name||"Aluno não identificado")}</td>
+      <td>${escapeHTML(g.subject)}</td><td>${escapeHTML(g.trimester)}</td>
+      <td>${escapeHTML(g.score)}</td><td>${actionButtons(g.id)}</td></tr>`;
+  });
+
+  return heading("Notas e avaliações","Registo e acompanhamento do desempenho académico.",addButton("Adicionar nota"))
+    +`<div class="panel">${searchBar()}
+    ${table(["Aluno","Disciplina","Trimestre","Nota","Ações"],rows)}
+    <p class="section-note">As classificações devem respeitar a escala definida pela instituição.</p></div>`;
 }
 
-const student=db.students.find(s=>s.id===$("gradeStudent").value);
-const subject=db.subjects.find(s=>s.id===$("gradeSubject").value);
-const value=Number($("gradeValue").value);
+/* ASSIDUIDADE */
 
-if(!student||!subject||$("gradeValue").value===""||value<0||value>20){
-alert("Seleciona um aluno, uma disciplina e uma nota entre 0 e 20.");
-return;
+function attendancePage(){
+  const rows=db.attendance.map(a=>{
+    const student=db.students.find(s=>s.id===a.studentId);
+    return `<tr><td>${escapeHTML(student?.name||"Aluno não identificado")}</td>
+      <td>${escapeHTML(a.date)}</td><td>${escapeHTML(a.status)}</td>
+      <td>${actionButtons(a.id)}</td></tr>`;
+  });
+
+  return heading("Assiduidade","Acompanhe as presenças e faltas dos alunos.",addButton("Registar presença"))
+    +`<div class="panel">${searchBar()}
+    ${table(["Aluno","Data","Estado","Ações"],rows)}</div>`;
 }
 
-addRecord("grades",{
-studentId:student.userId||student.id,
-studentName:student.name,
-subject:subject.name,
-term:$("gradeTerm").value,
-value:value
-});
+/* UTILIZADORES */
 
-$("gradeValue").value="";
-});
+function usersPage(){
+  const rows=db.users.map(u=>`<tr>
+    <td>${escapeHTML(u.name)}</td>
+    <td>${escapeHTML(u.email)}</td>
+    <td>${escapeHTML(u.role)}</td>
+    <td><span class="badge ${u.active===false?"red":""}">${u.active===false?"Inativo":"Ativo"}</span></td>
+    <td><button class="action-btn" data-action="role" data-id="${u.id}">Permissão</button>
+    <button class="action-btn danger" data-action="deactivate" data-id="${u.id}">Ativar/Desativar</button></td>
+  </tr>`);
 
-/* PRESENÇAS */
-
-$("addAttendance").addEventListener("click",function(){
-if(!["admin","teacher"].includes(currentUser.role)){
-alert("Sem autorização.");
-return;
+  return heading("Utilizadores","Administre as contas e as permissões de acesso.")
+    +`<div class="notice">O administrador pode consultar as contas e alterar os respetivos perfis de acesso.</div>
+    <div class="panel">${searchBar()}
+    ${table(["Nome","E-mail","Perfil","Estado","Ações"],rows)}</div>`;
 }
-
-const student=db.students.find(s=>s.id===$("attStudent").value);
-const date=$("attDate").value;
-
-if(!student||!date){
-alert("Seleciona um aluno e uma data.");
-return;
-}
-
-addRecord("attendance",{
-studentId:student.userId||student.id,
-studentName:student.name,
-date:date,
-status:$("attStatus").value
-});
-});
 
 /* NOTIFICAÇÕES */
 
-$("publishNotice").addEventListener("click",function(){
-try{
-requireAdmin();
+function notificationsPage(){
+  const rows=db.notifications.map(n=>`<tr>
+    <td>${escapeHTML(n.title)}</td><td>${escapeHTML(n.message)}</td>
+    <td>${escapeHTML(n.date)}</td><td>${n.read?"Lida":"Nova"}</td>
+    <td><button class="action-btn" data-action="read" data-id="${n.id}">Marcar lida</button></td>
+  </tr>`);
 
-const title=$("noticeTitle").value.trim();
-const body=$("noticeBody").value.trim();
-
-if(!title||!body){
-alert("Preenche o título e a mensagem.");
-return;
+  return heading("Central de notificações","Consulte os avisos e acontecimentos do sistema.")
+    +`<div class="panel">
+    ${table(["Título","Mensagem","Data","Estado","Ação"],rows)}</div>`;
 }
 
-addRecord("notifications",{title,body});
+/* RELATÓRIOS */
 
-$("noticeTitle").value="";
-$("noticeBody").value="";
-
-}catch(e){
-alert(e.message);
+function reportsPage(){
+  return heading("Relatórios e estatísticas","Indicadores gerais da instituição.")
+    +`<div class="grid">
+      ${statCard("🎓","Alunos registados",db.students.length)}
+      ${statCard("👨‍🏫","Professores registados",db.teachers.length)}
+      ${statCard("🏫","Turmas criadas",db.classes.length)}
+      ${statCard("📝","Avaliações registadas",db.grades.length)}
+    </div>
+    <div class="panel"><h3>Distribuição de alunos por turma</h3>
+    ${table(["Turma","Quantidade de alunos"],db.classes.map(c=>{
+      const count=db.students.filter(s=>s.className===c.name).length;
+      return `<tr><td>${escapeHTML(c.name)}</td><td>${count}</td></tr>`;
+    }))}</div>
+    <div class="panel"><button class="primary-btn" data-action="print">Imprimir relatório</button></div>`;
 }
-});
 
 /* CONFIGURAÇÕES */
 
-$("saveSettings").addEventListener("click",function(){
-try{
-requireAdmin();
+function settingsPage(){
+  return heading("Configurações do sistema","Personalize os dados gerais da instituição.")
+    +`<div class="panel">
+      <h3>Informações da instituição</h3>
+      <div class="field"><label>Nome da instituição</label>
+        <input id="schoolName" value="${escapeHTML(db.settings.schoolName)}"></div>
+      <div class="field"><label>Ano letivo</label>
+        <input id="schoolYear" value="${escapeHTML(db.settings.schoolYear)}"></div>
+      <div class="field"><label>E-mail institucional</label>
+        <input id="schoolEmail" type="email" value="${escapeHTML(db.settings.email)}"></div>
+      <button class="primary-btn" data-action="saveSettings">Guardar configurações</button>
+    </div>`;
+}
 
-db.settings={
-name:$("schoolName").value.trim()||"SIGE",
-year:$("schoolYear").value.trim(),
-passMark:Number($("passMark").value)||10
+/* SEGURANÇA E BACKUPS */
+
+function securityPage(){
+  return heading("Segurança e backups","Ferramentas de proteção e cópia dos dados.")
+    +`<div class="notice warning">
+      Atenção: esta versão guarda os dados no armazenamento local do navegador.
+      Não substitui uma base de dados online nem um sistema de segurança de produção.
+    </div>
+    <div class="panel"><h3>Backup dos dados</h3>
+      <p class="section-note">Exporte uma cópia dos registos atuais para guardar num local seguro.</p>
+      <button class="primary-btn" data-action="backup">Exportar backup JSON</button>
+      <button class="secondary-btn" data-action="restore">Importar backup JSON</button>
+      <input type="file" id="backupFile" accept=".json" class="hidden">
+    </div>
+    <div class="panel"><h3>Histórico de atividades</h3>
+      ${table(["Utilizador","Atividade","Data"],db.activities.map(a=>
+        `<tr><td>${escapeHTML(a.user)}</td><td>${escapeHTML(a.action)}</td><td>${escapeHTML(a.date)}</td></tr>`
+      ))}
+    </div>`;
+}
+
+/* ÁREA DO ALUNO */
+
+function studentArea(){
+  return heading("Área do aluno","Consulte as informações académicas disponíveis.")
+    +`<div class="panel"><h3>Informação</h3>
+      <p>O perfil académico individual e a consulta privada de notas serão ativados quando as contas de utilizador estiverem ligadas aos respetivos registos de alunos.</p>
+      <p class="section-note">Nesta versão, o administrador mantém a gestão dos registos académicos.</p>
+    </div>`;
+}
+
+/* SOBRE */
+
+function aboutPage(){
+  return heading("Sobre o SIGE","Conheça a plataforma.")
+    +`<div class="panel">
+      <h3>Sistema Integrado de Gestão Escolar</h3>
+      <p class="section-note">O SIGE é uma plataforma concebida para apoiar a organização e a gestão das atividades de uma instituição de ensino.</p>
+      <h3>Principais módulos</h3>
+      <p class="section-note">Administração, utilizadores, alunos, professores, turmas, disciplinas, avaliações, assiduidade, notificações, relatórios, configurações e backups.</p>
+      <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
+      <strong>Desenvolvido por Hélio Mufenji</strong>
+    </div>`;
+}
+
+/* MAPA DE PÁGINAS */
+
+const pages={
+  dashboard,
+  students:()=>genericPage("students"),
+  teachers:()=>genericPage("teachers"),
+  classes:()=>genericPage("classes"),
+  subjects:()=>genericPage("subjects"),
+  grades:gradesPage,
+  attendance:attendancePage,
+  users:usersPage,
+  notifications:notificationsPage,
+  reports:reportsPage,
+  settings:settingsPage,
+  security:securityPage,
+  about:aboutPage
 };
 
-save();
-refresh();
+/* FORMULÁRIOS DE REGISTO */
 
-alert("Configurações guardadas.");
+function openForm(type,id=null){
+  if(type==="users") return;
+  const cfg=configs[type];
+  const collection=cfg.collection;
+  const old=id?db[collection].find(r=>r.id===id):null;
 
-}catch(e){
-alert(e.message);
+  let fields=cfg.fields.map(f=>`
+    <div class="field">
+      <label>${f[1]}</label>
+      <input name="${f[0]}" value="${escapeHTML(old?.[f[0]]||"")}" required>
+    </div>`).join("");
+
+  let title=old?"Editar registo":"Novo registo";
+
+  if(type==="grades" || type==="attendance"){
+    fields=`
+      <div class="field"><label>Aluno</label>
+        <select name="studentId" required>
+          <option value="">Selecionar aluno</option>
+          ${db.students.map(s=>`<option value="${s.id}" ${old?.studentId===s.id?"selected":""}>${escapeHTML(s.name)}</option>`).join("")}
+        </select>
+      </div>
+      ${type==="grades"?`
+        <div class="field"><label>Disciplina</label>
+          <input name="subject" value="${escapeHTML(old?.subject||"")}" required></div>
+        <div class="field"><label>Trimestre</label>
+          <select name="trimester">
+            <option>1.º Trimestre</option><option>2.º Trimestre</option><option>3.º Trimestre</option>
+          </select></div>
+        <div class="field"><label>Nota (0 a 20)</label>
+          <input type="number" min="0" max="20" step="0.1" name="score" value="${escapeHTML(old?.score??"")}" required></div>
+      `:`
+        <div class="field"><label>Data</label><input type="date" name="date" value="${escapeHTML(old?.date||new Date().toISOString().slice(0,10))}" required></div>
+        <div class="field"><label>Estado</label><select name="status"><option>Presente</option><option>Falta</option><option>Atrasado</option></select></div>
+      `}
+    `;
+  }
+
+  const modal=document.createElement("div");
+  modal.id="formModal";
+  modal.style.cssText="position:fixed;inset:0;background:#101b35aa;z-index:20;display:grid;place-items:center;padding:15px";
+  modal.innerHTML=`
+    <div style="background:white;border-radius:15px;padding:25px;width:100%;max-width:520px;max-height:90vh;overflow:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>${title}</h3><button class="secondary-btn" type="button" id="closeModal">Fechar</button>
+      </div>
+      <form id="recordForm">
+        <div class="form-grid">${fields}</div>
+        <button class="primary-btn full" type="submit">Guardar registo</button>
+      </form>
+    </div>`;
+  document.body.appendChild(modal);
+  $("closeModal").onclick=()=>modal.remove();
+
+  $("recordForm").onsubmit=e=>{
+    e.preventDefault();
+    const data=Object.fromEntries(new FormData(e.target).entries());
+
+    if(type==="grades"){
+      data.score=Number(data.score);
+      if(data.score<0 || data.score>20){
+        alert("A nota deve estar entre 0 e 20.");
+        return;
+      }
+    }
+
+    if(old){
+      Object.assign(old,data);
+    }else{
+      db[collection].push({id:uid(),...data});
+    }
+
+    saveDB();
+    logActivity((old?"Editou ":"Adicionou ")+cfg.title.toLowerCase());
+    modal.remove();
+    renderPage(currentPage);
+  };
 }
-});
 
-/* EXPORTAR DADOS */
+/* AÇÕES DAS PÁGINAS */
 
-$("exportBackup").addEventListener("click",function(){
-try{
-requireAdmin();
+function bindPageActions(){
+  const add=document.querySelector('[data-action="add"]');
+  if(add) add.onclick=()=>{
+    if(currentPage==="grades" || currentPage==="attendance"){
+      if(!db.students.length){alert("Registe primeiro um aluno.");return;}
+      openForm(currentPage);
+    }else openForm(currentPage);
+  };
 
-const blob=new Blob(
-[JSON.stringify(db,null,2)],
-{type:"application/json"}
-);
+  document.querySelectorAll('[data-action="edit"]').forEach(btn=>{
+    btn.onclick=()=>openForm(currentPage,btn.dataset.id);
+  });
 
-const url=URL.createObjectURL(blob);
-const link=document.createElement("a");
+  document.querySelectorAll('[data-action="delete"]').forEach(btn=>{
+    btn.onclick=()=>{
+      if(!requireAdmin()) return;
+      if(!confirm("Tem a certeza de que pretende eliminar este registo?")) return;
 
-link.href=url;
-link.download="SIGE-backup.json";
-link.click();
+      const cfg=configs[currentPage];
+      db[cfg.collection]=db[cfg.collection].filter(r=>r.id!==btn.dataset.id);
+      saveDB();
+      logActivity("Eliminou um registo de "+cfg.title);
+      renderPage(currentPage);
+    };
+  });
 
-URL.revokeObjectURL(url);
+  const search=$("searchInput");
+  if(search){
+    search.addEventListener("input",()=>{
+      const term=search.value.toLowerCase();
+      document.querySelectorAll("tbody tr").forEach(row=>{
+        row.style.display=row.textContent.toLowerCase().includes(term)?"":"none";
+      });
+    });
+  }
 
-}catch(e){
-alert(e.message);
+  document.querySelectorAll('[data-action="role"]').forEach(btn=>{
+    btn.onclick=()=>{
+      if(!requireAdmin()) return;
+      const user=db.users.find(u=>u.id===btn.dataset.id);
+      if(!user || user.id===currentUser.id){
+        alert("Não pode alterar o seu próprio perfil.");
+        return;
+      }
+      const role=prompt("Introduza o perfil: Administrador, Professor ou Aluno",user.role);
+      if(!role) return;
+      const allowed=["Administrador","Professor","Aluno"];
+      if(!allowed.includes(role)){
+        alert("Perfil inválido.");
+        return;
+      }
+      user.role=role;
+      saveDB();
+      logActivity("Alterou o perfil de "+user.name);
+      renderPage("users");
+    };
+  });
+
+  document.querySelectorAll('[data-action="deactivate"]').forEach(btn=>{
+    btn.onclick=()=>{
+      if(!requireAdmin()) return;
+      const user=db.users.find(u=>u.id===btn.dataset.id);
+      if(!user || user.id===currentUser.id) return;
+      user.active=user.active===false;
+      saveDB();
+      logActivity("Alterou o estado de "+user.name);
+      renderPage("users");
+    };
+  });
+
+  document.querySelectorAll('[data-action="read"]').forEach(btn=>{
+    btn.onclick=()=>{
+      const n=db.notifications.find(x=>x.id===btn.dataset.id);
+      if(n){n.read=true;saveDB();renderPage("notifications");}
+    };
+  });
+
+  const saveSettings=document.querySelector('[data-action="saveSettings"]');
+  if(saveSettings){
+    saveSettings.onclick=()=>{
+      db.settings.schoolName=$("schoolName").value.trim();
+      db.settings.schoolYear=$("schoolYear").value.trim();
+      db.settings.email=$("schoolEmail").value.trim();
+      saveDB();
+      logActivity("Atualizou as configurações");
+      alert("Configurações guardadas.");
+    };
+  }
+
+  const backup=document.querySelector('[data-action="backup"]');
+  if(backup) backup.onclick=exportBackup;
+
+  const restore=document.querySelector('[data-action="restore"]');
+  if(restore) restore.onclick=()=>$("backupFile").click();
+
+  const file=$("backupFile");
+  if(file) file.onchange=importBackup;
+
+  const print=document.querySelector('[data-action="print"]');
+  if(print) print.onclick=()=>window.print();
 }
-});
 
-/* IMPRESSÃO */
+/* BACKUPS */
 
-$("printBoletim").addEventListener("click",function(){
-printSection("studentArea","Boletim escolar");
-});
-
-$("printReports").addEventListener("click",function(){
-printSection("reports","Relatório escolar");
-});
-
-/* PESQUISA */
-
-$("searchStudent").addEventListener("input",refresh);
-
-/* RECUPERAR SESSÃO */
-
-const savedSession=sessionStorage.getItem(SESSIONKEY);
-
-if(savedSession){
-const found=db.users.find(u=>u.id===savedSession);
-
-if(found){
-currentUser=found;
-openApp();
-}
+function exportBackup(){
+  if(!requireAdmin()) return;
+  const data=JSON.stringify(db,null,2);
+  const blob=new Blob([data],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="SIGE-backup-"+new Date().toISOString().slice(0,10)+".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  logActivity("Exportou uma cópia de segurança");
 }
 
+function importBackup(event){
+  if(!requireAdmin()) return;
+  const file=event.target.files[0];
+  if(!file) return;
+
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const imported=JSON.parse(reader.result);
+      const keys=["users","students","teachers","classes","subjects","grades","attendance","notifications","activities","settings"];
+      if(!imported || !keys.every(k=>k in imported)) throw new Error();
+
+      if(!confirm("A importação substituirá os dados atuais deste navegador. Continuar?")) return;
+
+      db=imported;
+      saveDB();
+      alert("Backup importado com sucesso.");
+      renderPage("dashboard");
+    }catch(e){
+      alert("Não foi possível importar este ficheiro. Verifique se é um backup válido do SIGE.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* INICIALIZAÇÃO */
+
+(function init(){
+  const sessionId=sessionStorage.getItem(SESSION_KEY);
+  if(sessionId){
+    currentUser=db.users.find(u=>u.id===sessionId && u.active!==false)||null;
+  }
+  if(currentUser){
+    startApplication();
+  }else{
+    $("authScreen").style.display="flex";
+  }
+})();
 </script>
 </body>
 </html>
