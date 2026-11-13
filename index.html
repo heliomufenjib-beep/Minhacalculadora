@@ -11,7 +11,7 @@
   --primary:#3157d5;
   --primary-dark:#2443ad;
   --bg:#f4f6fb;
-  --surface:#ffffff;
+  --surface:#fff;
   --text:#172033;
   --muted:#7c879b;
   --border:#e7eaf1;
@@ -43,22 +43,18 @@ button{cursor:pointer}
   background-size:200% 200%;
   animation:backgroundMove 9s ease infinite;
 }
-#authScreen::before,
-#authScreen::after{
+#authScreen:before,#authScreen:after{
   content:"";
   position:absolute;
-  width:260px;
-  height:260px;
+  width:260px;height:260px;
   border-radius:50%;
   background:#ffffff12;
   animation:floatCircle 8s ease-in-out infinite;
 }
-#authScreen::before{top:-90px;left:-80px}
-#authScreen::after{
-  width:350px;
-  height:350px;
-  right:-130px;
-  bottom:-130px;
+#authScreen:before{top:-90px;left:-80px}
+#authScreen:after{
+  width:350px;height:350px;
+  right:-130px;bottom:-130px;
   animation-delay:2s;
 }
 @keyframes backgroundMove{
@@ -71,12 +67,9 @@ button{cursor:pointer}
   50%{transform:translateY(-25px)}
 }
 .auth-card{
-  position:relative;
-  z-index:2;
-  width:100%;
-  max-width:420px;
-  background:white;
-  padding:35px;
+  position:relative;z-index:2;
+  width:100%;max-width:420px;
+  background:white;padding:35px;
   border-radius:20px;
   box-shadow:0 20px 60px #09163c55;
   animation:cardAppear .8s ease both;
@@ -88,14 +81,10 @@ button{cursor:pointer}
 .auth-card h1{margin:18px 0 5px;font-size:25px}
 .auth-card p{color:var(--muted);font-size:14px}
 .logo{
-  width:58px;
-  height:58px;
-  display:grid;
-  place-items:center;
-  background:#eaf0ff;
-  color:var(--primary);
-  border-radius:15px;
-  font-size:34px;
+  width:58px;height:58px;
+  display:grid;place-items:center;
+  background:#eaf0ff;color:var(--primary);
+  border-radius:15px;font-size:34px;
   animation:capFloat 3s ease-in-out infinite;
 }
 @keyframes capFloat{
@@ -104,189 +93,111 @@ button{cursor:pointer}
 }
 .field{margin:16px 0}
 .field label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:7px;
+  display:block;font-size:13px;
+  font-weight:700;margin-bottom:7px;
 }
 .field input,.field select,.field textarea{
-  width:100%;
-  padding:12px 13px;
+  width:100%;padding:12px 13px;
   border:1px solid var(--border);
-  border-radius:9px;
-  outline:none;
-  background:white;
+  border-radius:9px;outline:none;background:white;
 }
 .field input:focus,.field select:focus{
   border-color:var(--primary);
 }
-.password-box{
-  position:relative;
-  display:flex;
-  align-items:center;
-}
+.password-box{position:relative;display:flex;align-items:center}
 .password-box input{padding-right:48px}
 .eye-btn{
-  position:absolute;
-  right:8px;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  font-size:19px;
-  padding:7px;
-  color:var(--primary);
+  position:absolute;right:8px;
+  border:0;background:transparent;
+  font-size:19px;padding:7px;color:var(--primary);
 }
 .primary-btn{
-  background:var(--primary);
-  color:white;
-  border:0;
-  border-radius:9px;
-  padding:12px 17px;
-  font-weight:700;
+  background:var(--primary);color:white;
+  border:0;border-radius:9px;
+  padding:12px 17px;font-weight:700;
 }
 .primary-btn:hover{background:var(--primary-dark)}
 .full{width:100%}
 .link-btn{
-  border:0;
-  background:none;
-  color:var(--primary);
-  font-weight:700;
-  padding:10px;
+  border:0;background:none;color:var(--primary);
+  font-weight:700;padding:10px;
 }
 .message{font-size:13px;color:var(--red);min-height:18px}
-.auth-card.entering{
-  animation:loginSuccess .65s ease forwards;
-}
-@keyframes loginSuccess{
-  0%{transform:scale(1);opacity:1}
-  45%{transform:scale(1.04);opacity:1}
-  100%{transform:scale(.94);opacity:0}
-}
 
-/* APPLICATION */
+/* APLICAÇÃO */
 #application{display:none;min-height:100vh}
 .sidebar{
-  position:fixed;
-  left:0;top:0;bottom:0;
-  width:250px;
-  background:#17264b;
-  color:white;
-  padding:22px 15px;
-  overflow-y:auto;
-  z-index:5;
+  position:fixed;left:0;top:0;bottom:0;
+  width:250px;background:#17264b;color:white;
+  padding:22px 15px;overflow-y:auto;z-index:5;
 }
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
+  display:flex;align-items:center;gap:12px;
   padding:5px 10px 25px;
   border-bottom:1px solid #ffffff20;
 }
 .brand-icon{
-  width:40px;height:40px;
-  border-radius:12px;
-  background:#4169e1;
-  display:grid;
-  place-items:center;
+  width:40px;height:40px;border-radius:12px;
+  background:#4169e1;display:grid;place-items:center;
   font-size:24px;
-  animation:capFloat 3s ease-in-out infinite;
 }
 .brand strong{font-size:17px}
 .brand small{display:block;color:#aebcdd;margin-top:3px}
 .nav-title{
-  color:#8999bc;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1.5px;
-  margin:24px 10px 9px;
+  color:#8999bc;font-size:10px;font-weight:800;
+  letter-spacing:1.5px;margin:24px 10px 9px;
 }
 .nav-btn{
-  width:100%;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px 13px;
-  border:0;
-  border-radius:9px;
-  background:transparent;
-  color:#cbd5ec;
-  text-align:left;
-  margin:3px 0;
-  font-size:13px;
+  width:100%;display:flex;align-items:center;gap:12px;
+  padding:12px 13px;border:0;border-radius:9px;
+  background:transparent;color:#cbd5ec;
+  text-align:left;margin:3px 0;font-size:13px;
 }
 .nav-btn:hover,.nav-btn.active{
-  background:#ffffff18;
-  color:white;
+  background:#ffffff18;color:white;
 }
 .nav-btn .ico{width:20px;text-align:center;font-size:16px}
 .sidebar-footer{
   border-top:1px solid #ffffff20;
-  margin-top:25px;
-  padding:18px 10px;
-  color:#aebcdd;
-  font-size:11px;
-  line-height:1.6;
+  margin-top:25px;padding:18px 10px;
+  color:#aebcdd;font-size:11px;line-height:1.6;
 }
 .main{margin-left:250px;min-height:100vh}
 .topbar{
-  height:72px;
-  background:white;
+  height:72px;background:white;
   border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
+  display:flex;align-items:center;
   justify-content:space-between;
-  padding:0 30px;
-  position:sticky;
-  top:0;
-  z-index:3;
+  padding:0 30px;position:sticky;top:0;z-index:3;
 }
 .topbar h2{font-size:17px;margin:0}
 .user-area{display:flex;align-items:center;gap:12px}
 .avatar{
-  width:37px;height:37px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#eaf0ff;
-  color:var(--primary);
-  font-weight:800;
+  width:37px;height:37px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#eaf0ff;color:var(--primary);font-weight:800;
 }
 .user-area small{display:block;color:var(--muted);margin-top:3px}
 .content{padding:30px;max-width:1500px;margin:auto}
 .page-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;flex-wrap:wrap;
   margin-bottom:24px;
 }
 .page-heading h1{font-size:25px;margin:0 0 6px}
 .page-heading p{margin:0;color:var(--muted);font-size:13px}
 .grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:17px;
-  margin-bottom:22px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:17px;margin-bottom:22px;
 }
 .card,.panel{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px;
-  box-shadow:var(--shadow);
+  background:white;border:1px solid var(--border);
+  border-radius:14px;padding:20px;box-shadow:var(--shadow);
 }
-.stat{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+.stat{display:flex;justify-content:space-between;align-items:center}
 .stat-icon{
-  width:43px;height:43px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  font-size:20px;
+  width:43px;height:43px;border-radius:12px;
+  display:grid;place-items:center;font-size:20px;
   background:#edf1ff;
 }
 .stat h3{font-size:26px;margin:17px 0 5px}
@@ -296,83 +207,68 @@ button{cursor:pointer}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:550px}
 th,td{
-  text-align:left;
-  padding:13px 11px;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
+  text-align:left;padding:13px 11px;
+  border-bottom:1px solid var(--border);font-size:12px;
 }
 th{color:var(--muted);font-size:11px;background:#fafbfe}
 td{color:#354057}
 .empty{text-align:center;color:var(--muted);padding:25px}
 .badge{
-  padding:5px 9px;
-  border-radius:20px;
-  background:#e9f7f0;
-  color:var(--green);
-  font-size:10px;
-  font-weight:700;
+  padding:5px 9px;border-radius:20px;
+  background:#e9f7f0;color:var(--green);
+  font-size:10px;font-weight:700;
 }
 .badge.red{background:#fff0f0;color:var(--red)}
 .action-btn{
-  border:0;
-  background:#edf1ff;
-  color:var(--primary);
-  padding:7px 10px;
-  border-radius:7px;
-  font-size:11px;
-  margin:2px;
+  border:0;background:#edf1ff;color:var(--primary);
+  padding:7px 10px;border-radius:7px;
+  font-size:11px;margin:2px;
 }
 .danger{background:#fff0f0;color:var(--red)}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
 .toolbar input{
-  flex:1;
-  min-width:180px;
-  padding:11px;
-  border:1px solid var(--border);
-  border-radius:8px;
+  flex:1;min-width:180px;padding:11px;
+  border:1px solid var(--border);border-radius:8px;
 }
 .secondary-btn{
-  border:1px solid var(--border);
-  background:white;
-  padding:10px 14px;
-  border-radius:8px;
-  font-weight:600;
-  font-size:12px;
+  border:1px solid var(--border);background:white;
+  padding:10px 14px;border-radius:8px;
+  font-weight:600;font-size:12px;
 }
 .form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:0 15px;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0 15px;
 }
 .form-grid .field{margin:9px 0}
 .notice{
-  padding:14px;
-  border-radius:9px;
-  background:#edf3ff;
-  color:#3157a7;
-  font-size:12px;
-  line-height:1.6;
-  margin-bottom:15px;
+  padding:14px;border-radius:9px;
+  background:#edf3ff;color:#3157a7;
+  font-size:12px;line-height:1.6;margin-bottom:15px;
 }
 .notice.warning{background:#fff7e8;color:#8b641c}
 .section-note{color:var(--muted);font-size:12px;line-height:1.6}
-.footer{
-  text-align:center;
-  color:var(--muted);
-  padding:25px;
-  font-size:11px;
-}
+.footer{text-align:center;color:var(--muted);padding:25px;font-size:11px}
 .mobile-menu{display:none}
-
+.result-box{
+  padding:17px;border-radius:12px;
+  background:#edf3ff;margin:15px 0;
+}
+.result-box.approved{background:#e9f7f0;color:#087b50}
+.result-box.failed{background:#fff0f0;color:#b83232}
+.result-box h2{margin:5px 0;font-size:27px}
+.result-box p{margin:4px 0;font-size:12px}
+.module-card{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;flex-wrap:wrap;
+  background:linear-gradient(120deg,#17264b,#3157d5);
+  color:white;border-radius:15px;padding:22px;margin-bottom:22px;
+}
+.module-card p{font-size:12px;color:#d7e1ff}
+.module-card .primary-btn{background:white;color:#2443ad}
 @media(max-width:1000px){
   .grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:700px){
-  .sidebar{
-    width:250px;
-    transform:translateX(-100%);
-    transition:.2s;
-  }
+  .sidebar{width:250px;transform:translateX(-100%);transition:.2s}
   .sidebar.open{transform:translateX(0)}
   .main{margin-left:0}
   .mobile-menu{display:block;border:0;background:none;font-size:22px}
@@ -388,7 +284,7 @@ td{color:#354057}
 
 <body>
 
-<!-- AUTENTICAÇÃO -->
+<!-- LOGIN -->
 <section id="authScreen">
   <div class="auth-card">
     <div class="logo">🎓</div>
@@ -411,7 +307,7 @@ td{color:#354057}
       <label>Palavra-passe</label>
       <div class="password-box">
         <input id="password" type="password" placeholder="Introduza a palavra-passe">
-        <button type="button" id="togglePassword" class="eye-btn" aria-label="Mostrar palavra-passe">👁</button>
+        <button type="button" id="togglePassword" class="eye-btn">👁</button>
       </div>
     </div>
 
@@ -424,6 +320,7 @@ td{color:#354057}
     <button id="modeButton" class="link-btn full">Criar uma conta</button>
     <button id="recoverButton" class="link-btn full">Recuperar palavra-passe</button>
     <div id="authMessage" class="message"></div>
+
     <p style="text-align:center;font-size:11px;margin-top:20px">
       SIGE · Plataforma de Gestão Escolar
     </p>
@@ -439,7 +336,13 @@ td{color:#354057}
     </div>
 
     <div class="nav-title">PRINCIPAL</div>
-    <button class="nav-btn active" data-page="dashboard"><span class="ico">▦</span>Painel de controlo</button>
+    <button class="nav-btn active" data-page="dashboard">
+      <span class="ico">▦</span>Painel de controlo
+    </button>
+
+    <button class="nav-btn" data-page="personal">
+      <span class="ico">📒</span>Meu registo académico
+    </button>
 
     <div class="nav-title">GESTÃO ESCOLAR</div>
     <button class="nav-btn" data-page="students"><span class="ico">🎓</span>Alunos</button>
@@ -473,7 +376,10 @@ td{color:#354057}
       </div>
       <div class="user-area">
         <div class="avatar" id="avatar">U</div>
-        <div><strong id="userName">Utilizador</strong><small id="userRole">Utilizador</small></div>
+        <div>
+          <strong id="userName">Utilizador</strong>
+          <small id="userRole">Utilizador</small>
+        </div>
         <button class="secondary-btn" id="logoutButton">Sair</button>
       </div>
     </header>
@@ -488,11 +394,11 @@ td{color:#354057}
 <script>
 "use strict";
 
-const $ = id => document.getElementById(id);
-const DB_KEY = "SIGE_PRO_DATABASE_2026";
-const SESSION_KEY = "SIGE_PRO_SESSION_2026";
+const $=id=>document.getElementById(id);
+const DB_KEY="SIGE_PRO_DATABASE_2026";
+const SESSION_KEY="SIGE_PRO_SESSION_2026";
 
-const initialDB = {
+const initialDB={
   users:[],
   students:[],
   teachers:[],
@@ -500,6 +406,7 @@ const initialDB = {
   subjects:[],
   grades:[],
   attendance:[],
+  personalGrades:[],
   notifications:[],
   activities:[],
   settings:{
@@ -509,26 +416,42 @@ const initialDB = {
   }
 };
 
-let db = loadDB();
-let currentUser = null;
-let authMode = "login";
-let currentPage = "dashboard";
-
 function loadDB(){
   try{
-    const saved = localStorage.getItem(DB_KEY);
-    return saved ? {...initialDB,...JSON.parse(saved)} : JSON.parse(JSON.stringify(initialDB));
+    const saved=localStorage.getItem(DB_KEY);
+    if(!saved)return JSON.parse(JSON.stringify(initialDB));
+
+    const parsed=JSON.parse(saved);
+
+    const result={
+      ...initialDB,
+      ...parsed,
+      settings:{...initialDB.settings,...(parsed.settings||{})}
+    };
+
+    Object.keys(initialDB).forEach(key=>{
+      if(Array.isArray(initialDB[key]) && !Array.isArray(result[key])){
+        result[key]=[];
+      }
+    });
+
+    return result;
   }catch(e){
     return JSON.parse(JSON.stringify(initialDB));
   }
 }
+
+let db=loadDB();
+let currentUser=null;
+let authMode="login";
+let currentPage="dashboard";
 
 function saveDB(){
   localStorage.setItem(DB_KEY,JSON.stringify(db));
 }
 
 function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g,c=>({
+  return String(value??"").replace(/[&<>"']/g,c=>({
     "&":"&amp;","<":"&lt;",">":"&gt;",
     '"':"&quot;","'":"&#39;"
   })[c]);
@@ -539,11 +462,11 @@ function uid(){
 }
 
 async function hashPassword(password){
-  if(!window.crypto || !crypto.subtle){
+  if(!window.crypto||!crypto.subtle){
     throw new Error("Abra o site através de HTTPS para ativar a autenticação.");
   }
-  const bytes = new TextEncoder().encode(password);
-  const hash = await crypto.subtle.digest("SHA-256",bytes);
+  const bytes=new TextEncoder().encode(password);
+  const hash=await crypto.subtle.digest("SHA-256",bytes);
   return Array.from(new Uint8Array(hash))
     .map(b=>b.toString(16).padStart(2,"0")).join("");
 }
@@ -551,7 +474,7 @@ async function hashPassword(password){
 function logActivity(action){
   db.activities.unshift({
     id:uid(),
-    user:currentUser?.name || "Sistema",
+    user:currentUser?.name||"Sistema",
     action,
     date:new Date().toLocaleString("pt-PT")
   });
@@ -569,7 +492,7 @@ function notify(title,message){
 }
 
 function isAdmin(){
-  return currentUser && currentUser.role==="Administrador";
+  return currentUser&&currentUser.role==="Administrador";
 }
 
 function requireAdmin(){
@@ -580,24 +503,15 @@ function requireAdmin(){
   return true;
 }
 
-/* MOSTRAR E ESCONDER PALAVRA-PASSE */
+/* AUTENTICAÇÃO */
 
 $("togglePassword").addEventListener("click",()=>{
   const input=$("password");
   const button=$("togglePassword");
 
-  if(input.type==="password"){
-    input.type="text";
-    button.textContent="🙈";
-    button.setAttribute("aria-label","Esconder palavra-passe");
-  }else{
-    input.type="password";
-    button.textContent="👁";
-    button.setAttribute("aria-label","Mostrar palavra-passe");
-  }
+  input.type=input.type==="password"?"text":"password";
+  button.textContent=input.type==="password"?"👁":"🙈";
 });
-
-/* AUTENTICAÇÃO */
 
 function setAuthMode(mode){
   authMode=mode;
@@ -623,21 +537,36 @@ $("authButton").addEventListener("click",async()=>{
   message.textContent="";
 
   try{
-    if(!email || !password) throw new Error("Preencha o e-mail e a palavra-passe.");
-    if(password.length<6) throw new Error("A palavra-passe deve ter pelo menos 6 caracteres.");
+    if(!email||!password){
+      throw new Error("Preencha o e-mail e a palavra-passe.");
+    }
+
+    if(password.length<6){
+      throw new Error("A palavra-passe deve ter pelo menos 6 caracteres.");
+    }
 
     const hash=await hashPassword(password);
 
     if(authMode==="register"){
       const name=$("regName").value.trim();
 
-      if(!name) throw new Error("Introduza o seu nome.");
-      if($("confirmPassword").value!==password) throw new Error("As palavras-passe não coincidem.");
-      if(db.users.some(u=>u.email===email)) throw new Error("Este e-mail já está registado.");
+      if(!name)throw new Error("Introduza o seu nome.");
+
+      if($("confirmPassword").value!==password){
+        throw new Error("As palavras-passe não coincidem.");
+      }
+
+      if(db.users.some(u=>u.email===email)){
+        throw new Error("Este e-mail já está registado.");
+      }
 
       const firstAccount=db.users.length===0;
+
       const user={
-        id:uid(),name,email,passwordHash:hash,
+        id:uid(),
+        name,
+        email,
+        passwordHash:hash,
         role:firstAccount?"Administrador":"Aluno",
         active:true
       };
@@ -656,21 +585,17 @@ $("authButton").addEventListener("click",async()=>{
       return;
     }
 
-    const user=db.users.find(u=>u.email===email && u.passwordHash===hash);
-    if(!user) throw new Error("E-mail ou palavra-passe incorretos.");
-    if(user.active===false) throw new Error("A sua conta está desativada.");
+    const user=db.users.find(
+      u=>u.email===email&&u.passwordHash===hash
+    );
+
+    if(!user)throw new Error("E-mail ou palavra-passe incorretos.");
+    if(user.active===false)throw new Error("A sua conta está desativada.");
 
     currentUser=user;
     sessionStorage.setItem(SESSION_KEY,user.id);
 
-    const card=document.querySelector(".auth-card");
-    card.classList.remove("entering");
-    void card.offsetWidth;
-    card.classList.add("entering");
-
-    setTimeout(()=>{
-      startApplication();
-    },650);
+    startApplication();
 
   }catch(error){
     message.style.color="#dc4c4c";
@@ -679,7 +604,7 @@ $("authButton").addEventListener("click",async()=>{
 });
 
 $("recoverButton").addEventListener("click",()=>{
-  alert("A recuperação por e-mail ainda não está ligada. Nesta versão de demonstração, contacte o administrador da plataforma para obter assistência. Não existe verificação de identidade nesta recuperação local.");
+  alert("A recuperação por e-mail ainda não está ligada. Contacte o administrador para obter assistência.");
 });
 
 /* INICIAR E TERMINAR SESSÃO */
@@ -702,11 +627,12 @@ function startApplication(){
 $("logoutButton").addEventListener("click",()=>{
   sessionStorage.removeItem(SESSION_KEY);
   currentUser=null;
+
   $("application").style.display="none";
   $("authScreen").style.display="flex";
   $("password").value="";
-  $("togglePassword").textContent="👁";
   $("password").type="password";
+  $("togglePassword").textContent="👁";
 });
 
 $("menuButton").addEventListener("click",()=>{
@@ -717,6 +643,7 @@ $("menuButton").addEventListener("click",()=>{
 
 const pageNames={
   dashboard:"Painel de controlo",
+  personal:"Meu registo académico",
   students:"Gestão de alunos",
   teachers:"Gestão de professores",
   classes:"Gestão de turmas",
@@ -739,8 +666,11 @@ document.querySelectorAll(".nav-btn").forEach(btn=>{
 });
 
 function renderPage(page){
-  if(!pageNames[page]) return;
-  if(["users","reports","settings","security"].includes(page) && !requireAdmin()) return;
+  if(!pageNames[page])return;
+
+  if(["users","reports","settings","security"].includes(page)&&!requireAdmin()){
+    return;
+  }
 
   currentPage=page;
   $("pageTitle").textContent=pageNames[page];
@@ -749,12 +679,11 @@ function renderPage(page){
     b.classList.toggle("active",b.dataset.page===page);
   });
 
-  const renderer=pages[page];
-  $("pageContent").innerHTML=renderer();
+  $("pageContent").innerHTML=pages[page]();
   bindPageActions();
 }
 
-/* COMPONENTES DE INTERFACE */
+/* COMPONENTES */
 
 function heading(title,description,button=""){
   return `<div class="page-heading">
@@ -764,18 +693,23 @@ function heading(title,description,button=""){
 }
 
 function statCard(icon,label,value){
-  return `<div class="card"><div class="stat">
-    <div><p>${label}</p><h3>${value}</h3></div>
-    <div class="stat-icon">${icon}</div>
-  </div></div>`;
+  return `<div class="card">
+    <div class="stat">
+      <div><p>${label}</p><h3>${value}</h3></div>
+      <div class="stat-icon">${icon}</div>
+    </div>
+  </div>`;
 }
 
 function table(headers,rows){
-  return `<div class="table-wrap"><table>
-    <thead><tr>${headers.map(h=>`<th>${h}</th>`).join("")}</tr></thead>
-    <tbody>${rows.length?rows.join(""):
-      `<tr><td class="empty" colspan="${headers.length}">Não existem registos disponíveis.</td></tr>`}
-    </tbody></table></div>`;
+  return `<div class="table-wrap">
+    <table>
+      <thead><tr>${headers.map(h=>`<th>${h}</th>`).join("")}</tr></thead>
+      <tbody>${rows.length?rows.join(""):
+        `<tr><td class="empty" colspan="${headers.length}">Não existem registos disponíveis.</td></tr>`}
+      </tbody>
+    </table>
+  </div>`;
 }
 
 function addButton(label="Adicionar registo"){
@@ -793,7 +727,7 @@ function actionButtons(id){
     <button class="action-btn danger" data-action="delete" data-id="${id}">Eliminar</button>`;
 }
 
-/* PAINEL PRINCIPAL - MANTIDO */
+/* PAINEL INICIAL */
 
 function dashboard(){
   const welcome=`<div class="notice">
@@ -808,50 +742,90 @@ function dashboard(){
     statCard("📚","Disciplinas",db.subjects.length)
   ].join("");
 
+  const personalCount=db.personalGrades.filter(
+    g=>g.userId===currentUser.id
+  ).length;
+
   const recent=db.activities.slice(0,6).map(a=>
-    `<tr><td>${escapeHTML(a.user)}</td><td>${escapeHTML(a.action)}</td><td>${escapeHTML(a.date)}</td></tr>`
+    `<tr>
+      <td>${escapeHTML(a.user)}</td>
+      <td>${escapeHTML(a.action)}</td>
+      <td>${escapeHTML(a.date)}</td>
+    </tr>`
   );
 
-  return heading("Painel de controlo","Visão geral da atividade da instituição.")
-    +welcome+`<div class="grid">${cards}</div>
-    <div class="panel"><h3>Atividade recente</h3>
-    ${table(["Utilizador","Atividade","Data"],recent)}</div>
-    <div class="panel"><h3>Resumo do sistema</h3>
-    <p class="section-note">O SIGE reúne ferramentas para organizar alunos, professores, turmas, disciplinas, avaliações e operações administrativas num único ambiente.</p></div>`;
+  return heading(
+    "Painel de controlo",
+    "Visão geral da atividade da instituição."
+  )+welcome+`
+    <div class="grid">${cards}</div>
+
+    <div class="module-card">
+      <div>
+        <h2>📒 Meu registo académico</h2>
+        <p>Registe as suas avaliações, acompanhe as médias e consulte os resultados escolares.</p>
+        <p>As suas avaliações registadas: <strong>${personalCount}</strong></p>
+      </div>
+      <button class="primary-btn" data-action="openPersonal">
+        Abrir meu registo
+      </button>
+    </div>
+
+    <div class="panel">
+      <h3>Atividade recente</h3>
+      ${table(["Utilizador","Atividade","Data"],recent)}
+    </div>
+
+    <div class="panel">
+      <h3>Resumo do sistema</h3>
+      <p class="section-note">
+        O SIGE reúne ferramentas para organizar alunos, professores,
+        turmas, disciplinas, avaliações e operações administrativas.
+        Também permite ao estudante acompanhar o seu próprio desempenho académico.
+      </p>
+    </div>`;
 }
 
-/* GESTÃO GENÉRICA */
+/* GESTÃO ESCOLAR */
 
 const configs={
   students:{
     title:"Alunos",collection:"students",
     fields:[
-      ["name","Nome completo"],["number","Número de matrícula"],
-      ["email","E-mail"],["className","Turma"]
+      ["name","Nome completo"],
+      ["number","Número de matrícula"],
+      ["email","E-mail"],
+      ["className","Turma"]
     ],
     headers:["Nome","Matrícula","E-mail","Turma","Ações"]
   },
   teachers:{
     title:"Professores",collection:"teachers",
     fields:[
-      ["name","Nome completo"],["specialty","Especialidade"],
-      ["email","E-mail"],["phone","Telefone"]
+      ["name","Nome completo"],
+      ["specialty","Especialidade"],
+      ["email","E-mail"],
+      ["phone","Telefone"]
     ],
     headers:["Nome","Especialidade","E-mail","Telefone","Ações"]
   },
   classes:{
     title:"Turmas",collection:"classes",
     fields:[
-      ["name","Nome da turma"],["year","Classe/Ano"],
-      ["shift","Turno"],["room","Sala"]
+      ["name","Nome da turma"],
+      ["year","Classe/Ano"],
+      ["shift","Turno"],
+      ["room","Sala"]
     ],
     headers:["Turma","Classe/Ano","Turno","Sala","Ações"]
   },
   subjects:{
     title:"Disciplinas",collection:"subjects",
     fields:[
-      ["name","Nome da disciplina"],["teacher","Professor responsável"],
-      ["className","Turma"],["hours","Carga horária"]
+      ["name","Nome da disciplina"],
+      ["teacher","Professor responsável"],
+      ["className","Turma"],
+      ["hours","Carga horária"]
     ],
     headers:["Disciplina","Professor","Turma","Carga horária","Ações"]
   }
@@ -859,32 +833,47 @@ const configs={
 
 function genericPage(type){
   const cfg=configs[type];
-  const records=db[cfg.collection];
 
-  const rows=records.map(r=>`<tr>
-    ${cfg.fields.map(f=>`<td>${escapeHTML(r[f[0]])}</td>`).join("")}
-    <td>${actionButtons(r.id)}</td>
-  </tr>`);
+  const rows=db[cfg.collection].map(r=>`
+    <tr>
+      ${cfg.fields.map(f=>`<td>${escapeHTML(r[f[0]])}</td>`).join("")}
+      <td>${actionButtons(r.id)}</td>
+    </tr>
+  `);
 
-  return heading(cfg.title,"Consulte e organize os registos da instituição.",addButton())
-    +`<div class="panel">${searchBar()}
-    ${table(cfg.headers,rows)}</div>`;
+  return heading(
+    cfg.title,
+    "Consulte e organize os registos da instituição.",
+    addButton()
+  )+`<div class="panel">${searchBar()}
+    ${table(cfg.headers,rows)}
+  </div>`;
 }
 
-/* NOTAS */
+/* NOTAS OFICIAIS */
 
 function gradesPage(){
   const rows=db.grades.map(g=>{
     const student=db.students.find(s=>s.id===g.studentId);
-    return `<tr><td>${escapeHTML(student?.name||"Aluno não identificado")}</td>
-      <td>${escapeHTML(g.subject)}</td><td>${escapeHTML(g.trimester)}</td>
-      <td>${escapeHTML(g.score)}</td><td>${actionButtons(g.id)}</td></tr>`;
+
+    return `<tr>
+      <td>${escapeHTML(student?.name||"Aluno não identificado")}</td>
+      <td>${escapeHTML(g.subject)}</td>
+      <td>${escapeHTML(g.trimester)}</td>
+      <td>${escapeHTML(g.score)}</td>
+      <td>${actionButtons(g.id)}</td>
+    </tr>`;
   });
 
-  return heading("Notas e avaliações","Registo e acompanhamento do desempenho académico.",addButton("Adicionar nota"))
-    +`<div class="panel">${searchBar()}
+  return heading(
+    "Notas e avaliações",
+    "Registo e acompanhamento do desempenho académico.",
+    addButton("Adicionar nota")
+  )+`<div class="panel">
+    ${searchBar()}
     ${table(["Aluno","Disciplina","Trimestre","Nota","Ações"],rows)}
-    <p class="section-note">As classificações devem respeitar a escala definida pela instituição.</p></div>`;
+    <p class="section-note">As classificações devem respeitar a escala definida pela instituição.</p>
+  </div>`;
 }
 
 /* ASSIDUIDADE */
@@ -892,131 +881,467 @@ function gradesPage(){
 function attendancePage(){
   const rows=db.attendance.map(a=>{
     const student=db.students.find(s=>s.id===a.studentId);
-    return `<tr><td>${escapeHTML(student?.name||"Aluno não identificado")}</td>
-      <td>${escapeHTML(a.date)}</td><td>${escapeHTML(a.status)}</td>
-      <td>${actionButtons(a.id)}</td></tr>`;
+
+    return `<tr>
+      <td>${escapeHTML(student?.name||"Aluno não identificado")}</td>
+      <td>${escapeHTML(a.date)}</td>
+      <td>${escapeHTML(a.status)}</td>
+      <td>${actionButtons(a.id)}</td>
+    </tr>`;
   });
 
-  return heading("Assiduidade","Acompanhe as presenças e faltas dos alunos.",addButton("Registar presença"))
-    +`<div class="panel">${searchBar()}
-    ${table(["Aluno","Data","Estado","Ações"],rows)}</div>`;
+  return heading(
+    "Assiduidade",
+    "Acompanhe as presenças e faltas dos alunos.",
+    addButton("Registar presença")
+  )+`<div class="panel">
+    ${searchBar()}
+    ${table(["Aluno","Data","Estado","Ações"],rows)}
+  </div>`;
+}
+
+/* NOVO MÓDULO: REGISTO ACADÉMICO PESSOAL */
+
+function myGrades(){
+  return db.personalGrades.filter(g=>g.userId===currentUser.id);
+}
+
+function calculateAverage(records){
+  if(!records.length)return 0;
+
+  const total=records.reduce((sum,g)=>sum+Number(g.score),0);
+  return total/records.length;
+}
+
+function getResult(average){
+  return average>=10?"Aprovado":"Reprovado";
+}
+
+function personalPage(){
+  const records=myGrades();
+
+  const subjects=[...new Set(records.map(g=>g.subject))];
+
+  const totalAverage=calculateAverage(records);
+
+  const resultClass=totalAverage>=10?"approved":"failed";
+
+  const rows=records.map(g=>`
+    <tr>
+      <td>${escapeHTML(g.subject)}</td>
+      <td>${escapeHTML(g.trimester)}</td>
+      <td>${escapeHTML(g.evaluation)}</td>
+      <td>${Number(g.score).toFixed(1)}</td>
+      <td>${actionButtons(g.id)}</td>
+    </tr>
+  `);
+
+  let summaries="";
+
+  subjects.forEach(subject=>{
+    const subjectRecords=records.filter(g=>g.subject===subject);
+
+    ["1.º Trimestre","2.º Trimestre","3.º Trimestre"].forEach(trimester=>{
+      const trimesterRecords=subjectRecords.filter(
+        g=>g.trimester===trimester
+      );
+
+      if(!trimesterRecords.length)return;
+
+      const average=calculateAverage(trimesterRecords);
+      const result=getResult(average);
+
+      summaries+=`
+        <tr>
+          <td>${escapeHTML(subject)}</td>
+          <td>${trimester}</td>
+          <td>${average.toFixed(2).replace(".",",")}</td>
+          <td>
+            <span class="badge ${result==="Reprovado"?"red":""}">
+              ${result}
+            </span>
+          </td>
+        </tr>
+      `;
+    });
+  });
+
+  return heading(
+    "Meu registo académico",
+    "Acompanhe as suas notas, avaliações e resultados.",
+    addButton("＋ Adicionar avaliação")
+  )+`
+    <div class="notice">
+      Esta é a sua área académica pessoal.
+      Os registos são associados à sua conta e não são misturados
+      com as avaliações oficiais da administração escolar.
+    </div>
+
+    <div class="panel">
+      <h3>👤 Dados do estudante</h3>
+      <p><strong>Nome:</strong> ${escapeHTML(currentUser.name)}</p>
+      <p><strong>E-mail:</strong> ${escapeHTML(currentUser.email)}</p>
+      <p><strong>Perfil:</strong> ${escapeHTML(currentUser.role)}</p>
+    </div>
+
+    <div class="grid">
+      ${statCard("📚","Disciplinas registadas",subjects.length)}
+      ${statCard("📝","Avaliações registadas",records.length)}
+      ${statCard("📊","Média geral",records.length?totalAverage.toFixed(2).replace(".",","):"—")}
+      ${statCard("🎯","Classificação mínima","10 valores")}
+    </div>
+
+    <div class="panel">
+      <h3>📈 Resultado geral das avaliações registadas</h3>
+      ${records.length?`
+        <div class="result-box ${resultClass}">
+          <p>Média de todas as avaliações pessoais registadas</p>
+          <h2>${totalAverage.toFixed(2).replace(".",",")} valores</h2>
+          <strong>${getResult(totalAverage)}</strong>
+          <p>${totalAverage>=10
+            ?"A sua média atual está acima ou igual à classificação mínima."
+            :"A sua média atual está abaixo da classificação mínima."}
+          </p>
+        </div>
+      `:`
+        <p class="section-note">
+          Ainda não existem avaliações. Adicione a sua primeira nota
+          para começar a acompanhar o seu desempenho.
+        </p>
+      `}
+    </div>
+
+    <div class="panel">
+      <h3>📊 Médias por disciplina e trimestre</h3>
+      ${table(
+        ["Disciplina","Trimestre","Média","Resultado"],
+        summaries? [summaries] : []
+      )}
+      <p class="section-note">
+        Cada média é calculada com base nas avaliações que registou
+        para aquela disciplina e trimestre.
+      </p>
+    </div>
+
+    <div class="panel">
+      <h3>📝 Minhas avaliações</h3>
+      ${table(
+        ["Disciplina","Trimestre","Avaliação","Nota","Ações"],
+        rows
+      )}
+    </div>
+
+    <div class="notice warning">
+      Atenção: a média geral apresentada corresponde às avaliações
+      que registou nesta área pessoal. Não representa necessariamente
+      a classificação oficial da sua escola.
+    </div>
+  `;
+}
+
+/* FORMULÁRIO DO REGISTO PESSOAL */
+
+function openPersonalForm(id=null){
+  const old=id?db.personalGrades.find(
+    g=>g.id===id&&g.userId===currentUser.id
+  ):null;
+
+  if(id&&!old){
+    alert("Não foi possível encontrar esta avaliação.");
+    return;
+  }
+
+  const modal=document.createElement("div");
+  modal.id="formModal";
+  modal.style.cssText=
+    "position:fixed;inset:0;background:#101b35aa;z-index:20;display:grid;place-items:center;padding:15px";
+
+  modal.innerHTML=`
+    <div style="background:white;border-radius:15px;padding:25px;width:100%;max-width:520px;max-height:90vh;overflow:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>${old?"Editar avaliação":"Nova avaliação pessoal"}</h3>
+        <button class="secondary-btn" type="button" id="closeModal">Fechar</button>
+      </div>
+
+      <form id="personalForm">
+        <div class="field">
+          <label>Nome da disciplina</label>
+          <input name="subject" value="${escapeHTML(old?.subject||"")}"
+            placeholder="Ex.: Matemática" required>
+        </div>
+
+        <div class="field">
+          <label>Trimestre</label>
+          <select name="trimester" required>
+            ${["1.º Trimestre","2.º Trimestre","3.º Trimestre"].map(t=>
+              `<option value="${t}" ${old?.trimester===t?"selected":""}>${t}</option>`
+            ).join("")}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Tipo de avaliação</label>
+          <input name="evaluation"
+            value="${escapeHTML(old?.evaluation||"")}"
+            placeholder="Ex.: Primeira avaliação" required>
+        </div>
+
+        <div class="field">
+          <label>Nota (0 a 20 valores)</label>
+          <input name="score" type="number" min="0" max="20"
+            step="0.1" value="${escapeHTML(old?.score??"")}"
+            placeholder="Ex.: 15" required>
+        </div>
+
+        <div class="notice">
+          O SIGE calculará automaticamente a média desta disciplina
+          e do respetivo trimestre.
+        </div>
+
+        <button class="primary-btn full" type="submit">
+          Guardar avaliação
+        </button>
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  $("closeModal").onclick=()=>modal.remove();
+
+  $("personalForm").onsubmit=e=>{
+    e.preventDefault();
+
+    const data=Object.fromEntries(new FormData(e.target).entries());
+
+    data.subject=data.subject.trim();
+    data.evaluation=data.evaluation.trim();
+    data.score=Number(data.score);
+
+    if(!data.subject||!data.evaluation){
+      alert("Preencha todos os campos.");
+      return;
+    }
+
+    if(!Number.isFinite(data.score)||data.score<0||data.score>20){
+      alert("A nota deve estar entre 0 e 20 valores.");
+      return;
+    }
+
+    if(old){
+      Object.assign(old,data);
+    }else{
+      db.personalGrades.push({
+        id:uid(),
+        userId:currentUser.id,
+        ...data,
+        date:new Date().toISOString()
+      });
+    }
+
+    saveDB();
+
+    logActivity(
+      old
+      ?"Atualizou uma avaliação pessoal"
+      :"Registou uma avaliação pessoal"
+    );
+
+    modal.remove();
+    renderPage("personal");
+  };
 }
 
 /* UTILIZADORES */
 
 function usersPage(){
-  const rows=db.users.map(u=>`<tr>
-    <td>${escapeHTML(u.name)}</td>
-    <td>${escapeHTML(u.email)}</td>
-    <td>${escapeHTML(u.role)}</td>
-    <td><span class="badge ${u.active===false?"red":""}">${u.active===false?"Inativo":"Ativo"}</span></td>
-    <td><button class="action-btn" data-action="role" data-id="${u.id}">Permissão</button>
-    <button class="action-btn danger" data-action="deactivate" data-id="${u.id}">Ativar/Desativar</button></td>
-  </tr>`);
+  const rows=db.users.map(u=>`
+    <tr>
+      <td>${escapeHTML(u.name)}</td>
+      <td>${escapeHTML(u.email)}</td>
+      <td>${escapeHTML(u.role)}</td>
+      <td>
+        <span class="badge ${u.active===false?"red":""}">
+          ${u.active===false?"Inativo":"Ativo"}
+        </span>
+      </td>
+      <td>
+        <button class="action-btn" data-action="role" data-id="${u.id}">Permissão</button>
+        <button class="action-btn danger" data-action="deactivate" data-id="${u.id}">Ativar/Desativar</button>
+      </td>
+    </tr>
+  `);
 
-  return heading("Utilizadores","Administre as contas e as permissões de acesso.")
-    +`<div class="notice">O administrador pode consultar as contas e alterar os respetivos perfis de acesso.</div>
-    <div class="panel">${searchBar()}
-    ${table(["Nome","E-mail","Perfil","Estado","Ações"],rows)}</div>`;
+  return heading(
+    "Utilizadores",
+    "Administre as contas e as permissões de acesso."
+  )+`
+    <div class="notice">
+      O administrador pode consultar as contas e alterar os respetivos perfis de acesso.
+    </div>
+    <div class="panel">
+      ${searchBar()}
+      ${table(["Nome","E-mail","Perfil","Estado","Ações"],rows)}
+    </div>
+  `;
 }
 
 /* NOTIFICAÇÕES */
 
 function notificationsPage(){
-  const rows=db.notifications.map(n=>`<tr>
-    <td>${escapeHTML(n.title)}</td><td>${escapeHTML(n.message)}</td>
-    <td>${escapeHTML(n.date)}</td><td>${n.read?"Lida":"Nova"}</td>
-    <td><button class="action-btn" data-action="read" data-id="${n.id}">Marcar lida</button></td>
-  </tr>`);
+  const rows=db.notifications.map(n=>`
+    <tr>
+      <td>${escapeHTML(n.title)}</td>
+      <td>${escapeHTML(n.message)}</td>
+      <td>${escapeHTML(n.date)}</td>
+      <td>${n.read?"Lida":"Nova"}</td>
+      <td>
+        <button class="action-btn" data-action="read" data-id="${n.id}">
+          Marcar lida
+        </button>
+      </td>
+    </tr>
+  `);
 
-  return heading("Central de notificações","Consulte os avisos e acontecimentos do sistema.")
-    +`<div class="panel">
-    ${table(["Título","Mensagem","Data","Estado","Ação"],rows)}</div>`;
+  return heading(
+    "Central de notificações",
+    "Consulte os avisos e acontecimentos do sistema."
+  )+`<div class="panel">
+    ${table(["Título","Mensagem","Data","Estado","Ação"],rows)}
+  </div>`;
 }
 
 /* RELATÓRIOS */
 
 function reportsPage(){
-  return heading("Relatórios e estatísticas","Indicadores gerais da instituição.")
-    +`<div class="grid">
+  return heading(
+    "Relatórios e estatísticas",
+    "Indicadores gerais da instituição."
+  )+`
+    <div class="grid">
       ${statCard("🎓","Alunos registados",db.students.length)}
       ${statCard("👨‍🏫","Professores registados",db.teachers.length)}
       ${statCard("🏫","Turmas criadas",db.classes.length)}
       ${statCard("📝","Avaliações registadas",db.grades.length)}
     </div>
-    <div class="panel"><h3>Distribuição de alunos por turma</h3>
-    ${table(["Turma","Quantidade de alunos"],db.classes.map(c=>{
-      const count=db.students.filter(s=>s.className===c.name).length;
-      return `<tr><td>${escapeHTML(c.name)}</td><td>${count}</td></tr>`;
-    }))}</div>
-    <div class="panel"><button class="primary-btn" data-action="print">Imprimir relatório</button></div>`;
+
+    <div class="panel">
+      <h3>Distribuição de alunos por turma</h3>
+      ${table(
+        ["Turma","Quantidade de alunos"],
+        db.classes.map(c=>{
+          const count=db.students.filter(s=>s.className===c.name).length;
+          return `<tr><td>${escapeHTML(c.name)}</td><td>${count}</td></tr>`;
+        })
+      )}
+    </div>
+
+    <div class="panel">
+      <button class="primary-btn" data-action="print">Imprimir relatório</button>
+    </div>
+  `;
 }
 
 /* CONFIGURAÇÕES */
 
 function settingsPage(){
-  return heading("Configurações do sistema","Personalize os dados gerais da instituição.")
-    +`<div class="panel">
+  return heading(
+    "Configurações do sistema",
+    "Personalize os dados gerais da instituição."
+  )+`
+    <div class="panel">
       <h3>Informações da instituição</h3>
-      <div class="field"><label>Nome da instituição</label>
-        <input id="schoolName" value="${escapeHTML(db.settings.schoolName)}"></div>
-      <div class="field"><label>Ano letivo</label>
-        <input id="schoolYear" value="${escapeHTML(db.settings.schoolYear)}"></div>
-      <div class="field"><label>E-mail institucional</label>
-        <input id="schoolEmail" type="email" value="${escapeHTML(db.settings.email)}"></div>
-      <button class="primary-btn" data-action="saveSettings">Guardar configurações</button>
-    </div>`;
+
+      <div class="field">
+        <label>Nome da instituição</label>
+        <input id="schoolName" value="${escapeHTML(db.settings.schoolName)}">
+      </div>
+
+      <div class="field">
+        <label>Ano letivo</label>
+        <input id="schoolYear" value="${escapeHTML(db.settings.schoolYear)}">
+      </div>
+
+      <div class="field">
+        <label>E-mail institucional</label>
+        <input id="schoolEmail" type="email" value="${escapeHTML(db.settings.email)}">
+      </div>
+
+      <button class="primary-btn" data-action="saveSettings">
+        Guardar configurações
+      </button>
+    </div>
+  `;
 }
 
 /* SEGURANÇA E BACKUPS */
 
 function securityPage(){
-  return heading("Segurança e backups","Ferramentas de proteção e cópia dos dados.")
-    +`<div class="notice warning">
+  return heading(
+    "Segurança e backups",
+    "Ferramentas de proteção e cópia dos dados."
+  )+`
+    <div class="notice warning">
       Atenção: esta versão guarda os dados no armazenamento local do navegador.
       Não substitui uma base de dados online nem um sistema de segurança de produção.
     </div>
-    <div class="panel"><h3>Backup dos dados</h3>
-      <p class="section-note">Exporte uma cópia dos registos atuais para guardar num local seguro.</p>
+
+    <div class="panel">
+      <h3>Backup dos dados</h3>
+      <p class="section-note">
+        Exporte uma cópia dos registos atuais para guardar num local seguro.
+      </p>
       <button class="primary-btn" data-action="backup">Exportar backup JSON</button>
       <button class="secondary-btn" data-action="restore">Importar backup JSON</button>
       <input type="file" id="backupFile" accept=".json" class="hidden">
     </div>
-    <div class="panel"><h3>Histórico de atividades</h3>
-      ${table(["Utilizador","Atividade","Data"],db.activities.map(a=>
-        `<tr><td>${escapeHTML(a.user)}</td><td>${escapeHTML(a.action)}</td><td>${escapeHTML(a.date)}</td></tr>`
-      ))}
-    </div>`;
-}
 
-/* ÁREA DO ALUNO */
-
-function studentArea(){
-  return heading("Área do aluno","Consulte as informações académicas disponíveis.")
-    +`<div class="panel"><h3>Informação</h3>
-      <p>O perfil académico individual e a consulta privada de notas serão ativados quando as contas de utilizador estiverem ligadas aos respetivos registos de alunos.</p>
-      <p class="section-note">Nesta versão, o administrador mantém a gestão dos registos académicos.</p>
-    </div>`;
+    <div class="panel">
+      <h3>Histórico de atividades</h3>
+      ${table(
+        ["Utilizador","Atividade","Data"],
+        db.activities.map(a=>`
+          <tr>
+            <td>${escapeHTML(a.user)}</td>
+            <td>${escapeHTML(a.action)}</td>
+            <td>${escapeHTML(a.date)}</td>
+          </tr>
+        `)
+      )}
+    </div>
+  `;
 }
 
 /* SOBRE */
 
 function aboutPage(){
-  return heading("Sobre o SIGE","Conheça a plataforma.")
-    +`<div class="panel">
+  return heading("Sobre o SIGE","Conheça a plataforma.")+`
+    <div class="panel">
       <h3>Sistema Integrado de Gestão Escolar</h3>
-      <p class="section-note">O SIGE é uma plataforma concebida para apoiar a organização e a gestão das atividades de uma instituição de ensino.</p>
+      <p class="section-note">
+        O SIGE é uma plataforma concebida para apoiar a organização
+        e a gestão das atividades de uma instituição de ensino.
+        Também permite que estudantes acompanhem o seu desempenho académico.
+      </p>
+
       <h3>Principais módulos</h3>
-      <p class="section-note">Administração, utilizadores, alunos, professores, turmas, disciplinas, avaliações, assiduidade, notificações, relatórios, configurações e backups.</p>
+      <p class="section-note">
+        Administração, utilizadores, alunos, professores, turmas,
+        disciplinas, avaliações, assiduidade, notificações,
+        relatórios, configurações, backups e registo académico pessoal.
+      </p>
+
       <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
       <strong>Desenvolvido por Hélio Mufenji</strong>
-    </div>`;
+    </div>
+  `;
 }
 
 /* MAPA DE PÁGINAS */
 
 const pages={
   dashboard,
+  personal:personalPage,
   students:()=>genericPage("students"),
   teachers:()=>genericPage("teachers"),
   classes:()=>genericPage("classes"),
@@ -1031,10 +1356,10 @@ const pages={
   about:aboutPage
 };
 
-/* FORMULÁRIOS */
+/* FORMULÁRIOS DA ESCOLA */
 
 function openForm(type,id=null){
-  if(type==="users") return;
+  if(type==="users")return;
 
   const cfg=configs[type];
   const collection=cfg.collection;
@@ -1044,58 +1369,92 @@ function openForm(type,id=null){
     <div class="field">
       <label>${f[1]}</label>
       <input name="${f[0]}" value="${escapeHTML(old?.[f[0]]||"")}" required>
-    </div>`).join("");
+    </div>
+  `).join("");
 
-  let title=old?"Editar registo":"Novo registo";
+  const title=old?"Editar registo":"Novo registo";
 
-  if(type==="grades" || type==="attendance"){
+  if(type==="grades"||type==="attendance"){
     fields=`
-      <div class="field"><label>Aluno</label>
+      <div class="field">
+        <label>Aluno</label>
         <select name="studentId" required>
           <option value="">Selecionar aluno</option>
-          ${db.students.map(s=>`<option value="${s.id}" ${old?.studentId===s.id?"selected":""}>${escapeHTML(s.name)}</option>`).join("")}
+          ${db.students.map(s=>`
+            <option value="${s.id}" ${old?.studentId===s.id?"selected":""}>
+              ${escapeHTML(s.name)}
+            </option>
+          `).join("")}
         </select>
       </div>
+
       ${type==="grades"?`
-        <div class="field"><label>Disciplina</label>
-          <input name="subject" value="${escapeHTML(old?.subject||"")}" required></div>
-        <div class="field"><label>Trimestre</label>
+        <div class="field">
+          <label>Disciplina</label>
+          <input name="subject" value="${escapeHTML(old?.subject||"")}" required>
+        </div>
+        <div class="field">
+          <label>Trimestre</label>
           <select name="trimester">
-            <option>1.º Trimestre</option><option>2.º Trimestre</option><option>3.º Trimestre</option>
-          </select></div>
-        <div class="field"><label>Nota (0 a 20)</label>
-          <input type="number" min="0" max="20" step="0.1" name="score" value="${escapeHTML(old?.score??"")}" required></div>
+            <option>1.º Trimestre</option>
+            <option>2.º Trimestre</option>
+            <option>3.º Trimestre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Nota (0 a 20)</label>
+          <input type="number" min="0" max="20" step="0.1"
+            name="score" value="${escapeHTML(old?.score??"")}" required>
+        </div>
       `:`
-        <div class="field"><label>Data</label><input type="date" name="date" value="${escapeHTML(old?.date||new Date().toISOString().slice(0,10))}" required></div>
-        <div class="field"><label>Estado</label><select name="status"><option>Presente</option><option>Falta</option><option>Atrasado</option></select></div>
+        <div class="field">
+          <label>Data</label>
+          <input type="date" name="date"
+            value="${escapeHTML(old?.date||new Date().toISOString().slice(0,10))}" required>
+        </div>
+        <div class="field">
+          <label>Estado</label>
+          <select name="status">
+            <option>Presente</option>
+            <option>Falta</option>
+            <option>Atrasado</option>
+          </select>
+        </div>
       `}
     `;
   }
 
   const modal=document.createElement("div");
   modal.id="formModal";
-  modal.style.cssText="position:fixed;inset:0;background:#101b35aa;z-index:20;display:grid;place-items:center;padding:15px";
+  modal.style.cssText=
+    "position:fixed;inset:0;background:#101b35aa;z-index:20;display:grid;place-items:center;padding:15px";
+
   modal.innerHTML=`
     <div style="background:white;border-radius:15px;padding:25px;width:100%;max-width:520px;max-height:90vh;overflow:auto">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3>${title}</h3><button class="secondary-btn" type="button" id="closeModal">Fechar</button>
+        <h3>${title}</h3>
+        <button class="secondary-btn" type="button" id="closeModal">Fechar</button>
       </div>
+
       <form id="recordForm">
         <div class="form-grid">${fields}</div>
         <button class="primary-btn full" type="submit">Guardar registo</button>
       </form>
-    </div>`;
+    </div>
+  `;
 
   document.body.appendChild(modal);
   $("closeModal").onclick=()=>modal.remove();
 
   $("recordForm").onsubmit=e=>{
     e.preventDefault();
+
     const data=Object.fromEntries(new FormData(e.target).entries());
 
     if(type==="grades"){
       data.score=Number(data.score);
-      if(data.score<0 || data.score>20){
+
+      if(data.score<0||data.score>20){
         alert("A nota deve estar entre 0 e 20.");
         return;
       }
@@ -1109,37 +1468,82 @@ function openForm(type,id=null){
 
     saveDB();
     logActivity((old?"Editou ":"Adicionou ")+cfg.title.toLowerCase());
+
     modal.remove();
     renderPage(currentPage);
   };
 }
 
-/* AÇÕES */
+/* AÇÕES DA INTERFACE */
 
 function bindPageActions(){
   const add=document.querySelector('[data-action="add"]');
 
-  if(add) add.onclick=()=>{
-    if(currentPage==="grades" || currentPage==="attendance"){
-      if(!db.students.length){
-        alert("Registe primeiro um aluno.");
-        return;
+  if(add){
+    add.onclick=()=>{
+      if(currentPage==="grades"||currentPage==="attendance"){
+        if(!db.students.length){
+          alert("Registe primeiro um aluno.");
+          return;
+        }
       }
       openForm(currentPage);
-    }else openForm(currentPage);
-  };
+    };
+  }
+
+  const personalAdd=document.querySelector('[data-action="addPersonal"]');
+
+  if(personalAdd){
+    personalAdd.onclick=()=>openPersonalForm();
+  }
+
+  const personalButtons=document.querySelectorAll(
+    '[data-action="edit"][data-personal="true"]'
+  );
+
+  personalButtons.forEach(btn=>{
+    btn.onclick=()=>openPersonalForm(btn.dataset.id);
+  });
 
   document.querySelectorAll('[data-action="edit"]').forEach(btn=>{
+    if(btn.dataset.personal==="true")return;
     btn.onclick=()=>openForm(currentPage,btn.dataset.id);
   });
 
   document.querySelectorAll('[data-action="delete"]').forEach(btn=>{
     btn.onclick=()=>{
-      if(!requireAdmin()) return;
-      if(!confirm("Tem a certeza de que pretende eliminar este registo?")) return;
+      if(currentPage==="personal"){
+        const record=db.personalGrades.find(
+          g=>g.id===btn.dataset.id&&g.userId===currentUser.id
+        );
+
+        if(!record){
+          alert("Não pode eliminar este registo.");
+          return;
+        }
+
+        if(!confirm("Deseja eliminar esta avaliação pessoal?"))return;
+
+        db.personalGrades=db.personalGrades.filter(
+          g=>!(g.id===btn.dataset.id&&g.userId===currentUser.id)
+        );
+
+        saveDB();
+        logActivity("Eliminou uma avaliação pessoal");
+        renderPage("personal");
+        return;
+      }
+
+      if(!requireAdmin())return;
+
+      if(!confirm("Tem a certeza de que pretende eliminar este registo?"))return;
 
       const cfg=configs[currentPage];
-      db[cfg.collection]=db[cfg.collection].filter(r=>r.id!==btn.dataset.id);
+
+      db[cfg.collection]=db[cfg.collection].filter(
+        r=>r.id!==btn.dataset.id
+      );
+
       saveDB();
       logActivity("Eliminou um registo de "+cfg.title);
       renderPage(currentPage);
@@ -1147,29 +1551,38 @@ function bindPageActions(){
   });
 
   const search=$("searchInput");
+
   if(search){
     search.addEventListener("input",()=>{
       const term=search.value.toLowerCase();
+
       document.querySelectorAll("tbody tr").forEach(row=>{
-        row.style.display=row.textContent.toLowerCase().includes(term)?"":"none";
+        row.style.display=
+          row.textContent.toLowerCase().includes(term)?"":"none";
       });
     });
   }
 
   document.querySelectorAll('[data-action="role"]').forEach(btn=>{
     btn.onclick=()=>{
-      if(!requireAdmin()) return;
+      if(!requireAdmin())return;
 
       const user=db.users.find(u=>u.id===btn.dataset.id);
-      if(!user || user.id===currentUser.id){
+
+      if(!user||user.id===currentUser.id){
         alert("Não pode alterar o seu próprio perfil.");
         return;
       }
 
-      const role=prompt("Introduza o perfil: Administrador, Professor ou Aluno",user.role);
-      if(!role) return;
+      const role=prompt(
+        "Introduza o perfil: Administrador, Professor ou Aluno",
+        user.role
+      );
+
+      if(!role)return;
 
       const allowed=["Administrador","Professor","Aluno"];
+
       if(!allowed.includes(role)){
         alert("Perfil inválido.");
         return;
@@ -1184,9 +1597,11 @@ function bindPageActions(){
 
   document.querySelectorAll('[data-action="deactivate"]').forEach(btn=>{
     btn.onclick=()=>{
-      if(!requireAdmin()) return;
+      if(!requireAdmin())return;
+
       const user=db.users.find(u=>u.id===btn.dataset.id);
-      if(!user || user.id===currentUser.id) return;
+
+      if(!user||user.id===currentUser.id)return;
 
       user.active=user.active===false;
       saveDB();
@@ -1198,6 +1613,7 @@ function bindPageActions(){
   document.querySelectorAll('[data-action="read"]').forEach(btn=>{
     btn.onclick=()=>{
       const n=db.notifications.find(x=>x.id===btn.dataset.id);
+
       if(n){
         n.read=true;
         saveDB();
@@ -1207,11 +1623,13 @@ function bindPageActions(){
   });
 
   const saveSettings=document.querySelector('[data-action="saveSettings"]');
+
   if(saveSettings){
     saveSettings.onclick=()=>{
       db.settings.schoolName=$("schoolName").value.trim();
       db.settings.schoolYear=$("schoolYear").value.trim();
       db.settings.email=$("schoolEmail").value.trim();
+
       saveDB();
       logActivity("Atualizou as configurações");
       alert("Configurações guardadas.");
@@ -1219,22 +1637,45 @@ function bindPageActions(){
   }
 
   const backup=document.querySelector('[data-action="backup"]');
-  if(backup) backup.onclick=exportBackup;
+  if(backup)backup.onclick=exportBackup;
 
   const restore=document.querySelector('[data-action="restore"]');
-  if(restore) restore.onclick=()=>$("backupFile").click();
+  if(restore)restore.onclick=()=>$("backupFile").click();
 
   const file=$("backupFile");
-  if(file) file.onchange=importBackup;
+  if(file)file.onchange=importBackup;
 
   const print=document.querySelector('[data-action="print"]');
-  if(print) print.onclick=()=>window.print();
+  if(print)print.onclick=()=>window.print();
+
+  const openPersonal=document.querySelector('[data-action="openPersonal"]');
+
+  if(openPersonal){
+    openPersonal.onclick=()=>renderPage("personal");
+  }
+
+  const addPersonal=document.querySelector(
+    '[data-action="add"][data-personal="true"]'
+  );
+
+  if(addPersonal){
+    addPersonal.onclick=()=>openPersonalForm();
+  }
+
+  // Botão de adicionar avaliação pessoal
+  if(currentPage==="personal"){
+    const button=document.querySelector('.page-heading [data-action="add"]');
+
+    if(button){
+      button.onclick=()=>openPersonalForm();
+    }
+  }
 }
 
 /* BACKUPS */
 
 function exportBackup(){
-  if(!requireAdmin()) return;
+  if(!requireAdmin())return;
 
   const data=JSON.stringify(db,null,2);
   const blob=new Blob([data],{type:"application/json"});
@@ -1250,23 +1691,40 @@ function exportBackup(){
 }
 
 function importBackup(event){
-  if(!requireAdmin()) return;
+  if(!requireAdmin())return;
 
   const file=event.target.files[0];
-  if(!file) return;
+  if(!file)return;
 
   const reader=new FileReader();
 
   reader.onload=()=>{
     try{
       const imported=JSON.parse(reader.result);
-      const keys=["users","students","teachers","classes","subjects","grades","attendance","notifications","activities","settings"];
 
-      if(!imported || !keys.every(k=>k in imported)) throw new Error();
+      const keys=[
+        "users","students","teachers","classes","subjects",
+        "grades","attendance","notifications","activities","settings"
+      ];
 
-      if(!confirm("A importação substituirá os dados atuais deste navegador. Continuar?")) return;
+      if(!imported||!keys.every(k=>k in imported)){
+        throw new Error();
+      }
 
-      db=imported;
+      if(!Array.isArray(imported.personalGrades)){
+        imported.personalGrades=[];
+      }
+
+      if(!confirm(
+        "A importação substituirá os dados atuais deste navegador. Continuar?"
+      ))return;
+
+      db={
+        ...initialDB,
+        ...imported,
+        settings:{...initialDB.settings,...imported.settings}
+      };
+
       saveDB();
       alert("Backup importado com sucesso.");
       renderPage("dashboard");
@@ -1285,7 +1743,9 @@ function importBackup(event){
   const sessionId=sessionStorage.getItem(SESSION_KEY);
 
   if(sessionId){
-    currentUser=db.users.find(u=>u.id===sessionId && u.active!==false)||null;
+    currentUser=db.users.find(
+      u=>u.id===sessionId&&u.active!==false
+    )||null;
   }
 
   if(currentUser){
@@ -1294,6 +1754,7 @@ function importBackup(event){
     $("authScreen").style.display="flex";
   }
 })();
+
 </script>
 </body>
 </html>
