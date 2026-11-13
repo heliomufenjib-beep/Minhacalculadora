@@ -1,26 +1,637 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#14213d">
-<title>SIGE | Sistema Integrado de Gestão Escolar</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGE - Sistema Integrado de Gestão Escolar</title>
 <style>
-:root{--blue:#2563eb;--navy:#14213d;--bg:#f4f7fc;--muted:#64748b;--line:#e2e8f0;--red:#dc2626;--green:#15803d}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--navy)}button,input,select,textarea{font:inherit}button{border:0;border-radius:9px;padding:10px 14px;cursor:pointer}.primary{background:var(--blue);color:white}.secondary{background:#e8efff;color:var(--blue)}.danger{background:#fee2e2;color:var(--red)}input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;background:white}label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}.hidden{display:none!important}.muted{color:var(--muted)}.logo{font-size:27px;font-weight:900;color:var(--blue);letter-spacing:1px}.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#10264d,#2563eb)}.authbox{width:100%;max-width:430px;background:white;padding:28px;border-radius:20px}.authbox button{width:100%;margin-top:12px}.msg{font-size:13px;margin-top:10px;white-space:pre-wrap;color:var(--red)}.ok{color:var(--green)}header{position:sticky;top:0;z-index:5;background:white;border-bottom:1px solid var(--line);padding:13px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}.layout{display:flex;min-height:calc(100vh - 65px)}aside{width:245px;flex-shrink:0;background:var(--navy);padding:14px 10px}aside button{display:block;width:100%;text-align:left;color:#dbeafe;background:transparent;margin:3px 0}aside button.active,aside button:hover{background:#263d67;color:white}main{width:100%;min-width:0;padding:24px}.page{display:none}.page.active{display:block}h1,h2,h3{margin:0 0 12px}.card{background:white;border:1px solid var(--line);border-radius:15px;padding:18px;margin:14px 0;box-shadow:0 3px 12px #14213d08}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:13px;margin:16px 0}.stat strong{display:block;font-size:28px;color:var(--blue);margin-top:8px}.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.toolbar input{max-width:340px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line);font-size:14px}th{background:#f8fafc;color:var(--muted)}.notice{background:#eff6ff;color:#1e40af;padding:12px;border-radius:9px;margin:12px 0;font-size:13px}.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#dcfce7;color:#166534;font-size:12px}.bad{background:#fee2e2;color:#991b1b}.progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:8px 0 14px}.progress span{display:block;height:100%;background:var(--blue)}.actions{display:flex;gap:6px;flex-wrap:wrap}.actions button{font-size:12px;padding:6px 9px}.mutedbox{padding:14px;border:1px dashed var(--line);border-radius:10px;color:var(--muted)}footer{text-align:center;padding:22px;color:var(--muted);font-size:12px}.topright{display:flex;align-items:center;gap:9px}.role{font-size:12px;color:var(--muted)}@media(max-width:780px){.layout{display:block}aside{width:100%;display:flex;overflow-x:auto;padding:7px}aside button{white-space:nowrap;width:auto}main{padding:14px}header{padding:11px}}
-</style></head><body>
-<section id="auth" class="auth"><div class="authbox"><div class="logo">SIGE</div><h2 id="authTitle">Bem-vindo ao SIGE</h2><p class="muted">Sistema Integrado de Gestão Escolar</p><div id="regFields" class="hidden"><label>Nome completo</label><input id="regName" autocomplete="name"></div><label>Email</label><input id="email" type="email" autocomplete="username"><label>Palavra-passe</label><input id="password" type="password" autocomplete="current-password"><div id="confirmField" class="hidden"><label>Confirmar palavra-passe</label><input id="confirm" type="password"></div><button id="authBtn" class="primary">ENTRAR</button><button id="switchBtn" class="secondary">CRIAR CONTA</button><button id="resetBtn" class="secondary">RECUPERAR PALAVRA-PASSE</button><div id="authMsg" class="msg"></div><footer>Desenvolvido por <b>Hélio Mufenji</b></footer></div></section>
-<div id="app" class="hidden"><header><div><div class="logo">SIGE <small class="muted">Gestão Escolar</small></div><div id="schoolHeader" class="role">Sistema Integrado de Gestão Escolar</div></div><div class="topright"><span id="welcome"></span><button id="logout" class="danger">Sair</button></div></header><div class="layout"><aside id="nav">
-<button class="active" data-page="dashboard">⌂ Painel principal</button><button data-page="students" data-roles="admin,teacher">♙ Alunos</button><button data-page="teachers" data-roles="admin">♧ Professores</button><button data-page="classes" data-roles="admin,teacher">▦ Turmas</button><button data-page="subjects" data-roles="admin,teacher">▤ Disciplinas</button><button data-page="grades" data-roles="admin,teacher">✎ Notas</button><button data-page="attendance" data-roles="admin,teacher">✓ Presenças</button><button data-page="studentArea" data-roles="student">◎ Área do aluno</button><button data-page="users" data-roles="admin">♙ Utilizadores</button><button data-page="notifications">♢ Notificações</button><button data-page="reports" data-roles="admin,teacher">▥ Relatórios</button><button data-page="settings" data-roles="admin">⚙ Configurações</button><button data-page="about">ⓘ Sobre</button>
-</aside><main>
-<section id="dashboard" class="page active"><h1>Painel principal</h1><p class="muted">Visão geral da gestão escolar.</p><div class="grid"><div class="card stat">Alunos<strong id="nStudents">0</strong></div><div class="card stat">Professores<strong id="nTeachers">0</strong></div><div class="card stat">Turmas<strong id="nClasses">0</strong></div><div class="card stat">Disciplinas<strong id="nSubjects">0</strong></div></div><div class="card"><h3 id="greeting">Bem-vindo ao SIGE</h3><p>Plataforma para organizar informações escolares e acompanhar o desempenho académico.</p><div class="notice">Sessão: <b id="roleLabel"></b>. As permissões são verificadas pela autenticação e pelas regras da base de dados.</div></div><div class="grid"><div class="card"><h3>Notificações recentes</h3><div id="dashNotices" class="mutedbox">Sem notificações.</div></div><div class="card"><h3>Atividade</h3><p class="muted">As ações relevantes são registadas para auditoria administrativa.</p></div></div></section>
-<section id="students" class="page"><h1>Gestão de alunos</h1><div class="card"><h3>Adicionar aluno</h3><div class="formgrid"><div><label>Nome completo</label><input id="sName"></div><div><label>Número de matrícula</label><input id="sNumber"></div><div><label>Turma</label><input id="sClass"></div><div><label>Email</label><input id="sEmail" type="email"></div></div><button id="addStudent" class="primary">Adicionar aluno</button></div><div class="toolbar"><input id="searchStudent" placeholder="Pesquisar aluno..."></div><div class="card tablewrap"><table id="studentsTable"></table></div></section>
-<section id="teachers" class="page"><h1>Gestão de professores</h1><div class="card"><div class="formgrid"><div><label>Nome</label><input id="tName"></div><div><label>Especialidade</label><input id="tSpecialty"></div><div><label>Email</label><input id="tEmail" type="email"></div></div><button id="addTeacher" class="primary">Adicionar professor</button></div><div class="card tablewrap"><table id="teachersTable"></table></div></section>
-<section id="classes" class="page"><h1>Gestão de turmas</h1><div class="card"><div class="formgrid"><div><label>Nome da turma</label><input id="cName" placeholder="10.ª Informática"></div><div><label>Ano letivo</label><input id="cYear" placeholder="2026"></div><div><label>Diretor de turma</label><input id="cTeacher"></div></div><button id="addClass" class="primary">Adicionar turma</button></div><div class="card tablewrap"><table id="classesTable"></table></div></section>
-<section id="subjects" class="page"><h1>Gestão de disciplinas</h1><div class="card"><div class="formgrid"><div><label>Disciplina</label><input id="subName"></div><div><label>Professor (email)</label><input id="subTeacher"></div><div><label>Turma</label><input id="subClass"></div></div><button id="addSubject" class="primary">Adicionar disciplina</button></div><div class="card tablewrap"><table id="subjectsTable"></table></div></section>
-<section id="grades" class="page"><h1>Gestão de notas</h1><div class="card"><div class="formgrid"><div><label>Aluno</label><select id="gradeStudent"></select></div><div><label>Disciplina</label><select id="gradeSubject"></select></div><div><label>Trimestre</label><select id="gradeTerm"><option>1.º Trimestre</option><option>2.º Trimestre</option><option>3.º Trimestre</option></select></div><div><label>Nota (0–20)</label><input id="gradeValue" type="number" min="0" max="20" step="0.1"></div></div><button id="addGrade" class="primary">Guardar nota</button></div><div class="card tablewrap"><table id="gradesTable"></table></div></section>
-<section id="attendance" class="page"><h1>Controlo de presenças</h1><div class="card"><div class="formgrid"><div><label>Aluno</label><select id="attStudent"></select></div><div><label>Data</label><input id="attDate" type="date"></div><div><label>Estado</label><select id="attStatus"><option>Presente</option><option>Falta</option><option>Falta justificada</option></select></div><div><label>Observação</label><input id="attNote"></div></div><button id="addAttendance" class="primary">Registar</button></div><div class="card tablewrap"><table id="attendanceTable"></table></div></section>
-<section id="studentArea" class="page"><h1>Área do aluno</h1><div class="notice">As médias são calculadas pela média simples das notas registadas. Confirma a fórmula oficial da tua escola.</div><div class="grid"><div class="card stat">Média geral<strong id="myAverage">—</strong></div><div class="card stat">Notas<strong id="myGradeCount">0</strong></div><div class="card stat">Presenças<strong id="myPresence">0</strong></div></div><div class="card"><h3>Boletim escolar</h3><div class="tablewrap"><table id="myGrades"></table></div><button id="printBoletim" class="primary">Imprimir / Guardar como PDF</button></div><div class="card"><h3>Perfil individual</h3><div id="myProfile"></div></div></section>
-<section id="users" class="page"><h1>Controlo de utilizadores</h1><div class="notice">Novos registos recebem o perfil Aluno. Só o administrador pode promover utilizadores, através de uma função protegida no servidor.</div><div class="card tablewrap"><table id="usersTable"></table></div></section>
-<section id="notifications" class="page"><h1>Centro de notificações</h1><div class="card" data-roles="admin"><h3>Publicar aviso</h3><label>Título</label><input id="noticeTitle"><label>Mensagem</label><textarea id="noticeBody" rows="3"></textarea><button id="publishNotice" class="primary">Publicar</button></div><div id="noticeList"></div></section>
-<section id="reports" class="page"><h1>Relatórios e estatísticas</h1><div class="grid"><div class="card stat">Alunos<strong id="rStudents">0</strong></div><div class="card stat">Notas<strong id="rGrades">0</strong></div><div class="card stat">Presenças/faltas<strong id="rAttendance">0</strong></div></div><div class="card"><h3>Resumo académico</h3><div id="gradeSummary"></div><button id="printReports" class="primary">Imprimir relatório / PDF</button></div></section>
-<section id="settings" class="page"><h1>Configurações da escola</h1><div class="card"><div class="formgrid"><div><label>Nome da escola</label><input id="schoolName"></div><div><label>Ano letivo</label><input id="schoolYear"></div><div><label>Organização</label><select id="schoolPeriod"><option>Trimestral</option><option>Semestral</option></select></div><div><label>Nota mínima de aprovação</label><input id="passMark" type="number" min="0" max="20" step="0.5" value="10"></div></div><button id="saveSettings" class="primary">Guardar configurações</button></div><div class="card"><h3>Cópia de segurança manual</h3><p class="muted">Exporta os dados que a tua conta tem autorização para consultar. Não substitui backups automáticos do Firestore.</p><button id="exportBackup" class="secondary">Exportar JSON</button></div></section>
-<section id="about" class="page"><h1>Sobre o SIGE</h1><div class="card"><div class="logo">SIGE</div><h2>Sistema Integrado de Gestão Escolar</h2><p>Plataforma tecnológica concebida para apoiar a organização e o acompanhamento das atividades escolares.</p><hr style="border:0;border-top:1px solid #e2e8f0;margin:18px 0"><h3>Desenvolvido por Hélio Mufenji</h3><p class="muted">Criador e desenvolvedor do SIGE.</p></div></section>
-</main></div><footer>© SIGE — Desenvolvido por Hélio Mufenji</footer></div>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172554}
+button,input,select,textarea{font:inherit}
+button{border:0;padding:11px 15px;border-radius:8px;cursor:pointer}
+.primary{background:#2563eb;color:white}
+.secondary{background:#e0eaff;color:#1d4ed8}
+.danger{background:#fee2e2;color:#b91c1c}
+.hidden{display:none!important}
+.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#10213f,#2563eb)}
+.authbox{width:100%;max-width:420px;background:white;padding:28px;border-radius:18px}
+.logo{font-size:30px;font-weight:bold;color:#2563eb}
+.authbox button{width:100%;margin-top:12px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;background:white}
+label{display:block;margin:12px 0 6px;font-size:13px;font-weight:bold}
+.msg{font-size:13px;color:#dc2626;margin-top:12px}
+header{background:white;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0;gap:10px}
+.layout{display:flex;min-height:calc(100vh - 65px)}
+aside{width:230px;background:#14213d;padding:12px;flex-shrink:0}
+aside button{display:block;width:100%;text-align:left;margin:4px 0;background:transparent;color:#dbeafe}
+aside button.active,aside button:hover{background:#263e67}
+main{padding:22px;width:100%;min-width:0}
+.page{display:none}
+.page.active{display:block}
+.card{background:white;padding:18px;border-radius:13px;border:1px solid #e2e8f0;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.stat strong{display:block;font-size:28px;color:#2563eb;margin-top:9px}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{padding:11px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:14px}
+th{background:#f8fafc}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.toolbar input{max-width:350px}
+.notice{background:#eff6ff;padding:12px;border-radius:8px;color:#1e40af;margin:12px 0}
+footer{text-align:center;color:#64748b;padding:20px;font-size:12px}
+.muted{color:#64748b}
+.tag{background:#dcfce7;color:#166534;padding:4px 8px;border-radius:15px;font-size:12px}
+.actions{display:flex;gap:5px}
+.actions button{padding:6px 9px;font-size:12px}
+@media(max-width:750px){
+.layout{display:block}
+aside{width:100%;display:flex;overflow-x:auto}
+aside button{white-space:nowrap;width:auto}
+main{padding:13px}
+header{padding:12px}
+}
+</style>
+</head>
+<body>
+
+<section id="auth" class="auth">
+<div class="authbox">
+<div class="logo">SIGE</div>
+<h2 id="authTitle">Bem-vindo ao SIGE</h2>
+<p class="muted">Sistema Integrado de Gestão Escolar</p>
+
+<div id="registerFields" class="hidden">
+<label>Nome completo</label>
+<input id="regName" placeholder="Digite o seu nome">
+</div>
+
+<label>Email</label>
+<input id="email" type="email" placeholder="exemplo@email.com">
+
+<label>Palavra-passe</label>
+<input id="password" type="password" placeholder="Mínimo de 8 caracteres">
+
+<div id="confirmField" class="hidden">
+<label>Confirmar palavra-passe</label>
+<input id="confirmPassword" type="password">
+</div>
+
+<button id="mainAuth" class="primary">ENTRAR</button>
+<button id="switchAuth" class="secondary">CRIAR CONTA</button>
+<button id="recover" class="secondary">RECUPERAR PALAVRA-PASSE</button>
+<div id="authMessage" class="msg"></div>
+<footer>Desenvolvido por <b>Hélio Mufenji</b></footer>
+</div>
+</section>
+
+<div id="app" class="hidden">
+<header>
+<div>
+<div class="logo">SIGE</div>
+<small id="schoolHeader">Sistema Integrado de Gestão Escolar</small>
+</div>
+<div>
+<span id="userName"></span>
+<button id="logout" class="danger">Sair</button>
+</div>
+</header>
+
+<div class="layout">
+<aside id="navigation">
+<button class="active" data-page="dashboard">⌂ Painel principal</button>
+<button data-page="students" data-role="admin,teacher">Alunos</button>
+<button data-page="teachers" data-role="admin">Professores</button>
+<button data-page="classes" data-role="admin,teacher">Turmas</button>
+<button data-page="subjects" data-role="admin,teacher">Disciplinas</button>
+<button data-page="grades" data-role="admin,teacher">Notas</button>
+<button data-page="attendance" data-role="admin,teacher">Presenças</button>
+<button data-page="studentArea" data-role="student">Área do aluno</button>
+<button data-page="users" data-role="admin">Utilizadores</button>
+<button data-page="notifications">Notificações</button>
+<button data-page="reports" data-role="admin,teacher">Relatórios</button>
+<button data-page="settings" data-role="admin">Configurações</button>
+<button data-page="about">Sobre o SIGE</button>
+</aside>
+
+<main>
+
+<section id="dashboard" class="page active">
+<h1>Painel principal</h1>
+<p class="muted">Bem-vindo à plataforma de gestão escolar.</p>
+<div class="grid">
+<div class="card stat">Alunos<strong id="countStudents">0</strong></div>
+<div class="card stat">Professores<strong id="countTeachers">0</strong></div>
+<div class="card stat">Turmas<strong id="countClasses">0</strong></div>
+<div class="card stat">Disciplinas<strong id="countSubjects">0</strong></div>
+</div>
+<div class="card">
+<h3 id="greeting">Bem-vindo</h3>
+<p>O SIGE permite organizar e acompanhar as atividades da instituição escolar.</p>
+<div class="notice">Perfil de acesso: <b id="roleLabel"></b></div>
+</div>
+<div class="card">
+<h3>Últimas notificações</h3>
+<div id="recentNotices">Sem notificações.</div>
+</div>
+</section>
+
+<section id="students" class="page">
+<h1>Gestão de alunos</h1>
+<div class="card">
+<h3>Adicionar aluno</h3>
+<div class="formgrid">
+<div><label>Nome</label><input id="sName"></div>
+<div><label>Matrícula</label><input id="sNumber"></div>
+<div><label>Turma</label><input id="sClass"></div>
+<div><label>Email</label><input id="sEmail"></div>
+</div>
+<button class="primary" id="addStudent">Adicionar aluno</button>
+</div>
+<div class="toolbar"><input id="searchStudent" placeholder="Pesquisar aluno"></div>
+<div class="card tablewrap"><table id="studentsTable"></table></div>
+</section>
+
+<section id="teachers" class="page">
+<h1>Gestão de professores</h1>
+<div class="card">
+<div class="formgrid">
+<div><label>Nome</label><input id="tName"></div>
+<div><label>Especialidade</label><input id="tSpecialty"></div>
+<div><label>Email</label><input id="tEmail"></div>
+</div>
+<button class="primary" id="addTeacher">Adicionar professor</button>
+</div>
+<div class="card tablewrap"><table id="teachersTable"></table></div>
+</section>
+
+<section id="classes" class="page">
+<h1>Gestão de turmas</h1>
+<div class="card">
+<div class="formgrid">
+<div><label>Nome da turma</label><input id="cName"></div>
+<div><label>Ano letivo</label><input id="cYear"></div>
+<div><label>Diretor de turma</label><input id="cTeacher"></div>
+</div>
+<button class="primary" id="addClass">Adicionar turma</button>
+</div>
+<div class="card tablewrap"><table id="classesTable"></table></div>
+</section>
+
+<section id="subjects" class="page">
+<h1>Gestão de disciplinas</h1>
+<div class="card">
+<div class="formgrid">
+<div><label>Disciplina</label><input id="subName"></div>
+<div><label>Professor</label><input id="subTeacher"></div>
+<div><label>Turma</label><input id="subClass"></div>
+</div>
+<button class="primary" id="addSubject">Adicionar disciplina</button>
+</div>
+<div class="card tablewrap"><table id="subjectsTable"></table></div>
+</section>
+
+<section id="grades" class="page">
+<h1>Gestão de notas</h1>
+<div class="card">
+<div class="formgrid">
+<div><label>Aluno</label><select id="gradeStudent"></select></div>
+<div><label>Disciplina</label><select id="gradeSubject"></select></div>
+<div><label>Trimestre</label>
+<select id="gradeTerm">
+<option>1.º Trimestre</option>
+<option>2.º Trimestre</option>
+<option>3.º Trimestre</option>
+</select></div>
+<div><label>Nota (0-20)</label><input id="gradeValue" type="number" min="0" max="20" step="0.1"></div>
+</div>
+<button class="primary" id="addGrade">Guardar nota</button>
+</div>
+<div class="card tablewrap"><table id="gradesTable"></table></div>
+</section>
+
+<section id="attendance" class="page">
+<h1>Controlo de presenças</h1>
+<div class="card">
+<div class="formgrid">
+<div><label>Aluno</label><select id="attStudent"></select></div>
+<div><label>Data</label><input id="attDate" type="date"></div>
+<div><label>Estado</label>
+<select id="attStatus">
+<option>Presente</option>
+<option>Falta</option>
+<option>Falta justificada</option>
+</select></div>
+</div>
+<button class="primary" id="addAttendance">Registar presença</button>
+</div>
+<div class="card tablewrap"><table id="attendanceTable"></table></div>
+</section>
+
+<section id="studentArea" class="page">
+<h1>Área do aluno</h1>
+<div class="grid">
+<div class="card stat">Média geral<strong id="myAverage">—</strong></div>
+<div class="card stat">Notas<strong id="myGradeCount">0</strong></div>
+<div class="card stat">Presenças<strong id="myPresence">0</strong></div>
+</div>
+<div class="card">
+<h3>Boletim escolar</h3>
+<div class="tablewrap"><table id="myGrades"></table></div>
+<button class="primary" id="printBoletim">Imprimir / Guardar PDF</button>
+</div>
+<div class="card">
+<h3>Meu perfil</h3>
+<div id="myProfile"></div>
+</div>
+</section>
+
+<section id="users" class="page">
+<h1>Gestão de utilizadores</h1>
+<div class="notice">Primeira conta registada é administradora. As seguintes são contas de aluno.</div>
+<div class="card tablewrap"><table id="usersTable"></table></div>
+</section>
+
+<section id="notifications" class="page">
+<h1>Centro de notificações</h1>
+<div class="card" data-role="admin">
+<label>Título</label><input id="noticeTitle">
+<label>Mensagem</label><textarea id="noticeBody" rows="3"></textarea>
+<button class="primary" id="publishNotice">Publicar aviso</button>
+</div>
+<div id="noticeList"></div>
+</section>
+
+<section id="reports" class="page">
+<h1>Relatórios e estatísticas</h1>
+<div class="grid">
+<div class="card stat">Alunos<strong id="rStudents">0</strong></div>
+<div class="card stat">Notas<strong id="rGrades">0</strong></div>
+<div class="card stat">Presenças<strong id="rAttendance">0</strong></div>
+</div>
+<div class="card">
+<h3>Resumo académico</h3>
+<div id="gradeSummary"></div>
+<button class="primary" id="printReports">Imprimir relatório</button>
+</div>
+</section>
+
+<section id="settings" class="page">
+<h1>Configurações da escola</h1>
+<div class="card">
+<label>Nome da escola</label><input id="schoolName">
+<label>Ano letivo</label><input id="schoolYear">
+<label>Nota mínima de aprovação</label><input id="passMark" type="number" min="0" max="20" value="10">
+<button class="primary" id="saveSettings">Guardar configurações</button>
+</div>
+<div class="card">
+<h3>Cópia de segurança</h3>
+<button class="secondary" id="exportBackup">Exportar dados JSON</button>
+</div>
+</section>
+
+<section id="about" class="page">
+<h1>Sobre o SIGE</h1>
+<div class="card">
+<div class="logo">SIGE</div>
+<h2>Sistema Integrado de Gestão Escolar</h2>
+<p>Uma solução tecnológica concebida para apoiar a organização, administração e acompanhamento das atividades escolares.</p>
+<hr>
+<h3>Desenvolvido por Hélio Mufenji</h3>
+<p class="muted">Criador e desenvolvedor do projeto SIGE.</p>
+</div>
+</section>
+
+</main>
+</div>
+<footer>© 2026 SIGE — Desenvolvido por Hélio Mufenji</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const DBKEY="SIGE_DATABASE_V2";
+const SESSIONKEY="SIGE_SESSION_V2";
+let registering=false;
+let currentUser=null;
+
+let db=JSON.parse(localStorage.getItem(DBKEY)||'null')||{
+users:[],students:[],teachers:[],classes:[],subjects:[],
+grades:[],attendance:[],notifications:[],settings:{name:"SIGE",year:"2026",passMark:10}
+};
+
+function save(){
+localStorage.setItem(DBKEY,JSON.stringify(db));
+}
+
+function safe(s){
+return String(s??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+}
+
+async function hash(text){
+const bytes=new TextEncoder().encode(text);
+const digest=await crypto.subtle.digest("SHA-256",bytes);
+return Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+
+function authMessage(t){
+$("authMessage").textContent=t;
+}
+
+function toggleAuth(){
+registering=!registering;
+$("registerFields").classList.toggle("hidden",!registering);
+$("confirmField").classList.toggle("hidden",!registering);
+$("authTitle").textContent=registering?"Criar uma conta":"Bem-vindo ao SIGE";
+$("mainAuth").textContent=registering?"CRIAR CONTA":"ENTRAR";
+$("switchAuth").textContent=registering?"JÁ TENHO CONTA":"CRIAR CONTA";
+authMessage("");
+}
+
+async function createAccount(){
+const name=$("regName").value.trim();
+const email=$("email").value.trim().toLowerCase();
+const password=$("password").value;
+const confirm=$("confirmPassword").value;
+
+if(!name||!email||!password) return authMessage("Preenche todos os campos.");
+if(password.length<8) return authMessage("A palavra-passe deve ter pelo menos 8 caracteres.");
+if(password!==confirm) return authMessage("As palavras-passe não coincidem.");
+if(db.users.some(u=>u.email===email)) return authMessage("Este email já está registado.");
+
+const role=db.users.length===0?"admin":"student";
+const user={
+id:crypto.randomUUID(),
+name,email,
+passwordHash:await hash(password),
+role
+};
+
+db.users.push(user);
+save();
+authMessage("Conta criada com sucesso! Já podes iniciar sessão.");
+toggleAuth();
+$("email").value=email;
+}
+
+async function login(){
+const email=$("email").value.trim().toLowerCase();
+const password=$("password").value;
+if(!email||!password) return authMessage("Introduz o email e a palavra-passe.");
+
+const passwordHash=await hash(password);
+const user=db.users.find(u=>u.email===email&&u.passwordHash===passwordHash);
+if(!user) return authMessage("Email ou palavra-passe incorretos.");
+
+currentUser=user;
+sessionStorage.setItem(SESSIONKEY,user.id);
+openApp();
+}
+
+function recover(){
+const email=$("email").value.trim().toLowerCase();
+if(!email) return authMessage("Introduz o email da tua conta.");
+const user=db.users.find(u=>u.email===email);
+if(!user) return authMessage("Não foi encontrada uma conta com esse email.");
+const newPass=prompt("Define uma nova palavra-passe com pelo menos 8 caracteres:");
+if(!newPass||newPass.length<8) return authMessage("Palavra-passe inválida.");
+hash(newPass).then(h=>{
+user.passwordHash=h;
+save();
+authMessage("Palavra-passe atualizada. Já podes entrar.");
+});
+}
+
+function openApp(){
+$("auth").classList.add("hidden");
+$("app").classList.remove("hidden");
+$("userName").textContent=currentUser.name;
+$("greeting").textContent="Bem-vindo, "+currentUser.name;
+$("roleLabel").textContent=roleName(currentUser.role);
+document.querySelectorAll("[data-role]").forEach(el=>{
+const roles=el.dataset.role.split(",");
+el.classList.toggle("hidden",!roles.includes(currentUser.role));
+});
+refresh();
+showPage("dashboard");
+}
+
+function roleName(r){
+return {admin:"Administrador",teacher:"Professor",student:"Aluno"}[r]||r;
+}
+
+function logout(){
+currentUser=null;
+sessionStorage.removeItem(SESSIONKEY);
+$("app").classList.add("hidden");
+$("auth").classList.remove("hidden");
+$("password").value="";
+}
+
+function showPage(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+$(id).classList.add("active");
+document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+}
+
+function requireAdmin(){
+if(currentUser.role!=="admin") throw Error("Apenas o administrador pode executar esta operação.");
+}
+
+function addRecord(type,obj){
+db[type].push({id:crypto.randomUUID(),...obj});
+save();
+refresh();
+}
+
+function removeRecord(type,id){
+if(currentUser.role!=="admin") return alert("Apenas o administrador pode eliminar registos.");
+if(!confirm("Tens a certeza que desejas eliminar?")) return;
+db[type]=db[type].filter(x=>x.id!==id);
+save();
+refresh();
+}
+
+function draw(id,headers,rows){
+$(id).innerHTML="<thead><tr>"+headers.map(h=>"<th>"+h+"</th>").join("")+"</tr></thead><tbody>"+
+(rows.length?rows.join(""):`<tr><td colspan="${headers.length}">Nenhum registo encontrado.</td></tr>")+"</tbody>";
+}
+
+function del(type,item){
+return currentUser.role==="admin"?`<button class="danger" onclick="removeRecord('${type}','${item.id}')">Eliminar</button>`:"";
+}
+
+function fillSelect(id,items,label){
+$(id).innerHTML=items.map(x=>`<option value="${x.id}">${safe(label(x))}</option>`).join("");
+}
+
+function refresh(){
+$("schoolHeader").textContent=db.settings.name;
+$("countStudents").textContent=db.students.length;
+$("countTeachers").textContent=db.teachers.length;
+$("countClasses").textContent=db.classes.length;
+$("countSubjects").textContent=db.subjects.length;
+$("rStudents").textContent=db.students.length;
+$("rGrades").textContent=db.grades.length;
+$("rAttendance").textContent=db.attendance.length;
+
+let students=db.students;
+if(currentUser.role==="student") students=db.students.filter(s=>s.userId===currentUser.id);
+
+draw("studentsTable",["Nome","Matrícula","Turma","Email","Ação"],
+students.filter(s=>(s.name+" "+s.registration).toLowerCase().includes(($("searchStudent").value||"").toLowerCase())).map(s=>`<tr><td>${safe(s.name)}</td><td>${safe(s.registration)}</td><td>${safe(s.className)}</td><td>${safe(s.email)}</td><td>${del("students",s)}</td></tr>`));
+
+draw("teachersTable",["Nome","Especialidade","Email","Ação"],
+db.teachers.map(t=>`<tr><td>${safe(t.name)}</td><td>${safe(t.specialty)}</td><td>${safe(t.email)}</td><td>${del("teachers",t)}</td></tr>`));
+
+draw("classesTable",["Turma","Ano","Diretor","Ação"],
+db.classes.map(c=>`<tr><td>${safe(c.name)}</td><td>${safe(c.year)}</td><td>${safe(c.teacher)}</td><td>${del("classes",c)}</td></tr>`));
+
+draw("subjectsTable",["Disciplina","Professor","Turma","Ação"],
+db.subjects.map(s=>`<tr><td>${safe(s.name)}</td><td>${safe(s.teacher)}</td><td>${safe(s.className)}</td><td>${del("subjects",s)}</td></tr>`));
+
+const grades=currentUser.role==="student"?db.grades.filter(g=>g.studentId===currentUser.id):db.grades;
+
+draw("gradesTable",["Aluno","Disciplina","Trimestre","Nota","Ação"],
+grades.map(g=>`<tr><td>${safe(g.studentName)}</td><td>${safe(g.subject)}</td><td>${safe(g.term)}</td><td>${g.value}</td><td>${del("grades",g)}</td></tr>`));
+
+draw("attendanceTable",["Aluno","Data","Estado","Ação"],
+db.attendance.map(a=>`<tr><td>${safe(a.studentName)}</td><td>${safe(a.date)}</td><td>${safe(a.status)}</td><td>${del("attendance",a)}</td></tr>`));
+
+draw("usersTable",["Nome","Email","Função"],
+db.users.map(u=>`<tr><td>${safe(u.name)}</td><td>${safe(u.email)}</td><td>${roleName(u.role)}</td></tr>`));
+
+$("noticeList").innerHTML=db.notifications.map(n=>`<div class="card"><h3>${safe(n.title)}</h3><p>${safe(n.body)}</p></div>`).join("")||"Sem notificações.";
+$("recentNotices").innerHTML=db.notifications.slice(-3).reverse().map(n=>`<p><b>${safe(n.title)}</b><br>${safe(n.body)}</p>`).join("")||"Sem notificações.";
+
+fillSelect("gradeStudent",db.students,s=>s.name);
+fillSelect("attStudent",db.students,s=>s.name);
+fillSelect("gradeSubject",db.subjects,s=>s.name);
+
+const myGrades=db.grades.filter(g=>g.studentId===currentUser.id);
+const avg=myGrades.length?myGrades.reduce((a,g)=>a+Number(g.value),0)/myGrades.length:null;
+$("myAverage").textContent=avg===null?"—":avg.toFixed(2)+"/20";
+$("myGradeCount").textContent=myGrades.length;
+$("myPresence").textContent=db.attendance.filter(a=>a.studentId===currentUser.id&&a.status==="Presente").length;
+
+draw("myGrades",["Disciplina","Trimestre","Nota","Resultado"],
+myGrades.map(g=>`<tr><td>${safe(g.subject)}</td><td>${safe(g.term)}</td><td>${g.value}</td><td>${g.value>=Number(db.settings.passMark)?"Aprovado":"Abaixo da média"}</td></tr>`));
+
+$("myProfile").innerHTML=`<p>Nome: ${safe(currentUser.name)}</p><p>Email: ${safe(currentUser.email)}</p><p>Perfil: ${roleName(currentUser.role)}</p>`;
+
+const allAvg=db.grades.length?db.grades.reduce((a,g)=>a+Number(g.value),0)/db.grades.length:0;
+$("gradeSummary").innerHTML=`<p>Total de notas: ${db.grades.length}</p><p>Média geral: ${db.grades.length?allAvg.toFixed(2):"—"}</p><p>Registos de presenças: ${db.attendance.length}</p>`;
+
+$("schoolName").value=db.settings.name;
+$("schoolYear").value=db.settings.year;
+$("passMark").value=db.settings.passMark;
+}
+
+function printSection(id,title){
+const content=$(id).innerHTML;
+const w=window.open("","_blank");
+if(!w) return alert("Permite abrir a janela de impressão.");
+w.document.write(`<html><head><title>${safe(title)}</title><style>body{font-family:Arial;padding:25px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ddd;padding:8px;text-align:left}</style></head><body><h1>${safe(title)}</h1><p>SIGE — Desenvolvido por Hélio Mufenji</p>${content}</body></html>`);
+w.document.close();
+w.print();
+}
+
+$("mainAuth").addEventListener("click",()=>registering?createAccount():login());
+$("switchAuth").addEventListener("click",toggleAuth);
+$("recover").addEventListener("click",recover);
+$("logout").addEventListener("click",logout);
+
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+
+$("addStudent").addEventListener("click",()=>{
+try{
+requireAdmin();
+const name=$("sName").value.trim();
+const registration=$("sNumber").value.trim();
+const className=$("sClass").value.trim();
+const email=$("sEmail").value.trim();
+if(!name||!registration||!className) return alert("Preenche os campos obrigatórios.");
+addRecord("students",{name,registration,className,email});
+["sName","sNumber","sClass","sEmail"].forEach(id=>$(id).value="");
+}catch(e){alert(e.message)}
+});
+
+$("addTeacher").addEventListener("click",()=>{
+try{
+requireAdmin();
+addRecord("teachers",{name:$("tName").value, specialty:$("tSpecialty").value,email:$("tEmail").value});
+}catch(e){alert(e.message)}
+});
+
+$("addClass").addEventListener("click",()=>{
+try{
+requireAdmin();
+addRecord("classes",{name:$("cName").value,year:$("cYear").value,teacher:$("cTeacher").value});
+}catch(e){alert(e.message)}
+});
+
+$("addSubject").addEventListener("click",()=>{
+try{
+requireAdmin();
+addRecord("subjects",{name:$("subName").value,teacher:$("subTeacher").value,className:$("subClass").value});
+}catch(e){alert(e.message)}
+});
+
+$("addGrade").addEventListener("click",()=>{
+const student=db.students.find(s=>s.id===$("gradeStudent").value);
+const subject=db.subjects.find(s=>s.id===$("gradeSubject").value);
+const value=Number($("gradeValue").value);
+if(!student||!subject||$("gradeValue").value===""||value<0||value>20) return alert("Seleciona aluno, disciplina e uma nota entre 0 e 20.");
+addRecord("grades",{studentId:student.id,studentName:student.name,subject:subject.name,term:$("gradeTerm").value,value});
+});
+
+$("addAttendance").addEventListener("click",()=>{
+const student=db.students.find(s=>s.id===$("attStudent").value);
+if(!student||!$("attDate").value) return alert("Seleciona aluno e data.");
+addRecord("attendance",{studentId:student.id,studentName:student.name,date:$("attDate").value,status:$("attStatus").value});
+});
+
+$("publishNotice").addEventListener("click",()=>{
+try{
+requireAdmin();
+const title=$("noticeTitle").value.trim();
+const body=$("noticeBody").value.trim();
+if(!title||!body) return alert("Preenche o título e a mensagem.");
+addRecord("notifications",{title,body});
+}catch(e){alert(e.message)}
+});
+
+$("saveSettings").addEventListener("click",()=>{
+try{
+requireAdmin();
+db.settings={name:$("schoolName").value,year:$("schoolYear").value,passMark:Number($("passMark").value)};
+save();refresh();alert("Configurações guardadas.");
+}catch(e){alert(e.message)}
+});
+
+$("exportBackup").addEventListener("click",()=>{
+try{
+requireAdmin();
+const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+const a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="SIGE-backup.json";
+a.click();
+URL.revokeObjectURL(a.href);
+}catch(e){alert(e.message)}
+});
+
+$("printBoletim").addEventListener("click",()=>printSection("studentArea","Boletim escolar"));
+$("printReports").addEventListener("click",()=>printSection("reports","Relatório escolar"));
+$("searchStudent").addEventListener("input",refresh);
+
+const savedSession=sessionStorage.getItem(SESSIONKEY);
+if(savedSession){
+const found=db.users.find(u=>u.id===savedSession);
+if(found){currentUser=found;openApp()}
+}
+</script>
+</body>
+</html>
