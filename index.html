@@ -4,1866 +4,461 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SIGE - Sistema Integrado de Gestão Escolar</title>
-
+<title>SIGE | Gestão Escolar</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+  --primary:#2563eb;
+  --dark:#14213d;
+  --bg:#f4f7fc;
+  --white:#fff;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --green:#16a34a;
+  --red:#dc2626;
 }
-
-body {
-    background: #f1f5f9;
-    color: #1e293b;
-}
-
-button, input, select {
-    font: inherit;
-}
-
-button {
-    cursor: pointer;
-    border: none;
-    border-radius: 7px;
-    padding: 11px 16px;
-    background: #1769d2;
-    color: white;
-    font-weight: bold;
-}
-
-button:hover {
-    opacity: .9;
-}
-
-input, select {
-    width: 100%;
-    padding: 12px;
-    margin: 7px 0 14px;
-    border: 1px solid #cbd5e1;
-    border-radius: 7px;
-    outline: none;
-    background: white;
-}
-
-input:focus, select:focus {
-    border-color: #1769d2;
-}
-
-label {
-    display: block;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-/* AUTENTICAÇÃO */
-
-.auth-screen {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #0b2c59, #1769d2);
-}
-
-.auth-card {
-    background: white;
-    width: 100%;
-    max-width: 420px;
-    padding: 32px;
-    border-radius: 15px;
-    box-shadow: 0 10px 35px #0003;
-}
-
-.auth-card h1 {
-    color: #1769d2;
-    text-align: center;
-    margin-bottom: 8px;
-}
-
-.subtitle {
-    text-align: center;
-    color: #64748b;
-    margin-bottom: 25px;
-}
-
-.auth-card button {
-    width: 100%;
-    min-height: 48px;
-    margin-top: 10px;
-}
-
-.auth-hidden {
-    display: none !important;
-}
-
-.auth-message {
-    margin-top: 14px;
-    text-align: center;
-    font-size: 14px;
-    color: #dc2626;
-}
-
-/* CABEÇALHO */
-
-#app {
-    display: none;
-    min-height: 100vh;
-}
-
-header {
-    background: #12376a;
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-header h1 {
-    font-size: 23px;
-}
-
-header p {
-    font-size: 12px;
-    opacity: .8;
-    margin-top: 5px;
-}
-
-.header-user {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.header-user button {
-    background: #dc3545;
-}
-
-/* NAVEGAÇÃO */
-
-nav {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    background: white;
-    padding: 10px;
-    box-shadow: 0 2px 5px #0001;
-}
-
-nav button {
-    background: #e8eef7;
-    color: #12376a;
-    padding: 11px 13px;
-}
-
-nav button.active {
-    background: #1769d2;
-    color: white;
-}
-
-/* CONTEÚDO */
-
-main {
-    padding: 22px;
-    max-width: 1400px;
-    margin: auto;
-}
-
-.section {
-    display: none;
-}
-
-.section.active {
-    display: block;
-}
-
-.section-title {
-    margin-bottom: 20px;
-}
-
-.section-title h2 {
-    color: #12376a;
-    margin-bottom: 6px;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.stat-card {
-    background: white;
-    border-radius: 10px;
-    padding: 22px;
-    box-shadow: 0 2px 8px #0000000c;
-    border-left: 5px solid #1769d2;
-}
-
-.stat-card p {
-    color: #64748b;
-    font-size: 14px;
-}
-
-.stat-card h2 {
-    margin-top: 10px;
-    font-size: 30px;
-    color: #12376a;
-}
-
-.panel {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px #0000000c;
-}
-
-.panel h3 {
-    margin-bottom: 15px;
-    color: #12376a;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
-}
-
-.form-grid button {
-    align-self: end;
-    margin-bottom: 14px;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 550px;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-    font-size: 14px;
-}
-
-th {
-    background: #eaf1fb;
-    color: #12376a;
-}
-
-.delete-btn {
-    background: #dc3545;
-    padding: 7px 10px;
-    font-size: 12px;
-}
-
-.search-box {
-    max-width: 400px;
-}
-
-.badge {
-    display: inline-block;
-    padding: 5px 9px;
-    border-radius: 20px;
-    font-size: 12px;
-    background: #dcfce7;
-    color: #166534;
-}
-
-.badge.fail {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-/* ÁREA DO ALUNO */
-
-.student-banner {
-    background: linear-gradient(120deg, #12376a, #1769d2);
-    color: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-
-.student-banner h2 {
-    margin-bottom: 8px;
-}
-
-.student-banner p {
-    opacity: .9;
-}
-
-.grade-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-}
-
-.grade-result {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin-top: 15px;
-}
-
-.result-card {
-    background: #eff6ff;
-    border-radius: 9px;
-    padding: 17px;
-    border-left: 4px solid #1769d2;
-}
-
-.result-card p {
-    color: #64748b;
-    font-size: 13px;
-}
-
-.result-card h2 {
-    color: #12376a;
-    margin-top: 8px;
-    font-size: 25px;
-}
-
-.performance-item {
-    margin-bottom: 17px;
-}
-
-.performance-info {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 7px;
-    font-size: 14px;
-}
-
-.progress-track {
-    background: #e2e8f0;
-    height: 13px;
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #1769d2;
-    border-radius: 20px;
-    transition: width .3s;
-}
-
-.empty-message {
-    color: #64748b;
-    padding: 15px 0;
-    text-align: center;
-}
-
-.student-note {
-    background: #eff6ff;
-    border-left: 4px solid #1769d2;
-    padding: 14px;
-    border-radius: 7px;
-    color: #334155;
-    line-height: 1.5;
-}
-
-footer {
-    text-align: center;
-    color: #64748b;
-    padding: 20px;
-    font-size: 13px;
-}
-
-@media(max-width: 600px) {
-    header {
-        align-items: flex-start;
-    }
-
-    main {
-        padding: 13px;
-    }
-
-    .auth-card {
-        padding: 23px;
-    }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--dark)}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0;border-radius:9px;padding:11px 16px}
+.primary{background:var(--primary);color:white}
+.secondary{background:#e8efff;color:var(--primary)}
+.danger{background:#fee2e2;color:var(--red)}
+.card{background:white;border:1px solid var(--border);border-radius:15px;padding:20px;box-shadow:0 3px 12px #14213d08}
+.hidden{display:none!important}
+input,select{width:100%;padding:12px;border:1px solid var(--border);border-radius:9px;background:white;outline:none}
+input:focus,select:focus{border-color:var(--primary)}
+label{font-size:13px;font-weight:bold;display:block;margin:12px 0 6px}
+h1,h2,h3{margin-bottom:12px}
+small,.muted{color:var(--muted)}
+.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#10264d,#2563eb)}
+.auth-box{width:100%;max-width:420px;background:white;padding:30px;border-radius:20px}
+.logo{font-size:27px;font-weight:900;color:var(--primary);letter-spacing:1px}
+.auth-box p{margin:10px 0;color:var(--muted)}
+.auth-box button{width:100%;margin-top:15px;font-weight:bold}
+.auth-box .switch{background:transparent;color:var(--primary)}
+#app{min-height:100vh}
+header{background:white;padding:15px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;position:sticky;top:0;z-index:5}
+header .logo{font-size:22px}
+.layout{display:flex;min-height:calc(100vh - 65px)}
+aside{width:235px;background:var(--dark);padding:18px 12px;color:white;flex-shrink:0}
+aside button{display:block;width:100%;text-align:left;background:transparent;color:#dbeafe;margin:3px 0}
+aside button:hover,aside button.active{background:#263d67;color:white}
+main{padding:25px;width:100%;min-width:0}
+.page{display:none}
+.page.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:18px 0}
+.stat strong{font-size:28px;display:block;color:var(--primary);margin-top:10px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
+.toolbar input{max-width:320px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+table{width:100%;border-collapse:collapse;min-width:550px}
+th,td{text-align:left;padding:12px;border-bottom:1px solid var(--border);font-size:14px}
+th{color:var(--muted);background:#f8fafc}
+.table-wrap{overflow-x:auto;margin-top:15px}
+.tag{padding:5px 9px;border-radius:20px;font-size:12px;background:#dcfce7;color:#166534}
+.tag.bad{background:#fee2e2;color:#991b1b}
+.progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:8px 0 15px}
+.progress span{display:block;height:100%;background:var(--primary)}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:13px}
+.notice{padding:12px;border-radius:9px;background:#eff6ff;color:#1e40af;margin:12px 0;font-size:13px}
+@media(max-width:760px){
+ .layout{display:block}
+ aside{width:100%;display:flex;overflow-x:auto;padding:8px}
+ aside button{white-space:nowrap;width:auto}
+ main{padding:15px}
+ header{padding:12px}
 }
 </style>
 </head>
-
 <body>
 
 <!-- LOGIN -->
+<section id="auth" class="auth">
+ <div class="auth-box">
+  <div class="logo">SIGE</div>
+  <h2 id="authTitle">Bem-vindo ao SIGE</h2>
+  <p>Sistema Integrado de Gestão Escolar</p>
 
-<div id="loginScreen" class="auth-screen">
-    <div class="auth-card">
-        <h1>SIGE</h1>
-        <p class="subtitle">Sistema Integrado de Gestão Escolar</p>
+  <div id="registerFields" class="hidden">
+   <label>Nome completo</label>
+   <input id="regName" placeholder="O teu nome completo">
+  </div>
 
-        <form id="loginForm">
-            <label>E-mail</label>
-            <input type="email" id="loginEmail"
-                   placeholder="Introduz o teu e-mail" required>
+  <label>Email</label>
+  <input id="authEmail" type="email" placeholder="exemplo@email.com">
 
-            <label>Palavra-passe</label>
-            <input type="password" id="loginPassword"
-                   placeholder="Introduz a tua palavra-passe" required>
+  <label>Palavra-passe</label>
+  <input id="authPassword" type="password" placeholder="Palavra-passe">
 
-            <button type="submit">ENTRAR</button>
-        </form>
+  <div id="confirmField" class="hidden">
+   <label>Confirmar palavra-passe</label>
+   <input id="confirmPassword" type="password">
+  </div>
 
-        <button onclick="mostrarRegisto()">CRIAR CONTA</button>
-
-        <p id="loginMessage" class="auth-message"></p>
-    </div>
-</div>
-
-<!-- CRIAR CONTA -->
-
-<div id="registerScreen" class="auth-screen auth-hidden">
-    <div class="auth-card">
-        <h1>Criar conta</h1>
-        <p class="subtitle">Regista-te para aceder ao SIGE</p>
-
-        <form id="registerForm">
-            <label>Nome completo</label>
-            <input type="text" id="registerName" required>
-
-            <label>E-mail</label>
-            <input type="email" id="registerEmail" required>
-
-            <label>Palavra-passe</label>
-            <input type="password" id="registerPassword"
-                   minlength="8" required>
-
-            <label>Confirmar palavra-passe</label>
-            <input type="password" id="confirmPassword" required>
-
-            <button type="submit">CRIAR CONTA</button>
-        </form>
-
-        <button onclick="mostrarLogin()">VOLTAR AO LOGIN</button>
-
-        <p id="registerMessage" class="auth-message"></p>
-    </div>
-</div>
+  <button class="primary" id="authButton" onclick="authenticate()">ENTRAR</button>
+  <button class="switch" id="switchButton" onclick="toggleAuth()">CRIAR CONTA</button>
+  <p id="authMessage"></p>
+  <footer>Desenvolvido por Hélio Mufenji</footer>
+ </div>
+</section>
 
 <!-- APLICAÇÃO -->
+<div id="app" class="hidden">
+ <header>
+  <div class="logo">SIGE <small>Gestão Escolar</small></div>
+  <div>
+   <span id="welcome"></span>
+   <button class="danger" onclick="logout()">Sair</button>
+  </div>
+ </header>
 
-<div id="app">
+ <div class="layout">
+  <aside>
+   <button class="active" onclick="showPage('dashboard',this)">⌂ Painel principal</button>
+   <button onclick="showPage('students',this)">♙ Alunos</button>
+   <button onclick="showPage('teachers',this)">♧ Professores</button>
+   <button onclick="showPage('classes',this)">▦ Turmas</button>
+   <button onclick="showPage('subjects',this)">▤ Disciplinas</button>
+   <button onclick="showPage('grades',this)">✎ Notas</button>
+   <button onclick="showPage('studentArea',this)">◎ Área do Aluno</button>
+   <button onclick="showPage('about',this)">ⓘ Sobre o SIGE</button>
+  </aside>
 
-<header>
-    <div>
-        <h1>SIGE</h1>
-        <p>Sistema Integrado de Gestão Escolar</p>
+  <main>
+   <section id="dashboard" class="page active">
+    <h1>Painel principal</h1>
+    <p class="muted">Visão geral da gestão escolar.</p>
+    <div class="grid">
+     <div class="card stat">Total de alunos<strong id="totalStudents">0</strong></div>
+     <div class="card stat">Professores<strong id="totalTeachers">0</strong></div>
+     <div class="card stat">Turmas<strong id="totalClasses">0</strong></div>
+     <div class="card stat">Disciplinas<strong id="totalSubjects">0</strong></div>
     </div>
-
-    <div class="header-user">
-        <span id="userName"></span>
-        <button onclick="terminarSessao()">SAIR</button>
+    <div class="card">
+     <h3>Bem-vindo ao SIGE</h3>
+     <p>Organiza informações escolares, acompanha avaliações e facilita a gestão académica.</p>
     </div>
-</header>
+   </section>
 
-<nav>
-    <button class="active" onclick="abrirSecao('dashboard',this)">Painel</button>
-    <button onclick="abrirSecao('alunos',this)">Alunos</button>
-    <button onclick="abrirSecao('professores',this)">Professores</button>
-    <button onclick="abrirSecao('turmas',this)">Turmas</button>
-    <button onclick="abrirSecao('disciplinas',this)">Disciplinas</button>
-    <button onclick="abrirSecao('notas',this)">Notas</button>
-    <button onclick="abrirSecao('areaAluno',this)">Área do Aluno</button>
-</nav>
-
-<main>
-
-<!-- PAINEL -->
-
-<section id="dashboard" class="section active">
-    <div class="section-title">
-        <h2>Painel principal</h2>
-        <p>Bem-vindo ao Sistema Integrado de Gestão Escolar.</p>
+   <section id="students" class="page">
+    <h1>Gestão de alunos</h1>
+    <div class="card">
+     <h3>Adicionar aluno</h3>
+     <div class="form-grid">
+      <div><label>Nome completo</label><input id="studentName"></div>
+      <div><label>Número de matrícula</label><input id="studentNumber"></div>
+      <div><label>Turma</label><input id="studentClass"></div>
+      <div><label>Email</label><input id="studentEmail" type="email"></div>
+     </div>
+     <button class="primary" onclick="addRecord('students',['studentName','studentNumber','studentClass','studentEmail'])">Adicionar aluno</button>
     </div>
+    <div class="toolbar"><input id="studentSearch" placeholder="Pesquisar aluno..." oninput="renderTable('students','studentsTable',this.value)"></div>
+    <div class="card table-wrap"><table id="studentsTable"></table></div>
+   </section>
 
-    <div class="stats">
-        <div class="stat-card">
-            <p>Total de alunos</p>
-            <h2 id="totalAlunos">0</h2>
-        </div>
-
-        <div class="stat-card">
-            <p>Total de professores</p>
-            <h2 id="totalProfessores">0</h2>
-        </div>
-
-        <div class="stat-card">
-            <p>Total de turmas</p>
-            <h2 id="totalTurmas">0</h2>
-        </div>
-
-        <div class="stat-card">
-            <p>Total de disciplinas</p>
-            <h2 id="totalDisciplinas">0</h2>
-        </div>
+   <section id="teachers" class="page">
+    <h1>Gestão de professores</h1>
+    <div class="card">
+     <h3>Adicionar professor</h3>
+     <div class="form-grid">
+      <div><label>Nome completo</label><input id="teacherName"></div>
+      <div><label>Especialidade</label><input id="teacherSpecialty"></div>
+      <div><label>Email</label><input id="teacherEmail" type="email"></div>
+     </div>
+     <button class="primary" onclick="addRecord('teachers',['teacherName','teacherSpecialty','teacherEmail'])">Adicionar professor</button>
     </div>
+    <div class="card table-wrap"><table id="teachersTable"></table></div>
+   </section>
 
-    <div class="panel">
-        <h3>Sobre o SIGE</h3>
-        <p>
-            O SIGE é uma plataforma digital destinada à gestão escolar
-            e ao acompanhamento do desempenho académico dos alunos.
-            Permite organizar informações escolares e calcular médias.
-        </p>
+   <section id="classes" class="page">
+    <h1>Gestão de turmas</h1>
+    <div class="card">
+     <label>Nome da turma</label><input id="className" placeholder="Ex.: 10.ª Informática">
+     <label>Ano escolar</label><input id="classYear" placeholder="Ex.: 2026">
+     <button class="primary" onclick="addRecord('classes',['className','classYear'])">Adicionar turma</button>
     </div>
-</section>
+    <div class="card table-wrap"><table id="classesTable"></table></div>
+   </section>
 
-<!-- ALUNOS -->
-
-<section id="alunos" class="section">
-    <div class="section-title">
-        <h2>Gestão de alunos</h2>
-        <p>Registar, consultar e gerir alunos.</p>
+   <section id="subjects" class="page">
+    <h1>Gestão de disciplinas</h1>
+    <div class="card">
+     <label>Nome da disciplina</label><input id="subjectName" placeholder="Ex.: Informática">
+     <label>Professor responsável</label><input id="subjectTeacher">
+     <button class="primary" onclick="addRecord('subjects',['subjectName','subjectTeacher'])">Adicionar disciplina</button>
     </div>
+    <div class="card table-wrap"><table id="subjectsTable"></table></div>
+   </section>
 
-    <div class="panel">
-        <h3>Adicionar aluno</h3>
-
-        <form id="alunoForm" class="form-grid">
-            <div>
-                <label>Nome do aluno</label>
-                <input id="alunoNome" required>
-            </div>
-
-            <div>
-                <label>Número de processo</label>
-                <input id="alunoProcesso" required>
-            </div>
-
-            <div>
-                <label>Turma</label>
-                <input id="alunoTurma" required>
-            </div>
-
-            <div>
-                <label>Classe</label>
-                <input id="alunoClasse" required>
-            </div>
-
-            <button type="submit">Adicionar aluno</button>
-        </form>
+   <section id="grades" class="page">
+    <h1>Gestão de notas</h1>
+    <div class="card">
+     <div class="form-grid">
+      <div><label>Aluno</label><select id="gradeStudent"></select></div>
+      <div><label>Disciplina</label><select id="gradeSubject"></select></div>
+      <div><label>Trimestre</label><select id="gradeTerm"><option>1.º Trimestre</option><option>2.º Trimestre</option><option>3.º Trimestre</option></select></div>
+      <div><label>Nota</label><input id="gradeValue" type="number" min="0" max="20" step="0.1"></div>
+     </div>
+     <button class="primary" onclick="addGrade()">Guardar nota</button>
     </div>
+    <div class="card table-wrap"><table id="gradesTable"></table></div>
+   </section>
 
-    <div class="panel">
-        <h3>Lista de alunos</h3>
-        <input class="search-box" id="pesquisaAlunos"
-               placeholder="Pesquisar aluno...">
-
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Processo</th>
-                        <th>Turma</th>
-                        <th>Classe</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="listaAlunos"></tbody>
-            </table>
-        </div>
+   <section id="studentArea" class="page">
+    <h1>Área do Aluno</h1>
+    <p class="muted">Consulta e regista as tuas avaliações nesta demonstração.</p>
+    <div class="notice">As médias são calculadas pela média simples das avaliações preenchidas. Confirma sempre a fórmula oficial da tua escola.</div>
+    <div class="card">
+     <div class="form-grid">
+      <div><label>Disciplina</label>
+       <select id="areaSubject">
+        <option>Matemática</option><option>Português</option><option>Biologia</option>
+        <option>Química</option><option>Física</option><option>Informática</option>
+        <option>Inglês</option><option>Geografia</option><option>História</option>
+        <option>Educação Física</option><option>Empreendedorismo</option>
+       </select>
+      </div>
+      <div><label>Trimestre</label>
+       <select id="areaTerm"><option>1.º Trimestre</option><option>2.º Trimestre</option><option>3.º Trimestre</option></select>
+      </div>
+      <div><label>Primeira avaliação</label><input class="assessment" id="a1" type="number" min="0" max="20" step="0.1"></div>
+      <div><label>Segunda avaliação</label><input class="assessment" id="a2" type="number" min="0" max="20" step="0.1"></div>
+      <div><label>Prova do professor</label><input class="assessment" id="a3" type="number" min="0" max="20" step="0.1"></div>
+      <div><label>Prova trimestral</label><input class="assessment" id="a4" type="number" min="0" max="20" step="0.1"></div>
+      <div><label>Prova final</label><input class="assessment" id="a5" type="number" min="0" max="20" step="0.1"></div>
+     </div>
+     <h3 style="margin-top:18px">Média: <span id="preview">—</span></h3>
+     <button class="primary" onclick="saveAssessment()">Guardar avaliações</button>
     </div>
-</section>
-
-<!-- PROFESSORES -->
-
-<section id="professores" class="section">
-    <div class="section-title">
-        <h2>Gestão de professores</h2>
-        <p>Organização dos professores da instituição.</p>
+    <div class="grid">
+     <div class="card stat">Média anual<strong id="annualAverage">—</strong></div>
+     <div class="card stat">Disciplinas<strong id="subjectCount">0</strong></div>
+     <div class="card stat">Aprovadas<strong id="approvedCount">0</strong></div>
+     <div class="card stat">Abaixo de 10<strong id="failedCount">0</strong></div>
     </div>
-
-    <div class="panel">
-        <h3>Adicionar professor</h3>
-
-        <form id="professorForm" class="form-grid">
-            <div>
-                <label>Nome completo</label>
-                <input id="professorNome" required>
-            </div>
-
-            <div>
-                <label>Disciplina</label>
-                <input id="professorDisciplina" required>
-            </div>
-
-            <div>
-                <label>Contacto</label>
-                <input id="professorContacto" required>
-            </div>
-
-            <button type="submit">Adicionar professor</button>
-        </form>
+    <div class="card">
+     <h3>Boletim e desempenho</h3>
+     <div class="table-wrap"><table id="assessmentTable"></table></div>
+     <h3 style="margin-top:20px">Gráfico de médias anuais</h3>
+     <div id="performanceChart"></div>
     </div>
+   </section>
 
-    <div class="panel">
-        <h3>Lista de professores</h3>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Disciplina</th>
-                        <th>Contacto</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="listaProfessores"></tbody>
-            </table>
-        </div>
+   <section id="about" class="page">
+    <h1>Sobre o SIGE</h1>
+    <div class="card">
+     <div class="logo">SIGE</div>
+     <h2>Sistema Integrado de Gestão Escolar</h2>
+     <p>Uma plataforma tecnológica concebida para apoiar a organização e o acompanhamento das atividades escolares.</p>
+     <hr style="margin:20px 0;border:0;border-top:1px solid var(--border)">
+     <h3>Desenvolvedor do projeto</h3>
+     <p><strong>Hélio Mufenji</strong></p>
+     <p class="muted">Criador e desenvolvedor do SIGE.</p>
     </div>
-</section>
+   </section>
 
-<!-- TURMAS -->
-
-<section id="turmas" class="section">
-    <div class="section-title">
-        <h2>Gestão de turmas</h2>
-        <p>Registo e organização das turmas.</p>
-    </div>
-
-    <div class="panel">
-        <h3>Adicionar turma</h3>
-
-        <form id="turmaForm" class="form-grid">
-            <div>
-                <label>Nome da turma</label>
-                <input id="turmaNome" required>
-            </div>
-
-            <div>
-                <label>Classe</label>
-                <input id="turmaClasse" required>
-            </div>
-
-            <div>
-                <label>Sala</label>
-                <input id="turmaSala" required>
-            </div>
-
-            <button type="submit">Adicionar turma</button>
-        </form>
-    </div>
-
-    <div class="panel">
-        <h3>Lista de turmas</h3>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Turma</th>
-                        <th>Classe</th>
-                        <th>Sala</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="listaTurmas"></tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- DISCIPLINAS -->
-
-<section id="disciplinas" class="section">
-    <div class="section-title">
-        <h2>Gestão de disciplinas</h2>
-        <p>Adicionar e consultar disciplinas.</p>
-    </div>
-
-    <div class="panel">
-        <h3>Adicionar disciplina</h3>
-
-        <form id="disciplinaForm" class="form-grid">
-            <div>
-                <label>Nome da disciplina</label>
-                <input id="disciplinaNome" required>
-            </div>
-
-            <div>
-                <label>Carga horária</label>
-                <input id="disciplinaCarga" type="number"
-                       min="1" required>
-            </div>
-
-            <button type="submit">Adicionar disciplina</button>
-        </form>
-    </div>
-
-    <div class="panel">
-        <h3>Lista de disciplinas</h3>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Disciplina</th>
-                        <th>Carga horária</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="listaDisciplinas"></tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- NOTAS DA GESTÃO -->
-
-<section id="notas" class="section">
-    <div class="section-title">
-        <h2>Gestão de notas</h2>
-        <p>Registar e acompanhar o aproveitamento escolar.</p>
-    </div>
-
-    <div class="panel">
-        <h3>Adicionar nota</h3>
-
-        <form id="notaForm" class="form-grid">
-            <div>
-                <label>Nome do aluno</label>
-                <input id="notaAluno" required>
-            </div>
-
-            <div>
-                <label>Disciplina</label>
-                <input id="notaDisciplina" required>
-            </div>
-
-            <div>
-                <label>Nota (0 a 20)</label>
-                <input id="notaValor" type="number"
-                       min="0" max="20" step="0.1" required>
-            </div>
-
-            <button type="submit">Registar nota</button>
-        </form>
-    </div>
-
-    <div class="panel">
-        <h3>Notas registadas</h3>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Aluno</th>
-                        <th>Disciplina</th>
-                        <th>Nota</th>
-                        <th>Resultado</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="listaNotas"></tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- NOVA ÁREA DO ALUNO -->
-
-<section id="areaAluno" class="section">
-
-    <div class="student-banner">
-        <h2>Área do Aluno</h2>
-        <p>
-            Calcula as tuas médias, acompanha as tuas notas
-            e consulta o teu desempenho académico.
-        </p>
-    </div>
-
-    <div class="stats">
-        <div class="stat-card">
-            <p>Média geral anual</p>
-            <h2 id="mediaGeralAluno">--</h2>
-        </div>
-
-        <div class="stat-card">
-            <p>Disciplinas registadas</p>
-            <h2 id="totalDisciplinasAluno">0</h2>
-        </div>
-
-        <div class="stat-card">
-            <p>Disciplinas aprovadas</p>
-            <h2 id="disciplinasAprovadas">0</h2>
-        </div>
-
-        <div class="stat-card">
-            <p>Disciplinas abaixo de 10</p>
-            <h2 id="disciplinasPendentes">0</h2>
-        </div>
-    </div>
-
-    <!-- FORMULÁRIO DE NOTAS -->
-
-    <div class="panel">
-        <h3>Calculadora de notas</h3>
-
-        <p style="color:#64748b;margin-bottom:18px;">
-            Seleciona a disciplina e o trimestre. Depois,
-            introduz as tuas notas de 0 a 20.
-        </p>
-
-        <form id="boletimForm">
-
-            <div class="form-grid">
-                <div>
-                    <label>Disciplina</label>
-                    <select id="boletimDisciplina" required>
-                        <option value="">Selecionar disciplina</option>
-                        <option>Matemática</option>
-                        <option>Português</option>
-                        <option>Biologia</option>
-                        <option>Química</option>
-                        <option>Física</option>
-                        <option>Informática</option>
-                        <option>Inglês</option>
-                        <option>Geografia</option>
-                        <option>História</option>
-                        <option>Educação Física</option>
-                        <option>Empreendedorismo</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label>Trimestre</label>
-                    <select id="boletimTrimestre" required>
-                        <option value="1">Primeiro trimestre</option>
-                        <option value="2">Segundo trimestre</option>
-                        <option value="3">Terceiro trimestre</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="grade-grid">
-                <div>
-                    <label>Primeira avaliação</label>
-                    <input type="number" id="avaliacao1"
-                           min="0" max="20" step="0.1"
-                           placeholder="0 a 20">
-                </div>
-
-                <div>
-                    <label>Segunda avaliação</label>
-                    <input type="number" id="avaliacao2"
-                           min="0" max="20" step="0.1"
-                           placeholder="0 a 20">
-                </div>
-
-                <div>
-                    <label>Prova do professor</label>
-                    <input type="number" id="provaProfessor"
-                           min="0" max="20" step="0.1"
-                           placeholder="0 a 20">
-                </div>
-
-                <div>
-                    <label>Prova trimestral</label>
-                    <input type="number" id="provaTrimestral"
-                           min="0" max="20" step="0.1"
-                           placeholder="0 a 20">
-                </div>
-
-                <div>
-                    <label>Prova final</label>
-                    <input type="number" id="provaFinal"
-                           min="0" max="20" step="0.1"
-                           placeholder="0 a 20">
-                </div>
-            </div>
-
-            <div class="grade-result">
-                <div class="result-card">
-                    <p>Média do trimestre</p>
-                    <h2 id="mediaPrevia">--</h2>
-                </div>
-
-                <div class="result-card">
-                    <p>Situação prevista</p>
-                    <h2 id="situacaoPrevia">--</h2>
-                </div>
-            </div>
-
-            <button type="submit" style="margin-top:18px;">
-                GUARDAR NOTAS
-            </button>
-
-            <button type="button" onclick="limparBoletim()"
-                    style="background:#64748b;margin-top:18px;">
-                LIMPAR CAMPOS
-            </button>
-
-            <p id="boletimMensagem" class="auth-message"></p>
-        </form>
-    </div>
-
-    <!-- MÉDIAS POR TRIMESTRE -->
-
-    <div class="panel">
-        <h3>Resumo dos trimestres</h3>
-
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Disciplina</th>
-                        <th>1.º trimestre</th>
-                        <th>2.º trimestre</th>
-                        <th>3.º trimestre</th>
-                        <th>Média anual</th>
-                        <th>Situação</th>
-                    </tr>
-                </thead>
-                <tbody id="resumoBoletim"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- GRÁFICO -->
-
-    <div class="panel">
-        <h3>Gráfico de desempenho académico</h3>
-
-        <p style="color:#64748b;margin-bottom:20px;">
-            Visualiza o desempenho de cada disciplina.
-            As barras representam as médias anuais.
-        </p>
-
-        <div id="graficoDesempenho">
-            <p class="empty-message">
-                Ainda não existem notas para apresentar no gráfico.
-            </p>
-        </div>
-    </div>
-
-    <div class="panel">
-        <h3>Como funciona o cálculo?</h3>
-
-        <div class="student-note">
-            <strong>Média do trimestre:</strong>
-            soma das avaliações preenchidas dividida pela
-            quantidade de avaliações preenchidas.
-
-            <br><br>
-
-            <strong>Média anual:</strong>
-            média dos trimestres que possuem notas registadas.
-
-            <br><br>
-
-            <strong>Classificação:</strong>
-            neste modelo, uma média igual ou superior a 10
-            é considerada positiva. Confirma sempre as regras
-            oficiais de avaliação da tua escola.
-        </div>
-    </div>
-
-</section>
-
-</main>
-
-<footer>
-    SIGE © 2026 — Sistema Integrado de Gestão Escolar
-</footer>
-
+   <footer>© 2026 SIGE · Desenvolvido por <strong>Hélio Mufenji</strong></footer>
+  </main>
+ </div>
 </div>
 
 <script>
+const keys=['students','teachers','classes','subjects','grades'];
+let currentUser=null;
+let registering=false;
 
-/* =====================================
-   AUTENTICAÇÃO
-===================================== */
-
-const CHAVE_CONTAS = "sige_contas";
-
-function obterContas() {
-    try {
-        return JSON.parse(localStorage.getItem(CHAVE_CONTAS)) || [];
-    } catch {
-        return [];
-    }
+function getData(key){
+ return JSON.parse(localStorage.getItem('sige_'+key)||'[]');
 }
-
-function guardarContas(contas) {
-    localStorage.setItem(CHAVE_CONTAS, JSON.stringify(contas));
+function setData(key,data){
+ localStorage.setItem('sige_'+key,JSON.stringify(data));
 }
-
-function mostrarRegisto() {
-    document.getElementById("loginScreen").classList.add("auth-hidden");
-    document.getElementById("registerScreen").classList.remove("auth-hidden");
-    document.getElementById("registerMessage").textContent = "";
+function toggleAuth(){
+ registering=!registering;
+ document.getElementById('registerFields').classList.toggle('hidden',!registering);
+ document.getElementById('confirmField').classList.toggle('hidden',!registering);
+ document.getElementById('authTitle').textContent=registering?'Criar conta':'Bem-vindo ao SIGE';
+ document.getElementById('authButton').textContent=registering?'CRIAR CONTA':'ENTRAR';
+ document.getElementById('switchButton').textContent=registering?'JÁ TENHO CONTA':'CRIAR CONTA';
+ document.getElementById('authMessage').textContent='';
 }
-
-function mostrarLogin() {
-    document.getElementById("registerScreen").classList.add("auth-hidden");
-    document.getElementById("loginScreen").classList.remove("auth-hidden");
-    document.getElementById("loginMessage").textContent = "";
+async function hashPassword(password){
+ const data=new TextEncoder().encode(password);
+ const hash=await crypto.subtle.digest('SHA-256',data);
+ return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
-
-async function criarHash(senha, salt) {
-    const dados = new TextEncoder().encode(salt + senha);
-    const resultado = await crypto.subtle.digest("SHA-256", dados);
-
-    return Array.from(new Uint8Array(resultado))
-        .map(byte => byte.toString(16).padStart(2, "0"))
-        .join("");
+async function authenticate(){
+ const email=document.getElementById('authEmail').value.trim().toLowerCase();
+ const password=document.getElementById('authPassword').value;
+ const message=document.getElementById('authMessage');
+ if(!email||!password){message.textContent='Preenche o email e a palavra-passe.';return}
+ let accounts=JSON.parse(localStorage.getItem('sige_accounts')||'[]');
+ if(registering){
+  const name=document.getElementById('regName').value.trim();
+  const confirm=document.getElementById('confirmPassword').value;
+  if(!name||!confirm){message.textContent='Preenche todos os campos.';return}
+  if(password!==confirm){message.textContent='As palavras-passe não coincidem.';return}
+  if(password.length<8){message.textContent='Usa pelo menos 8 caracteres.';return}
+  if(accounts.some(a=>a.email===email)){message.textContent='Este email já está registado.';return}
+  const account={id:Date.now().toString(),name,email,passwordHash:await hashPassword(password)};
+  accounts.push(account);
+  localStorage.setItem('sige_accounts',JSON.stringify(accounts));
+  message.textContent='Conta criada! Agora podes entrar.';
+  toggleAuth();
+  document.getElementById('authEmail').value=email;
+  return;
+ }
+ const account=accounts.find(a=>a.email===email);
+ if(!account||account.passwordHash!==await hashPassword(password)){
+  message.textContent='Email ou palavra-passe incorretos.';return;
+ }
+ currentUser=account;
+ sessionStorage.setItem('sige_session',account.id);
+ openApp();
 }
-
-function gerarSalt() {
-    const bytes = crypto.getRandomValues(new Uint8Array(16));
-
-    return Array.from(bytes)
-        .map(byte => byte.toString(16).padStart(2, "0"))
-        .join("");
+function openApp(){
+ document.getElementById('auth').classList.add('hidden');
+ document.getElementById('app').classList.remove('hidden');
+ document.getElementById('welcome').textContent='Olá, '+currentUser.name;
+ refreshAll();
 }
-
-document.getElementById("registerForm").addEventListener("submit",
-async function(event) {
-    event.preventDefault();
-
-    const nome = document.getElementById("registerName").value.trim();
-    const email = document.getElementById("registerEmail").value.trim().toLowerCase();
-    const senha = document.getElementById("registerPassword").value;
-    const confirmar = document.getElementById("confirmPassword").value;
-    const mensagem = document.getElementById("registerMessage");
-
-    mensagem.style.color = "#dc2626";
-
-    if (nome.length < 3) {
-        mensagem.textContent = "Introduz um nome válido.";
-        return;
-    }
-
-    if (senha.length < 8) {
-        mensagem.textContent = "A palavra-passe deve ter pelo menos 8 caracteres.";
-        return;
-    }
-
-    if (senha !== confirmar) {
-        mensagem.textContent = "As palavras-passe não coincidem.";
-        return;
-    }
-
-    if (!window.crypto || !crypto.subtle) {
-        mensagem.textContent = "Abre o site através de HTTPS para criar uma conta.";
-        return;
-    }
-
-    const contas = obterContas();
-
-    if (contas.some(conta => conta.email === email)) {
-        mensagem.textContent = "Este e-mail já possui uma conta.";
-        return;
-    }
-
-    try {
-        const salt = gerarSalt();
-        const hash = await criarHash(senha, salt);
-
-        contas.push({
-            id: crypto.randomUUID(),
-            nome,
-            email,
-            salt,
-            hash
-        });
-
-        guardarContas(contas);
-
-        mensagem.style.color = "green";
-        mensagem.textContent = "Conta criada com sucesso! Agora podes entrar.";
-
-        this.reset();
-        setTimeout(mostrarLogin, 1200);
-
-    } catch (erro) {
-        mensagem.textContent = "Não foi possível criar a conta.";
-    }
+function logout(){
+ currentUser=null;sessionStorage.removeItem('sige_session');
+ document.getElementById('app').classList.add('hidden');
+ document.getElementById('auth').classList.remove('hidden');
+}
+function showPage(id,button){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('aside button').forEach(b=>b.classList.remove('active'));
+ button.classList.add('active');
+ if(id==='studentArea')refreshAssessments();
+}
+function addRecord(key,ids){
+ const values=ids.map(id=>document.getElementById(id).value.trim());
+ if(values.some(v=>!v)){alert('Preenche todos os campos.');return}
+ const data=getData(key);
+ data.push({id:Date.now().toString(),values});
+ setData(key,data);
+ ids.forEach(id=>document.getElementById(id).value='');
+ refreshAll();
+}
+function deleteRecord(key,id){
+ if(!confirm('Tens a certeza de que desejas eliminar este registo?'))return;
+ setData(key,getData(key).filter(x=>x.id!==id));
+ refreshAll();
+}
+function renderTable(key,elementId,search=''){
+ const data=getData(key);
+ const el=document.getElementById(elementId);
+ const headers={
+ students:['Nome','Matrícula','Turma','Email'],
+ teachers:['Nome','Especialidade','Email'],
+ classes:['Turma','Ano escolar'],
+ subjects:['Disciplina','Professor'],
+ grades:['Aluno','Disciplina','Trimestre','Nota']
+ };
+ let filtered=data.filter(item=>JSON.stringify(item.values).toLowerCase().includes(search.toLowerCase()));
+ el.innerHTML='<thead><tr>'+headers[key].map(h=>'<th>'+h+'</th>').join('')+'<th>Ação</th></tr></thead><tbody>'+
+ filtered.map(item=>'<tr>'+item.values.map(v=>'<td>'+escapeHTML(v)+'</td>').join('')+
+ '<td><button class="danger" onclick="deleteRecord(\''+key+'\',\''+item.id+'\')">Eliminar</button></td></tr>').join('')+
+ '</tbody>';
+}
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function refreshAll(){
+ keys.forEach(k=>{
+ const table=document.getElementById(k+'Table');
+ if(table)renderTable(k,k+'Table');
+ });
+ document.getElementById('totalStudents').textContent=getData('students').length;
+ document.getElementById('totalTeachers').textContent=getData('teachers').length;
+ document.getElementById('totalClasses').textContent=getData('classes').length;
+ document.getElementById('totalSubjects').textContent=getData('subjects').length;
+ const students=getData('students');
+ document.getElementById('gradeStudent').innerHTML=students.map(s=>'<option>'+escapeHTML(s.values[0])+'</option>').join('');
+ const subjects=getData('subjects');
+ document.getElementById('gradeSubject').innerHTML=subjects.map(s=>'<option>'+escapeHTML(s.values[0])+'</option>').join('');
+}
+function addGrade(){
+ const student=document.getElementById('gradeStudent').value;
+ const subject=document.getElementById('gradeSubject').value;
+ const term=document.getElementById('gradeTerm').value;
+ const value=document.getElementById('gradeValue').value;
+ if(!student||!subject||value===''){alert('Preenche os dados da nota.');return}
+ if(Number(value)<0||Number(value)>20){alert('A nota deve estar entre 0 e 20.');return}
+ const data=getData('grades');
+ data.push({id:Date.now().toString(),values:[student,subject,term,value]});
+ setData('grades',data);
+ document.getElementById('gradeValue').value='';
+ refreshAll();
+}
+function assessmentKey(){
+ return 'sige_assessments_'+currentUser.id;
+}
+function getAssessments(){
+ return JSON.parse(localStorage.getItem(assessmentKey())||'[]');
+}
+function updatePreview(){
+ const values=['a1','a2','a3','a4','a5'].map(id=>document.getElementById(id).value).filter(v=>v!=='').map(Number);
+ if(values.some(v=>v<0||v>20)){document.getElementById('preview').textContent='Nota inválida';return}
+ document.getElementById('preview').textContent=values.length?(values.reduce((a,b)=>a+b,0)/values.length).toFixed(2):'—';
+}
+document.querySelectorAll('.assessment').forEach(input=>input.addEventListener('input',updatePreview));
+function saveAssessment(){
+ const subject=document.getElementById('areaSubject').value;
+ const term=document.getElementById('areaTerm').value;
+ const values=['a1','a2','a3','a4','a5'].map(id=>document.getElementById(id).value);
+ if(values.every(v=>v==='')){alert('Introduz pelo menos uma avaliação.');return}
+ if(values.some(v=>v!==''&&(Number(v)<0||Number(v)>20))){alert('Todas as notas devem estar entre 0 e 20.');return}
+ let data=getAssessments();
+ data=data.filter(x=>!(x.subject===subject&&x.term===term));
+ data.push({subject,term,values});
+ localStorage.setItem(assessmentKey(),JSON.stringify(data));
+ refreshAssessments();
+ alert('Avaliações guardadas com sucesso!');
+}
+function refreshAssessments(){
+ const data=getAssessments();
+ let subjects=[...new Set(data.map(x=>x.subject))];
+ let annual=[];
+ let approved=0,failed=0;
+ let rows='';
+ subjects.forEach(subject=>{
+  let terms=data.filter(x=>x.subject===subject);
+  let means=terms.map(t=>{
+   let n=t.values.filter(v=>v!=='').map(Number);
+   return n.length?n.reduce((a,b)=>a+b,0)/n.length:null;
+  }).filter(v=>v!==null);
+  let avg=means.length?means.reduce((a,b)=>a+b,0)/means.length:null;
+  if(avg!==null){annual.push(avg);if(avg>=10)approved++;else failed++}
+  rows+='<tr><td>'+escapeHTML(subject)+'</td><td>'+terms.map(t=>{
+   let n=t.values.filter(v=>v!=='').map(Number);
+   let m=n.length?n.reduce((a,b)=>a+b,0)/n.length:null;
+   return escapeHTML(t.term)+': '+(m===null?'—':m.toFixed(2));
+  }).join('<br>')+'</td><td>'+(avg===null?'—':avg.toFixed(2))+'</td><td>'+(avg===null?'—':avg>=10?'<span class="tag">Aprovado</span>':'<span class="tag bad">Abaixo de 10</span>')+'</td></tr>';
+ });
+ let overall=annual.length?annual.reduce((a,b)=>a+b,0)/annual.length:null;
+ document.getElementById('annualAverage').textContent=overall===null?'—':overall.toFixed(2);
+ document.getElementById('subjectCount').textContent=subjects.length;
+ document.getElementById('approvedCount').textContent=approved;
+ document.getElementById('failedCount').textContent=failed;
+ document.getElementById('assessmentTable').innerHTML='<thead><tr><th>Disciplina</th><th>Médias trimestrais</th><th>Média anual</th><th>Resultado</th></tr></thead><tbody>'+rows+'</tbody>';
+ document.getElementById('performanceChart').innerHTML=subjects.map(subject=>{
+  let records=data.filter(x=>x.subject===subject);
+  let means=records.map(t=>{let n=t.values.filter(v=>v!=='').map(Number);return n.length?n.reduce((a,b)=>a+b,0)/n.length:null}).filter(v=>v!==null);
+  let avg=means.length?means.reduce((a,b)=>a+b,0)/means.length:0;
+  return '<p><strong>'+escapeHTML(subject)+'</strong> — '+avg.toFixed(2)+'/20</p><div class="progress"><span style="width:'+Math.min(100,avg*5)+'%"></span></div>';
+ }).join('');
+}
+window.addEventListener('load',()=>{
+ const id=sessionStorage.getItem('sige_session');
+ if(id){
+  const account=JSON.parse(localStorage.getItem('sige_accounts')||'[]').find(a=>a.id===id);
+  if(account){currentUser=account;openApp()}
+ }
 });
-
-document.getElementById("loginForm").addEventListener("submit",
-async function(event) {
-    event.preventDefault();
-
-    const email = document.getElementById("loginEmail").value.trim().toLowerCase();
-    const senha = document.getElementById("loginPassword").value;
-    const mensagem = document.getElementById("loginMessage");
-
-    const conta = obterContas().find(item => item.email === email);
-
-    if (!conta) {
-        mensagem.textContent = "Conta não encontrada. Cria primeiro uma conta.";
-        return;
-    }
-
-    if (!window.crypto || !crypto.subtle) {
-        mensagem.textContent = "Abre o site através de HTTPS para entrar.";
-        return;
-    }
-
-    try {
-        const hash = await criarHash(senha, conta.salt);
-
-        if (hash !== conta.hash) {
-            mensagem.textContent = "Palavra-passe incorreta.";
-            return;
-        }
-
-        sessionStorage.setItem("sige_sessao", JSON.stringify({
-            id: conta.id,
-            nome: conta.nome,
-            email: conta.email
-        }));
-
-        entrarNoSistema(conta);
-
-    } catch (erro) {
-        mensagem.textContent = "Não foi possível iniciar sessão.";
-    }
-});
-
-function entrarNoSistema(conta) {
-    document.getElementById("loginScreen").classList.add("auth-hidden");
-    document.getElementById("registerScreen").classList.add("auth-hidden");
-    document.getElementById("app").style.display = "block";
-
-    document.getElementById("userName").textContent = conta.nome;
-
-    carregarDados();
-}
-
-function terminarSessao() {
-    sessionStorage.removeItem("sige_sessao");
-
-    document.getElementById("app").style.display = "none";
-    document.getElementById("loginScreen").classList.remove("auth-hidden");
-    document.getElementById("loginForm").reset();
-}
-
-/* =====================================
-   DADOS DO SISTEMA
-===================================== */
-
-let alunos = [];
-let professores = [];
-let turmas = [];
-let disciplinas = [];
-let notas = [];
-let boletins = [];
-
-function guardarDados() {
-    localStorage.setItem("sige_alunos", JSON.stringify(alunos));
-    localStorage.setItem("sige_professores", JSON.stringify(professores));
-    localStorage.setItem("sige_turmas", JSON.stringify(turmas));
-    localStorage.setItem("sige_disciplinas", JSON.stringify(disciplinas));
-    localStorage.setItem("sige_notas", JSON.stringify(notas));
-}
-
-function carregarDados() {
-    alunos = JSON.parse(localStorage.getItem("sige_alunos")) || [];
-    professores = JSON.parse(localStorage.getItem("sige_professores")) || [];
-    turmas = JSON.parse(localStorage.getItem("sige_turmas")) || [];
-    disciplinas = JSON.parse(localStorage.getItem("sige_disciplinas")) || [];
-    notas = JSON.parse(localStorage.getItem("sige_notas")) || [];
-
-    // Os boletins ficam separados por conta.
-    const sessao = JSON.parse(sessionStorage.getItem("sige_sessao"));
-    const chaveBoletim = "sige_boletins_" + sessao.id;
-
-    boletins = JSON.parse(localStorage.getItem(chaveBoletim)) || [];
-
-    atualizarTudo();
-}
-
-function guardarBoletins() {
-    const sessao = JSON.parse(sessionStorage.getItem("sige_sessao"));
-
-    if (!sessao) return;
-
-    localStorage.setItem(
-        "sige_boletins_" + sessao.id,
-        JSON.stringify(boletins)
-    );
-}
-
-/* =====================================
-   NAVEGAÇÃO
-===================================== */
-
-function abrirSecao(id, botao) {
-    document.querySelectorAll(".section").forEach(secao => {
-        secao.classList.remove("active");
-    });
-
-    document.getElementById(id).classList.add("active");
-
-    document.querySelectorAll("nav button").forEach(btn => {
-        btn.classList.remove("active");
-    });
-
-    botao.classList.add("active");
-
-    if (id === "areaAluno") {
-        atualizarAreaAluno();
-    }
-}
-
-/* =====================================
-   PAINEL
-===================================== */
-
-function atualizarPainel() {
-    document.getElementById("totalAlunos").textContent = alunos.length;
-    document.getElementById("totalProfessores").textContent = professores.length;
-    document.getElementById("totalTurmas").textContent = turmas.length;
-    document.getElementById("totalDisciplinas").textContent = disciplinas.length;
-}
-
-function atualizarTudo() {
-    atualizarPainel();
-    mostrarAlunos();
-    mostrarProfessores();
-    mostrarTurmas();
-    mostrarDisciplinas();
-    mostrarNotas();
-    atualizarAreaAluno();
-}
-
-/* =====================================
-   ALUNOS
-===================================== */
-
-document.getElementById("alunoForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const processo = document.getElementById("alunoProcesso").value.trim();
-
-    if (alunos.some(a => a.processo.toLowerCase() === processo.toLowerCase())) {
-        alert("Já existe um aluno com este número de processo.");
-        return;
-    }
-
-    alunos.push({
-        id: crypto.randomUUID(),
-        nome: document.getElementById("alunoNome").value.trim(),
-        processo,
-        turma: document.getElementById("alunoTurma").value.trim(),
-        classe: document.getElementById("alunoClasse").value.trim()
-    });
-
-    guardarDados();
-    atualizarTudo();
-    this.reset();
-
-    alert("Aluno adicionado com sucesso!");
-});
-
-function mostrarAlunos(filtro = "") {
-    const tabela = document.getElementById("listaAlunos");
-    tabela.innerHTML = "";
-
-    alunos.filter(a =>
-        (a.nome + " " + a.processo + " " + a.turma)
-        .toLowerCase().includes(filtro.toLowerCase())
-    ).forEach(a => {
-        const tr = document.createElement("tr");
-
-        adicionarCelula(tr, a.nome);
-        adicionarCelula(tr, a.processo);
-        adicionarCelula(tr, a.turma);
-        adicionarCelula(tr, a.classe);
-
-        const td = document.createElement("td");
-
-        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
-            if (confirm("Desejas eliminar este aluno?")) {
-                alunos = alunos.filter(item => item.id !== a.id);
-                guardarDados();
-                atualizarTudo();
-            }
-        }));
-
-        tr.appendChild(td);
-        tabela.appendChild(tr);
-    });
-}
-
-document.getElementById("pesquisaAlunos").addEventListener("input", function() {
-    mostrarAlunos(this.value);
-});
-
-/* =====================================
-   PROFESSORES
-===================================== */
-
-document.getElementById("professorForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    professores.push({
-        id: crypto.randomUUID(),
-        nome: document.getElementById("professorNome").value.trim(),
-        disciplina: document.getElementById("professorDisciplina").value.trim(),
-        contacto: document.getElementById("professorContacto").value.trim()
-    });
-
-    guardarDados();
-    atualizarTudo();
-    this.reset();
-
-    alert("Professor adicionado com sucesso!");
-});
-
-function mostrarProfessores() {
-    const tabela = document.getElementById("listaProfessores");
-    tabela.innerHTML = "";
-
-    professores.forEach(p => {
-        const tr = document.createElement("tr");
-
-        adicionarCelula(tr, p.nome);
-        adicionarCelula(tr, p.disciplina);
-        adicionarCelula(tr, p.contacto);
-
-        const td = document.createElement("td");
-
-        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
-            if (confirm("Eliminar este professor?")) {
-                professores = professores.filter(item => item.id !== p.id);
-                guardarDados();
-                atualizarTudo();
-            }
-        }));
-
-        tr.appendChild(td);
-        tabela.appendChild(tr);
-    });
-}
-
-/* =====================================
-   TURMAS
-===================================== */
-
-document.getElementById("turmaForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    turmas.push({
-        id: crypto.randomUUID(),
-        nome: document.getElementById("turmaNome").value.trim(),
-        classe: document.getElementById("turmaClasse").value.trim(),
-        sala: document.getElementById("turmaSala").value.trim()
-    });
-
-    guardarDados();
-    atualizarTudo();
-    this.reset();
-
-    alert("Turma adicionada com sucesso!");
-});
-
-function mostrarTurmas() {
-    const tabela = document.getElementById("listaTurmas");
-    tabela.innerHTML = "";
-
-    turmas.forEach(t => {
-        const tr = document.createElement("tr");
-
-        adicionarCelula(tr, t.nome);
-        adicionarCelula(tr, t.classe);
-        adicionarCelula(tr, t.sala);
-
-        const td = document.createElement("td");
-
-        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
-            if (confirm("Eliminar esta turma?")) {
-                turmas = turmas.filter(item => item.id !== t.id);
-                guardarDados();
-                atualizarTudo();
-            }
-        }));
-
-        tr.appendChild(td);
-        tabela.appendChild(tr);
-    });
-}
-
-/* =====================================
-   DISCIPLINAS
-===================================== */
-
-document.getElementById("disciplinaForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    disciplinas.push({
-        id: crypto.randomUUID(),
-        nome: document.getElementById("disciplinaNome").value.trim(),
-        carga: document.getElementById("disciplinaCarga").value
-    });
-
-    guardarDados();
-    atualizarTudo();
-    this.reset();
-
-    alert("Disciplina adicionada com sucesso!");
-});
-
-function mostrarDisciplinas() {
-    const tabela = document.getElementById("listaDisciplinas");
-    tabela.innerHTML = "";
-
-    disciplinas.forEach(d => {
-        const tr = document.createElement("tr");
-
-        adicionarCelula(tr, d.nome);
-        adicionarCelula(tr, d.carga + " horas");
-
-        const td = document.createElement("td");
-
-        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
-            if (confirm("Eliminar esta disciplina?")) {
-                disciplinas = disciplinas.filter(item => item.id !== d.id);
-                guardarDados();
-                atualizarTudo();
-            }
-        }));
-
-        tr.appendChild(td);
-        tabela.appendChild(tr);
-    });
-}
-
-/* =====================================
-   NOTAS DA GESTÃO ESCOLAR
-===================================== */
-
-document.getElementById("notaForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const valor = Number(document.getElementById("notaValor").value);
-
-    if (!Number.isFinite(valor) || valor < 0 || valor > 20) {
-        alert("A nota deve estar entre 0 e 20.");
-        return;
-    }
-
-    notas.push({
-        id: crypto.randomUUID(),
-        aluno: document.getElementById("notaAluno").value.trim(),
-        disciplina: document.getElementById("notaDisciplina").value.trim(),
-        valor
-    });
-
-    guardarDados();
-    atualizarTudo();
-    this.reset();
-
-    alert("Nota registada com sucesso!");
-});
-
-function mostrarNotas() {
-    const tabela = document.getElementById("listaNotas");
-    tabela.innerHTML = "";
-
-    notas.forEach(n => {
-        const tr = document.createElement("tr");
-
-        adicionarCelula(tr, n.aluno);
-        adicionarCelula(tr, n.disciplina);
-        adicionarCelula(tr, n.valor);
-
-        const tdResultado = document.createElement("td");
-        const resultado = document.createElement("span");
-
-        resultado.className = n.valor >= 10 ? "badge" : "badge fail";
-        resultado.textContent = n.valor >= 10 ? "Aprovado" : "Reprovado";
-
-        tdResultado.appendChild(resultado);
-        tr.appendChild(tdResultado);
-
-        const td = document.createElement("td");
-
-        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
-            if (confirm("Eliminar esta nota?")) {
-                notas = notas.filter(item => item.id !== n.id);
-                guardarDados();
-                atualizarTudo();
-            }
-        }));
-
-        tr.appendChild(td);
-        tabela.appendChild(tr);
-    });
-}
-
-/* =====================================
-   CALCULADORA DA ÁREA DO ALUNO
-===================================== */
-
-const camposNotas = [
-    "avaliacao1",
-    "avaliacao2",
-    "provaProfessor",
-    "provaTrimestral",
-    "provaFinal"
-];
-
-function obterNotasDoFormulario() {
-    const valores = [];
-
-    for (const id of camposNotas) {
-        const campo = document.getElementById(id);
-        const texto = campo.value.trim();
-
-        if (texto === "") continue;
-
-        const valor = Number(texto);
-
-        if (!Number.isFinite(valor) || valor < 0 || valor > 20) {
-            return null;
-        }
-
-        valores.push(valor);
-    }
-
-    return valores;
-}
-
-function calcularMedia(valores) {
-    if (!valores || valores.length === 0) return null;
-
-    const soma = valores.reduce((total, valor) => total + valor, 0);
-
-    return soma / valores.length;
-}
-
-function calcularMediaAnual(disciplina) {
-    const medias = [1, 2, 3]
-        .map(trimestre => obterBoletim(disciplina, trimestre))
-        .filter(item => item !== null)
-        .map(item => item.media);
-
-    return calcularMedia(medias);
-}
-
-function obterBoletim(disciplina, trimestre) {
-    const registo = boletins.find(item =>
-        item.disciplina === disciplina &&
-        Number(item.trimestre) === Number(trimestre)
-    );
-
-    return registo || null;
-}
-
-function atualizarPrevia() {
-    const valores = obterNotasDoFormulario();
-    const mediaElemento = document.getElementById("mediaPrevia");
-    const situacaoElemento = document.getElementById("situacaoPrevia");
-
-    if (valores === null) {
-        mediaElemento.textContent = "Inválida";
-        situacaoElemento.textContent = "--";
-        return;
-    }
-
-    const media = calcularMedia(valores);
-
-    if (media === null) {
-        mediaElemento.textContent = "--";
-        situacaoElemento.textContent = "--";
-        return;
-    }
-
-    mediaElemento.textContent = media.toFixed(2);
-    situacaoElemento.textContent = media >= 10 ? "Positiva" : "Abaixo de 10";
-}
-
-camposNotas.forEach(id => {
-    document.getElementById(id).addEventListener("input", atualizarPrevia);
-});
-
-document.getElementById("boletimForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const disciplina = document.getElementById("boletimDisciplina").value;
-    const trimestre = Number(document.getElementById("boletimTrimestre").value);
-    const valores = obterNotasDoFormulario();
-    const mensagem = document.getElementById("boletimMensagem");
-
-    mensagem.style.color = "#dc2626";
-
-    if (!disciplina) {
-        mensagem.textContent = "Seleciona uma disciplina.";
-        return;
-    }
-
-    if (valores === null) {
-        mensagem.textContent = "Todas as notas devem estar entre 0 e 20.";
-        return;
-    }
-
-    if (valores.length === 0) {
-        mensagem.textContent = "Introduz pelo menos uma nota.";
-        return;
-    }
-
-    const media = calcularMedia(valores);
-
-    const novoRegisto = {
-        disciplina,
-        trimestre,
-        avaliacao1: document.getElementById("avaliacao1").value,
-        avaliacao2: document.getElementById("avaliacao2").value,
-        provaProfessor: document.getElementById("provaProfessor").value,
-        provaTrimestral: document.getElementById("provaTrimestral").value,
-        provaFinal: document.getElementById("provaFinal").value,
-        media
-    };
-
-    const indice = boletins.findIndex(item =>
-        item.disciplina === disciplina &&
-        Number(item.trimestre) === trimestre
-    );
-
-    if (indice >= 0) {
-        boletins[indice] = novoRegisto;
-    } else {
-        boletins.push(novoRegisto);
-    }
-
-    guardarBoletins();
-    atualizarAreaAluno();
-
-    mensagem.style.color = "green";
-    mensagem.textContent = "Notas guardadas com sucesso!";
-
-    this.reset();
-    atualizarPrevia();
-});
-
-function limparBoletim() {
-    camposNotas.forEach(id => {
-        document.getElementById(id).value = "";
-    });
-
-    atualizarPrevia();
-    document.getElementById("boletimMensagem").textContent = "";
-}
-
-/* =====================================
-   RESUMO ACADÉMICO
-===================================== */
-
-function obterDisciplinasDoBoletim() {
-    return [...new Set(boletins.map(item => item.disciplina))];
-}
-
-function atualizarResumoBoletim() {
-    const tabela = document.getElementById("resumoBoletim");
-    tabela.innerHTML = "";
-
-    const nomes = obterDisciplinasDoBoletim();
-
-    if (nomes.length === 0) {
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-
-        td.colSpan = 6;
-        td.className = "empty-message";
-        td.textContent = "Ainda não existem notas registadas.";
-
-        tr.appendChild(td);
-        tabela.appendChild(tr);
-        return;
-    }
-
-    nomes.forEach(nome => {
-        const tr = document.createElement("tr");
-
-        adicionarCelula(tr, nome);
-
-        [1, 2, 3].forEach(trimestre => {
-            const registo = obterBoletim(nome, trimestre);
-            adicionarCelula(
-                tr,
-                registo ? registo.media.toFixed(2) : "--"
-            );
-        });
-
-        const mediaAnual = calcularMediaAnual(nome);
-        adicionarCelula(
-            tr,
-            mediaAnual === null ? "--" : mediaAnual.toFixed(2)
-        );
-
-        const tdSituacao = document.createElement("td");
-
-        if (mediaAnual === null) {
-            tdSituacao.textContent = "--";
-        } else {
-            const etiqueta = document.createElement("span");
-            etiqueta.className = mediaAnual >= 10 ? "badge" : "badge fail";
-            etiqueta.textContent = mediaAnual >= 10 ? "Positiva" : "Abaixo de 10";
-            tdSituacao.appendChild(etiqueta);
-        }
-
-        tr.appendChild(tdSituacao);
-        tabela.appendChild(tr);
-    });
-}
-
-/* =====================================
-   GRÁFICO DE DESEMPENHO
-===================================== */
-
-function atualizarGrafico() {
-    const container = document.getElementById("graficoDesempenho");
-    container.innerHTML = "";
-
-    const nomes = obterDisciplinasDoBoletim();
-
-    if (nomes.length === 0) {
-        const p = document.createElement("p");
-        p.className = "empty-message";
-        p.textContent = "Ainda não existem notas para apresentar no gráfico.";
-        container.appendChild(p);
-        return;
-    }
-
-    nomes.forEach(nome => {
-        const media = calcularMediaAnual(nome);
-
-        if (media === null) return;
-
-        const item = document.createElement("div");
-        item.className = "performance-item";
-
-        const info = document.createElement("div");
-        info.className = "performance-info";
-
-        const titulo = document.createElement("strong");
-        titulo.textContent = nome;
-
-        const valor = document.createElement("span");
-        valor.textContent = media.toFixed(2) + " / 20";
-
-        info.appendChild(titulo);
-        info.appendChild(valor);
-
-        const track = document.createElement("div");
-        track.className = "progress-track";
-
-        const barra = document.createElement("div");
-        barra.className = "progress-fill";
-        barra.style.width = (media / 20 * 100) + "%";
-
-        if (media < 10) {
-            barra.style.background = "#dc3545";
-        } else if (media >= 14) {
-            barra.style.background = "#16a34a";
-        }
-
-        track.appendChild(barra);
-        item.appendChild(info);
-        item.appendChild(track);
-
-        container.appendChild(item);
-    });
-}
-
-/* =====================================
-   INDICADORES DA ÁREA DO ALUNO
-===================================== */
-
-function atualizarAreaAluno() {
-    const nomes = obterDisciplinasDoBoletim();
-
-    const medias = nomes
-        .map(nome => ({
-            nome,
-            media: calcularMediaAnual(nome)
-        }))
-        .filter(item => item.media !== null);
-
-    const mediaGeral = calcularMedia(
-        medias.map(item => item.media)
-    );
-
-    document.getElementById("mediaGeralAluno").textContent =
-        mediaGeral === null ? "--" : mediaGeral.toFixed(2);
-
-    document.getElementById("totalDisciplinasAluno").textContent =
-        medias.length;
-
-    document.getElementById("disciplinasAprovadas").textContent =
-        medias.filter(item => item.media >= 10).length;
-
-    document.getElementById("disciplinasPendentes").textContent =
-        medias.filter(item => item.media < 10).length;
-
-    atualizarResumoBoletim();
-    atualizarGrafico();
-}
-
-/* =====================================
-   FUNÇÕES AUXILIARES
-===================================== */
-
-function adicionarCelula(linha, valor) {
-    const td = document.createElement("td");
-    td.textContent = valor;
-    linha.appendChild(td);
-}
-
-function criarBotao(texto, classe, acao) {
-    const botao = document.createElement("button");
-
-    botao.textContent = texto;
-    botao.className = classe;
-    botao.type = "button";
-    botao.addEventListener("click", acao);
-
-    return botao;
-}
-
-/* =====================================
-   VERIFICAR SESSÃO
-===================================== */
-
-(function verificarSessao() {
-    try {
-        const sessao = JSON.parse(sessionStorage.getItem("sige_sessao"));
-
-        if (sessao) {
-            const conta = obterContas().find(item => item.id === sessao.id);
-
-            if (conta) {
-                entrarNoSistema(conta);
-                return;
-            }
-
-            sessionStorage.removeItem("sige_sessao");
-        }
-    } catch {
-        sessionStorage.removeItem("sige_sessao");
-    }
-})();
-
 </script>
-
 </body>
 </html>
