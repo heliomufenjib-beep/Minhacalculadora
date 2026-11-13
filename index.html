@@ -19,8 +19,9 @@ body {
     color: #1e293b;
 }
 
-/* TELA DE LOGIN */
-#loginScreen {
+/* AUTENTICAÇÃO */
+
+.auth-screen {
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -29,59 +30,94 @@ body {
     background: linear-gradient(135deg, #102b50, #2563eb);
 }
 
-.login-box {
+.auth-box {
     background: white;
     padding: 35px;
     width: 100%;
-    max-width: 380px;
-    border-radius: 12px;
+    max-width: 420px;
+    border-radius: 14px;
     box-shadow: 0 5px 25px #0003;
     text-align: center;
 }
 
-.login-box h1 {
+.auth-box h1 {
+    font-size: 32px;
     color: #102b50;
     margin-bottom: 8px;
 }
 
-.login-box p {
+.auth-box .subtitle {
     color: #64748b;
     margin-bottom: 25px;
+    font-size: 14px;
 }
 
-.login-box input {
-    padding: 12px;
+.auth-box input {
     width: 100%;
-    margin-bottom: 15px;
+    padding: 13px;
+    margin-bottom: 13px;
     border: 1px solid #cbd5e1;
-    border-radius: 6px;
+    border-radius: 7px;
+    outline: none;
+    font-size: 14px;
 }
 
-.login-box button {
+.auth-box input:focus {
+    border-color: #2563eb;
+}
+
+.auth-button {
+    display: block;
     width: 100%;
-    padding: 12px;
+    padding: 15px;
+    margin-top: 12px;
     background: #2563eb;
     color: white;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    border-radius: 7px;
     font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.login-box button:hover {
+.auth-button:hover {
     background: #1d4ed8;
 }
 
-#erroLogin {
-    color: #dc2626;
-    margin-top: 12px;
-    font-size: 13px;
+.auth-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #64748b;
 }
 
-/* SISTEMA ORIGINAL */
+.auth-link button {
+    color: #2563eb;
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.auth-message {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #dc2626;
+}
+
+.auth-message.success {
+    color: #15803d;
+}
+
+#registerScreen {
+    display: none;
+}
+
 #app {
     display: none;
 }
+
+/* SISTEMA ORIGINAL */
 
 header {
     background: #102b50;
@@ -242,37 +278,131 @@ th {
         padding: 9px;
         font-size: 13px;
     }
+
+    .auth-box {
+        padding: 25px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- TELA DE LOGIN -->
-<div id="loginScreen">
-    <div class="login-box">
+<!-- TELA DE ENTRADA -->
+
+<div id="loginScreen" class="auth-screen">
+    <div class="auth-box">
+
         <h1>SIGE</h1>
-        <p>Sistema Integrado de Gestão Escolar</p>
 
-        <input
-            type="text"
-            id="usuario"
-            placeholder="Nome de utilizador"
-        >
+        <p class="subtitle">
+            Sistema Integrado de Gestão Escolar
+        </p>
 
-        <input
-            type="password"
-            id="senha"
-            placeholder="Palavra-passe"
-        >
+        <h3 style="margin-bottom:20px">Entrar na conta</h3>
 
-        <button onclick="entrar()">Entrar no sistema</button>
+        <form id="loginForm">
 
-        <p id="erroLogin"></p>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Endereço de e-mail"
+                required
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Palavra-passe"
+                required
+            >
+
+            <button type="submit" class="auth-button">
+                ENTRAR
+            </button>
+
+        </form>
+
+        <p class="auth-link">
+            Não tens uma conta?
+        </p>
+
+        <button
+            class="auth-button"
+            onclick="mostrarRegisto()">
+            CRIAR CONTA
+        </button>
+
+        <p id="loginMessage" class="auth-message"></p>
+
     </div>
 </div>
 
-<!-- APLICAÇÃO ORIGINAL -->
+<!-- TELA DE CRIAÇÃO DE CONTA -->
+
+<div id="registerScreen" class="auth-screen">
+    <div class="auth-box">
+
+        <h1>SIGE</h1>
+
+        <p class="subtitle">
+            Cria a tua conta para aceder à plataforma
+        </p>
+
+        <h3 style="margin-bottom:20px">
+            Criar nova conta
+        </h3>
+
+        <form id="registerForm">
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Nome completo"
+                required
+                minlength="3"
+            >
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Endereço de e-mail"
+                required
+            >
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Criar palavra-passe (mínimo 8 caracteres)"
+                required
+                minlength="8"
+            >
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirmar palavra-passe"
+                required
+            >
+
+            <button type="submit" class="auth-button">
+                CRIAR CONTA
+            </button>
+
+        </form>
+
+        <p class="auth-link">
+            Já tens uma conta?
+            <button onclick="mostrarLogin()">Entrar</button>
+        </p>
+
+        <p id="registerMessage" class="auth-message"></p>
+
+    </div>
+</div>
+
+<!-- APLICAÇÃO SIGE ORIGINAL -->
+
 <div id="app">
 
 <header>
@@ -463,27 +593,169 @@ th {
 
 <script>
 
-/* AUTENTICAÇÃO */
+/* ==================================
+   SISTEMA DE AUTENTICAÇÃO
+================================== */
 
-function entrar() {
-    const usuario = document.getElementById('usuario').value;
-    const senha = document.getElementById('senha').value;
+const CHAVE_CONTAS = 'sige_contas';
 
-    if (usuario === 'admin' && senha === '12345') {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        document.getElementById('erroLogin').textContent = '';
-    } else {
-        document.getElementById('erroLogin').textContent =
-            'Utilizador ou palavra-passe incorretos!';
-    }
+/* OBTER CONTAS */
+
+function obterContas() {
+    return JSON.parse(
+        localStorage.getItem(CHAVE_CONTAS) || '[]'
+    );
 }
 
-document.getElementById('senha').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') entrar();
+/* MOSTRAR LOGIN */
+
+function mostrarLogin() {
+    document.getElementById('registerScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+
+    document.getElementById('registerMessage').textContent = '';
+}
+
+/* MOSTRAR REGISTO */
+
+function mostrarRegisto() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('registerScreen').style.display = 'flex';
+
+    document.getElementById('loginMessage').textContent = '';
+}
+
+/* GERAR HASH DA PALAVRA-PASSE */
+
+async function criarHash(senha, salt) {
+    const dados = new TextEncoder().encode(salt + senha);
+
+    const resultado = await crypto.subtle.digest(
+        'SHA-256',
+        dados
+    );
+
+    return Array.from(new Uint8Array(resultado))
+        .map(byte => byte.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+/* CRIAR CONTA */
+
+document.getElementById('registerForm')
+.addEventListener('submit', async function(event) {
+
+    event.preventDefault();
+
+    const nome = document.getElementById('registerName').value.trim();
+    const email = document.getElementById('registerEmail').value.trim().toLowerCase();
+    const senha = document.getElementById('registerPassword').value;
+    const confirmar = document.getElementById('confirmPassword').value;
+
+    const mensagem = document.getElementById('registerMessage');
+
+    mensagem.className = 'auth-message';
+
+    if (nome.length < 3) {
+        mensagem.textContent = 'Introduza o seu nome completo.';
+        return;
+    }
+
+    if (senha.length < 8) {
+        mensagem.textContent = 'A palavra-passe deve ter pelo menos 8 caracteres.';
+        return;
+    }
+
+    if (senha !== confirmar) {
+        mensagem.textContent = 'As palavras-passe não coincidem.';
+        return;
+    }
+
+    const contas = obterContas();
+
+    if (contas.some(conta => conta.email === email)) {
+        mensagem.textContent = 'Este e-mail já possui uma conta.';
+        return;
+    }
+
+    if (!window.crypto || !crypto.subtle) {
+        mensagem.textContent =
+            'A autenticação requer uma ligação HTTPS.';
+        return;
+    }
+
+    const salt = crypto.randomUUID();
+    const hash = await criarHash(senha, salt);
+
+    const novaConta = {
+        id: crypto.randomUUID(),
+        nome: nome,
+        email: email,
+        salt: salt,
+        hash: hash
+    };
+
+    contas.push(novaConta);
+
+    localStorage.setItem(
+        CHAVE_CONTAS,
+        JSON.stringify(contas)
+    );
+
+    document.getElementById('registerForm').reset();
+
+    mostrarLogin();
+
+    document.getElementById('loginEmail').value = email;
+
+    const loginMensagem = document.getElementById('loginMessage');
+
+    loginMensagem.className = 'auth-message success';
+    loginMensagem.textContent =
+        'Conta criada com sucesso! Agora podes entrar.';
 });
 
-/* BASE DE DADOS LOCAL */
+/* INICIAR SESSÃO */
+
+document.getElementById('loginForm')
+.addEventListener('submit', async function(event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    const senha = document.getElementById('loginPassword').value;
+
+    const mensagem = document.getElementById('loginMessage');
+
+    mensagem.className = 'auth-message';
+
+    const contas = obterContas();
+
+    const conta = contas.find(c => c.email === email);
+
+    if (!conta) {
+        mensagem.textContent = 'Conta não encontrada. Cria uma conta primeiro.';
+        return;
+    }
+
+    const hash = await criarHash(senha, conta.salt);
+
+    if (hash !== conta.hash) {
+        mensagem.textContent = 'Palavra-passe incorreta.';
+        return;
+    }
+
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('registerScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    document.getElementById('loginForm').reset();
+
+});
+
+/* ==================================
+   BASE DE DADOS LOCAL DO SIGE
+================================== */
 
 const dados = {
     alunos: JSON.parse(localStorage.getItem('sige_alunos') || '[]'),
