@@ -37,135 +37,256 @@ button{cursor:pointer}
   align-items:center;
   justify-content:center;
   padding:20px;
-  background:linear-gradient(135deg,#14285e,#3157d5);
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#101e45,#3157d5,#5278ed);
+  background-size:200% 200%;
+  animation:backgroundMove 9s ease infinite;
+}
+#authScreen::before,
+#authScreen::after{
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:#ffffff12;
+  animation:floatCircle 8s ease-in-out infinite;
+}
+#authScreen::before{top:-90px;left:-80px}
+#authScreen::after{
+  width:350px;
+  height:350px;
+  right:-130px;
+  bottom:-130px;
+  animation-delay:2s;
+}
+@keyframes backgroundMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes floatCircle{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-25px)}
 }
 .auth-card{
+  position:relative;
+  z-index:2;
   width:100%;
   max-width:420px;
   background:white;
   padding:35px;
   border-radius:20px;
   box-shadow:0 20px 60px #09163c55;
+  animation:cardAppear .8s ease both;
 }
-.logo{
-  width:52px;height:52px;
-  display:grid;place-items:center;
-  background:#eaf0ff;
-  color:var(--primary);
-  border-radius:15px;
-  font-size:25px;font-weight:800;
+@keyframes cardAppear{
+  from{opacity:0;transform:translateY(25px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
 }
 .auth-card h1{margin:18px 0 5px;font-size:25px}
 .auth-card p{color:var(--muted);font-size:14px}
+.logo{
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+  background:#eaf0ff;
+  color:var(--primary);
+  border-radius:15px;
+  font-size:34px;
+  animation:capFloat 3s ease-in-out infinite;
+}
+@keyframes capFloat{
+  0%,100%{transform:translateY(0) rotate(-4deg)}
+  50%{transform:translateY(-7px) rotate(4deg)}
+}
 .field{margin:16px 0}
 .field label{
-  display:block;font-size:13px;
-  font-weight:700;margin-bottom:7px;
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px;
 }
 .field input,.field select,.field textarea{
-  width:100%;padding:12px 13px;
+  width:100%;
+  padding:12px 13px;
   border:1px solid var(--border);
-  border-radius:9px;outline:none;
+  border-radius:9px;
+  outline:none;
   background:white;
 }
 .field input:focus,.field select:focus{
   border-color:var(--primary);
 }
+.password-box{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+.password-box input{padding-right:48px}
+.eye-btn{
+  position:absolute;
+  right:8px;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font-size:19px;
+  padding:7px;
+  color:var(--primary);
+}
 .primary-btn{
-  background:var(--primary);color:white;
-  border:0;border-radius:9px;
-  padding:12px 17px;font-weight:700;
+  background:var(--primary);
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:12px 17px;
+  font-weight:700;
 }
 .primary-btn:hover{background:var(--primary-dark)}
 .full{width:100%}
 .link-btn{
-  border:0;background:none;color:var(--primary);
-  font-weight:700;padding:10px;
+  border:0;
+  background:none;
+  color:var(--primary);
+  font-weight:700;
+  padding:10px;
 }
 .message{font-size:13px;color:var(--red);min-height:18px}
+.auth-card.entering{
+  animation:loginSuccess .65s ease forwards;
+}
+@keyframes loginSuccess{
+  0%{transform:scale(1);opacity:1}
+  45%{transform:scale(1.04);opacity:1}
+  100%{transform:scale(.94);opacity:0}
+}
 
 /* APPLICATION */
 #application{display:none;min-height:100vh}
 .sidebar{
-  position:fixed;left:0;top:0;bottom:0;
-  width:250px;background:#17264b;
-  color:white;padding:22px 15px;
-  overflow-y:auto;z-index:5;
+  position:fixed;
+  left:0;top:0;bottom:0;
+  width:250px;
+  background:#17264b;
+  color:white;
+  padding:22px 15px;
+  overflow-y:auto;
+  z-index:5;
 }
 .brand{
-  display:flex;align-items:center;gap:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
   padding:5px 10px 25px;
   border-bottom:1px solid #ffffff20;
 }
 .brand-icon{
-  width:40px;height:40px;border-radius:12px;
-  background:#4169e1;display:grid;place-items:center;
-  font-weight:900;font-size:20px;
+  width:40px;height:40px;
+  border-radius:12px;
+  background:#4169e1;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+  animation:capFloat 3s ease-in-out infinite;
 }
 .brand strong{font-size:17px}
 .brand small{display:block;color:#aebcdd;margin-top:3px}
 .nav-title{
-  color:#8999bc;font-size:10px;
-  font-weight:800;letter-spacing:1.5px;
+  color:#8999bc;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
   margin:24px 10px 9px;
 }
 .nav-btn{
-  width:100%;display:flex;align-items:center;
-  gap:12px;padding:12px 13px;
-  border:0;border-radius:9px;
-  background:transparent;color:#cbd5ec;
-  text-align:left;margin:3px 0;font-size:13px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 13px;
+  border:0;
+  border-radius:9px;
+  background:transparent;
+  color:#cbd5ec;
+  text-align:left;
+  margin:3px 0;
+  font-size:13px;
 }
 .nav-btn:hover,.nav-btn.active{
-  background:#ffffff18;color:white;
+  background:#ffffff18;
+  color:white;
 }
 .nav-btn .ico{width:20px;text-align:center;font-size:16px}
 .sidebar-footer{
   border-top:1px solid #ffffff20;
-  margin-top:25px;padding:18px 10px;
-  color:#aebcdd;font-size:11px;line-height:1.6;
+  margin-top:25px;
+  padding:18px 10px;
+  color:#aebcdd;
+  font-size:11px;
+  line-height:1.6;
 }
 .main{margin-left:250px;min-height:100vh}
 .topbar{
-  height:72px;background:white;
+  height:72px;
+  background:white;
   border-bottom:1px solid var(--border);
-  display:flex;align-items:center;
+  display:flex;
+  align-items:center;
   justify-content:space-between;
-  padding:0 30px;position:sticky;top:0;z-index:3;
+  padding:0 30px;
+  position:sticky;
+  top:0;
+  z-index:3;
 }
 .topbar h2{font-size:17px;margin:0}
 .user-area{display:flex;align-items:center;gap:12px}
 .avatar{
-  width:37px;height:37px;border-radius:50%;
-  display:grid;place-items:center;
-  background:#eaf0ff;color:var(--primary);
+  width:37px;height:37px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#eaf0ff;
+  color:var(--primary);
   font-weight:800;
 }
 .user-area small{display:block;color:var(--muted);margin-top:3px}
 .content{padding:30px;max-width:1500px;margin:auto}
 .page-heading{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:15px;flex-wrap:wrap;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
   margin-bottom:24px;
 }
 .page-heading h1{font-size:25px;margin:0 0 6px}
 .page-heading p{margin:0;color:var(--muted);font-size:13px}
 .grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:17px;margin-bottom:22px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:17px;
+  margin-bottom:22px;
 }
 .card,.panel{
-  background:white;border:1px solid var(--border);
-  border-radius:14px;padding:20px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px;
   box-shadow:var(--shadow);
 }
 .stat{
-  display:flex;justify-content:space-between;
+  display:flex;
+  justify-content:space-between;
   align-items:center;
 }
 .stat-icon{
-  width:43px;height:43px;border-radius:12px;
-  display:grid;place-items:center;font-size:20px;
+  width:43px;height:43px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-size:20px;
   background:#edf1ff;
 }
 .stat h3{font-size:26px;margin:17px 0 5px}
@@ -175,7 +296,8 @@ button{cursor:pointer}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:550px}
 th,td{
-  text-align:left;padding:13px 11px;
+  text-align:left;
+  padding:13px 11px;
   border-bottom:1px solid var(--border);
   font-size:12px;
 }
@@ -183,46 +305,62 @@ th{color:var(--muted);font-size:11px;background:#fafbfe}
 td{color:#354057}
 .empty{text-align:center;color:var(--muted);padding:25px}
 .badge{
-  padding:5px 9px;border-radius:20px;
-  background:#e9f7f0;color:var(--green);
-  font-size:10px;font-weight:700;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#e9f7f0;
+  color:var(--green);
+  font-size:10px;
+  font-weight:700;
 }
 .badge.red{background:#fff0f0;color:var(--red)}
 .action-btn{
-  border:0;background:#edf1ff;color:var(--primary);
-  padding:7px 10px;border-radius:7px;font-size:11px;
+  border:0;
+  background:#edf1ff;
+  color:var(--primary);
+  padding:7px 10px;
+  border-radius:7px;
+  font-size:11px;
   margin:2px;
 }
 .danger{background:#fff0f0;color:var(--red)}
-.toolbar{
-  display:flex;gap:10px;flex-wrap:wrap;
-  margin-bottom:15px;
-}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
 .toolbar input{
-  flex:1;min-width:180px;
-  padding:11px;border:1px solid var(--border);
+  flex:1;
+  min-width:180px;
+  padding:11px;
+  border:1px solid var(--border);
   border-radius:8px;
 }
 .secondary-btn{
   border:1px solid var(--border);
-  background:white;padding:10px 14px;
-  border-radius:8px;font-weight:600;font-size:12px;
+  background:white;
+  padding:10px 14px;
+  border-radius:8px;
+  font-weight:600;
+  font-size:12px;
 }
 .form-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
   gap:0 15px;
 }
 .form-grid .field{margin:9px 0}
 .notice{
-  padding:14px;border-radius:9px;
-  background:#edf3ff;color:#3157a7;
-  font-size:12px;line-height:1.6;margin-bottom:15px;
+  padding:14px;
+  border-radius:9px;
+  background:#edf3ff;
+  color:#3157a7;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:15px;
 }
 .notice.warning{background:#fff7e8;color:#8b641c}
 .section-note{color:var(--muted);font-size:12px;line-height:1.6}
 .footer{
-  text-align:center;color:var(--muted);
-  padding:25px;font-size:11px;
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+  font-size:11px;
 }
 .mobile-menu{display:none}
 
@@ -230,7 +368,11 @@ td{color:#354057}
   .grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:700px){
-  .sidebar{width:250px;transform:translateX(-100%);transition:.2s}
+  .sidebar{
+    width:250px;
+    transform:translateX(-100%);
+    transition:.2s;
+  }
   .sidebar.open{transform:translateX(0)}
   .main{margin-left:0}
   .mobile-menu{display:block;border:0;background:none;font-size:22px}
@@ -249,7 +391,7 @@ td{color:#354057}
 <!-- AUTENTICAÇÃO -->
 <section id="authScreen">
   <div class="auth-card">
-    <div class="logo">S</div>
+    <div class="logo">🎓</div>
     <h1>Bem-vindo ao SIGE</h1>
     <p>Sistema Integrado de Gestão Escolar</p>
 
@@ -264,9 +406,13 @@ td{color:#354057}
       <label>Endereço de e-mail</label>
       <input id="email" type="email" placeholder="exemplo@email.com">
     </div>
+
     <div class="field">
       <label>Palavra-passe</label>
-      <input id="password" type="password" placeholder="Introduza a palavra-passe">
+      <div class="password-box">
+        <input id="password" type="password" placeholder="Introduza a palavra-passe">
+        <button type="button" id="togglePassword" class="eye-btn" aria-label="Mostrar palavra-passe">👁</button>
+      </div>
     </div>
 
     <div id="confirmField" class="field hidden">
@@ -288,7 +434,7 @@ td{color:#354057}
 <div id="application">
   <aside class="sidebar" id="sidebar">
     <div class="brand">
-      <div class="brand-icon">S</div>
+      <div class="brand-icon">🎓</div>
       <div><strong>SIGE</strong><small>Gestão Escolar</small></div>
     </div>
 
@@ -342,11 +488,6 @@ td{color:#354057}
 <script>
 "use strict";
 
-/* =====================================================
-   SIGE - SISTEMA INTEGRADO DE GESTÃO ESCOLAR
-   PROTÓTIPO LOCAL: os dados ficam neste navegador.
-   ===================================================== */
-
 const $ = id => document.getElementById(id);
 const DB_KEY = "SIGE_PRO_DATABASE_2026";
 const SESSION_KEY = "SIGE_PRO_SESSION_2026";
@@ -376,9 +517,9 @@ let currentPage = "dashboard";
 function loadDB(){
   try{
     const saved = localStorage.getItem(DB_KEY);
-    return saved ? {...initialDB,...JSON.parse(saved)} : structuredClone(initialDB);
+    return saved ? {...initialDB,...JSON.parse(saved)} : JSON.parse(JSON.stringify(initialDB));
   }catch(e){
-    return structuredClone(initialDB);
+    return JSON.parse(JSON.stringify(initialDB));
   }
 }
 
@@ -439,11 +580,29 @@ function requireAdmin(){
   return true;
 }
 
+/* MOSTRAR E ESCONDER PALAVRA-PASSE */
+
+$("togglePassword").addEventListener("click",()=>{
+  const input=$("password");
+  const button=$("togglePassword");
+
+  if(input.type==="password"){
+    input.type="text";
+    button.textContent="🙈";
+    button.setAttribute("aria-label","Esconder palavra-passe");
+  }else{
+    input.type="password";
+    button.textContent="👁";
+    button.setAttribute("aria-label","Mostrar palavra-passe");
+  }
+});
+
 /* AUTENTICAÇÃO */
 
 function setAuthMode(mode){
   authMode=mode;
   const registering=mode==="register";
+
   $("registerFields").classList.toggle("hidden",!registering);
   $("confirmField").classList.toggle("hidden",!registering);
   $("authButton").textContent=registering?"Criar conta":"Entrar no sistema";
@@ -471,6 +630,7 @@ $("authButton").addEventListener("click",async()=>{
 
     if(authMode==="register"){
       const name=$("regName").value.trim();
+
       if(!name) throw new Error("Introduza o seu nome.");
       if($("confirmPassword").value!==password) throw new Error("As palavras-passe não coincidem.");
       if(db.users.some(u=>u.email===email)) throw new Error("Este e-mail já está registado.");
@@ -481,13 +641,16 @@ $("authButton").addEventListener("click",async()=>{
         role:firstAccount?"Administrador":"Aluno",
         active:true
       };
+
       db.users.push(user);
       saveDB();
       notify("Novo registo","Foi criada uma conta para "+name+".");
+
       message.style.color="green";
       message.textContent=firstAccount
         ?"Conta de administrador criada. Já pode entrar."
         :"Conta criada. Aguarde a autorização do administrador.";
+
       setAuthMode("login");
       $("email").value=email;
       return;
@@ -499,7 +662,15 @@ $("authButton").addEventListener("click",async()=>{
 
     currentUser=user;
     sessionStorage.setItem(SESSION_KEY,user.id);
-    startApplication();
+
+    const card=document.querySelector(".auth-card");
+    card.classList.remove("entering");
+    void card.offsetWidth;
+    card.classList.add("entering");
+
+    setTimeout(()=>{
+      startApplication();
+    },650);
 
   }catch(error){
     message.style.color="#dc4c4c";
@@ -516,6 +687,7 @@ $("recoverButton").addEventListener("click",()=>{
 function startApplication(){
   $("authScreen").style.display="none";
   $("application").style.display="block";
+
   $("userName").textContent=currentUser.name;
   $("userRole").textContent=currentUser.role;
   $("avatar").textContent=currentUser.name.charAt(0).toUpperCase();
@@ -533,6 +705,8 @@ $("logoutButton").addEventListener("click",()=>{
   $("application").style.display="none";
   $("authScreen").style.display="flex";
   $("password").value="";
+  $("togglePassword").textContent="👁";
+  $("password").type="password";
 });
 
 $("menuButton").addEventListener("click",()=>{
@@ -619,7 +793,7 @@ function actionButtons(id){
     <button class="action-btn danger" data-action="delete" data-id="${id}">Eliminar</button>`;
 }
 
-/* PAINEL PRINCIPAL */
+/* PAINEL PRINCIPAL - MANTIDO */
 
 function dashboard(){
   const welcome=`<div class="notice">
@@ -857,10 +1031,11 @@ const pages={
   about:aboutPage
 };
 
-/* FORMULÁRIOS DE REGISTO */
+/* FORMULÁRIOS */
 
 function openForm(type,id=null){
   if(type==="users") return;
+
   const cfg=configs[type];
   const collection=cfg.collection;
   const old=id?db[collection].find(r=>r.id===id):null;
@@ -910,6 +1085,7 @@ function openForm(type,id=null){
         <button class="primary-btn full" type="submit">Guardar registo</button>
       </form>
     </div>`;
+
   document.body.appendChild(modal);
   $("closeModal").onclick=()=>modal.remove();
 
@@ -938,13 +1114,17 @@ function openForm(type,id=null){
   };
 }
 
-/* AÇÕES DAS PÁGINAS */
+/* AÇÕES */
 
 function bindPageActions(){
   const add=document.querySelector('[data-action="add"]');
+
   if(add) add.onclick=()=>{
     if(currentPage==="grades" || currentPage==="attendance"){
-      if(!db.students.length){alert("Registe primeiro um aluno.");return;}
+      if(!db.students.length){
+        alert("Registe primeiro um aluno.");
+        return;
+      }
       openForm(currentPage);
     }else openForm(currentPage);
   };
@@ -979,18 +1159,22 @@ function bindPageActions(){
   document.querySelectorAll('[data-action="role"]').forEach(btn=>{
     btn.onclick=()=>{
       if(!requireAdmin()) return;
+
       const user=db.users.find(u=>u.id===btn.dataset.id);
       if(!user || user.id===currentUser.id){
         alert("Não pode alterar o seu próprio perfil.");
         return;
       }
+
       const role=prompt("Introduza o perfil: Administrador, Professor ou Aluno",user.role);
       if(!role) return;
+
       const allowed=["Administrador","Professor","Aluno"];
       if(!allowed.includes(role)){
         alert("Perfil inválido.");
         return;
       }
+
       user.role=role;
       saveDB();
       logActivity("Alterou o perfil de "+user.name);
@@ -1003,6 +1187,7 @@ function bindPageActions(){
       if(!requireAdmin()) return;
       const user=db.users.find(u=>u.id===btn.dataset.id);
       if(!user || user.id===currentUser.id) return;
+
       user.active=user.active===false;
       saveDB();
       logActivity("Alterou o estado de "+user.name);
@@ -1013,7 +1198,11 @@ function bindPageActions(){
   document.querySelectorAll('[data-action="read"]').forEach(btn=>{
     btn.onclick=()=>{
       const n=db.notifications.find(x=>x.id===btn.dataset.id);
-      if(n){n.read=true;saveDB();renderPage("notifications");}
+      if(n){
+        n.read=true;
+        saveDB();
+        renderPage("notifications");
+      }
     };
   });
 
@@ -1046,27 +1235,33 @@ function bindPageActions(){
 
 function exportBackup(){
   if(!requireAdmin()) return;
+
   const data=JSON.stringify(db,null,2);
   const blob=new Blob([data],{type:"application/json"});
   const url=URL.createObjectURL(blob);
   const a=document.createElement("a");
+
   a.href=url;
   a.download="SIGE-backup-"+new Date().toISOString().slice(0,10)+".json";
   a.click();
+
   URL.revokeObjectURL(url);
   logActivity("Exportou uma cópia de segurança");
 }
 
 function importBackup(event){
   if(!requireAdmin()) return;
+
   const file=event.target.files[0];
   if(!file) return;
 
   const reader=new FileReader();
+
   reader.onload=()=>{
     try{
       const imported=JSON.parse(reader.result);
       const keys=["users","students","teachers","classes","subjects","grades","attendance","notifications","activities","settings"];
+
       if(!imported || !keys.every(k=>k in imported)) throw new Error();
 
       if(!confirm("A importação substituirá os dados atuais deste navegador. Continuar?")) return;
@@ -1075,10 +1270,12 @@ function importBackup(event){
       saveDB();
       alert("Backup importado com sucesso.");
       renderPage("dashboard");
+
     }catch(e){
       alert("Não foi possível importar este ficheiro. Verifique se é um backup válido do SIGE.");
     }
   };
+
   reader.readAsText(file);
 }
 
@@ -1086,9 +1283,11 @@ function importBackup(event){
 
 (function init(){
   const sessionId=sessionStorage.getItem(SESSION_KEY);
+
   if(sessionId){
     currentUser=db.users.find(u=>u.id===sessionId && u.active!==false)||null;
   }
+
   if(currentUser){
     startApplication();
   }else{
