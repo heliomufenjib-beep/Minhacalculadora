@@ -3,13 +3,14 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SIGE - Sistema Integrado de Gestão Escolar</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172554}
 button,input,select,textarea{font:inherit}
-button{border:0;padding:11px 15px;border-radius:8px;cursor:pointer}
+button{border:0;border-radius:8px;padding:11px 15px;cursor:pointer}
 .primary{background:#2563eb;color:white}
 .secondary{background:#e0eaff;color:#1d4ed8}
 .danger{background:#fee2e2;color:#b91c1c}
@@ -21,6 +22,7 @@ button{border:0;padding:11px 15px;border-radius:8px;cursor:pointer}
 input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;background:white}
 label{display:block;margin:12px 0 6px;font-size:13px;font-weight:bold}
 .msg{font-size:13px;color:#dc2626;margin-top:12px}
+.success{color:#15803d}
 header{background:white;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0;gap:10px}
 .layout{display:flex;min-height:calc(100vh - 65px)}
 aside{width:230px;background:#14213d;padding:12px;flex-shrink:0}
@@ -43,7 +45,7 @@ th{background:#f8fafc}
 footer{text-align:center;color:#64748b;padding:20px;font-size:12px}
 .muted{color:#64748b}
 .tag{background:#dcfce7;color:#166534;padding:4px 8px;border-radius:15px;font-size:12px}
-.actions{display:flex;gap:5px}
+.actions{display:flex;gap:5px;flex-wrap:wrap}
 .actions button{padding:6px 9px;font-size:12px}
 @media(max-width:750px){
 .layout{display:block}
@@ -54,8 +56,10 @@ header{padding:12px}
 }
 </style>
 </head>
+
 <body>
 
+<!-- LOGIN -->
 <section id="auth" class="auth">
 <div class="authbox">
 <div class="logo">SIGE</div>
@@ -81,12 +85,15 @@ header{padding:12px}
 <button id="mainAuth" class="primary">ENTRAR</button>
 <button id="switchAuth" class="secondary">CRIAR CONTA</button>
 <button id="recover" class="secondary">RECUPERAR PALAVRA-PASSE</button>
+
 <div id="authMessage" class="msg"></div>
 <footer>Desenvolvido por <b>Hélio Mufenji</b></footer>
 </div>
 </section>
 
+<!-- SISTEMA -->
 <div id="app" class="hidden">
+
 <header>
 <div>
 <div class="logo">SIGE</div>
@@ -99,6 +106,7 @@ header{padding:12px}
 </header>
 
 <div class="layout">
+
 <aside id="navigation">
 <button class="active" data-page="dashboard">⌂ Painel principal</button>
 <button data-page="students" data-role="admin,teacher">Alunos</button>
@@ -120,17 +128,20 @@ header{padding:12px}
 <section id="dashboard" class="page active">
 <h1>Painel principal</h1>
 <p class="muted">Bem-vindo à plataforma de gestão escolar.</p>
+
 <div class="grid">
 <div class="card stat">Alunos<strong id="countStudents">0</strong></div>
 <div class="card stat">Professores<strong id="countTeachers">0</strong></div>
 <div class="card stat">Turmas<strong id="countClasses">0</strong></div>
 <div class="card stat">Disciplinas<strong id="countSubjects">0</strong></div>
 </div>
+
 <div class="card">
 <h3 id="greeting">Bem-vindo</h3>
 <p>O SIGE permite organizar e acompanhar as atividades da instituição escolar.</p>
 <div class="notice">Perfil de acesso: <b id="roleLabel"></b></div>
 </div>
+
 <div class="card">
 <h3>Últimas notificações</h3>
 <div id="recentNotices">Sem notificações.</div>
@@ -305,121 +316,247 @@ header{padding:12px}
 
 </main>
 </div>
+
 <footer>© 2026 SIGE — Desenvolvido por Hélio Mufenji</footer>
 </div>
 
 <script>
-const $=id=>document.getElementById(id);
-const DBKEY="SIGE_DATABASE_V2";
-const SESSIONKEY="SIGE_SESSION_V2";
-let registering=false;
-let currentUser=null;
+"use strict";
 
-let db=JSON.parse(localStorage.getItem(DBKEY)||'null')||{
-users:[],students:[],teachers:[],classes:[],subjects:[],
-grades:[],attendance:[],notifications:[],settings:{name:"SIGE",year:"2026",passMark:10}
+const $ = id => document.getElementById(id);
+
+const DBKEY = "SIGE_DATABASE_V3";
+const SESSIONKEY = "SIGE_SESSION_V3";
+
+let registering = false;
+let currentUser = null;
+
+let db = loadDatabase();
+
+function loadDatabase(){
+try{
+const saved = localStorage.getItem(DBKEY);
+if(saved) return JSON.parse(saved);
+}catch(error){
+console.error("Erro ao carregar dados:",error);
+}
+return {
+users:[],
+students:[],
+teachers:[],
+classes:[],
+subjects:[],
+grades:[],
+attendance:[],
+notifications:[],
+settings:{name:"SIGE",year:"2026",passMark:10}
 };
+}
 
 function save(){
 localStorage.setItem(DBKEY,JSON.stringify(db));
 }
 
-function safe(s){
-return String(s??"").replace(/[&<>"']/g,c=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
+function makeId(){
+return Date.now().toString(36)+Math.random().toString(36).slice(2);
 }
 
-async function hash(text){
-const bytes=new TextEncoder().encode(text);
-const digest=await crypto.subtle.digest("SHA-256",bytes);
-return Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,"0")).join("");
+function safe(value){
+return String(value??"").replace(/[&<>"']/g,function(c){
+return {
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[c];
+});
 }
 
-function authMessage(t){
-$("authMessage").textContent=t;
+async function hashPassword(password){
+if(!window.crypto || !window.crypto.subtle){
+throw new Error("O navegador não suporta a proteção de palavras-passe necessária. Abre o site pelo endereço HTTPS do GitHub Pages.");
+}
+const data = new TextEncoder().encode(password);
+const result = await crypto.subtle.digest("SHA-256",data);
+return Array.from(new Uint8Array(result))
+.map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+
+function authMessage(text,success=false){
+$("authMessage").textContent=text;
+$("authMessage").className=success?"msg success":"msg";
 }
 
 function toggleAuth(){
-registering=!registering;
+registering = !registering;
+
 $("registerFields").classList.toggle("hidden",!registering);
 $("confirmField").classList.toggle("hidden",!registering);
+
 $("authTitle").textContent=registering?"Criar uma conta":"Bem-vindo ao SIGE";
 $("mainAuth").textContent=registering?"CRIAR CONTA":"ENTRAR";
 $("switchAuth").textContent=registering?"JÁ TENHO CONTA":"CRIAR CONTA";
+
 authMessage("");
 }
 
 async function createAccount(){
+try{
 const name=$("regName").value.trim();
 const email=$("email").value.trim().toLowerCase();
 const password=$("password").value;
-const confirm=$("confirmPassword").value;
+const confirmation=$("confirmPassword").value;
 
-if(!name||!email||!password) return authMessage("Preenche todos os campos.");
-if(password.length<8) return authMessage("A palavra-passe deve ter pelo menos 8 caracteres.");
-if(password!==confirm) return authMessage("As palavras-passe não coincidem.");
-if(db.users.some(u=>u.email===email)) return authMessage("Este email já está registado.");
+if(!name||!email||!password){
+authMessage("Preenche todos os campos.");
+return;
+}
+
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+authMessage("Introduz um endereço de email válido.");
+return;
+}
+
+if(password.length<8){
+authMessage("A palavra-passe deve ter pelo menos 8 caracteres.");
+return;
+}
+
+if(password!==confirmation){
+authMessage("As palavras-passe não coincidem.");
+return;
+}
+
+if(db.users.some(u=>u.email===email)){
+authMessage("Este email já está registado.");
+return;
+}
+
+const passwordHash=await hashPassword(password);
 
 const role=db.users.length===0?"admin":"student";
-const user={
-id:crypto.randomUUID(),
-name,email,
-passwordHash:await hash(password),
-role
+
+const newUser={
+id:makeId(),
+name:name,
+email:email,
+passwordHash:passwordHash,
+role:role
 };
 
-db.users.push(user);
+db.users.push(newUser);
 save();
-authMessage("Conta criada com sucesso! Já podes iniciar sessão.");
-toggleAuth();
+
+authMessage("Conta criada com sucesso! Agora podes entrar.",true);
+
 $("email").value=email;
+$("password").value="";
+$("confirmPassword").value="";
+
+toggleAuth();
+
+}catch(error){
+authMessage(error.message);
+console.error(error);
+}
 }
 
 async function login(){
+try{
 const email=$("email").value.trim().toLowerCase();
 const password=$("password").value;
-if(!email||!password) return authMessage("Introduz o email e a palavra-passe.");
 
-const passwordHash=await hash(password);
-const user=db.users.find(u=>u.email===email&&u.passwordHash===passwordHash);
-if(!user) return authMessage("Email ou palavra-passe incorretos.");
-
-currentUser=user;
-sessionStorage.setItem(SESSIONKEY,user.id);
-openApp();
+if(!email||!password){
+authMessage("Introduz o email e a palavra-passe.");
+return;
 }
 
-function recover(){
-const email=$("email").value.trim().toLowerCase();
-if(!email) return authMessage("Introduz o email da tua conta.");
-const user=db.users.find(u=>u.email===email);
-if(!user) return authMessage("Não foi encontrada uma conta com esse email.");
-const newPass=prompt("Define uma nova palavra-passe com pelo menos 8 caracteres:");
-if(!newPass||newPass.length<8) return authMessage("Palavra-passe inválida.");
-hash(newPass).then(h=>{
-user.passwordHash=h;
-save();
-authMessage("Palavra-passe atualizada. Já podes entrar.");
+const passwordHash=await hashPassword(password);
+
+const found=db.users.find(function(u){
+return u.email===email&&u.passwordHash===passwordHash;
 });
+
+if(!found){
+authMessage("Email ou palavra-passe incorretos.");
+return;
+}
+
+currentUser=found;
+sessionStorage.setItem(SESSIONKEY,found.id);
+
+openApp();
+
+}catch(error){
+authMessage(error.message);
+console.error(error);
+}
+}
+
+async function recoverPassword(){
+try{
+const email=$("email").value.trim().toLowerCase();
+
+if(!email){
+authMessage("Introduz primeiro o email da tua conta.");
+return;
+}
+
+const found=db.users.find(u=>u.email===email);
+
+if(!found){
+authMessage("Não foi encontrada uma conta com esse email.");
+return;
+}
+
+const newPassword=prompt("Demonstração: define uma nova palavra-passe com pelo menos 8 caracteres.");
+
+if(!newPassword||newPassword.length<8){
+authMessage("A palavra-passe deve ter pelo menos 8 caracteres.");
+return;
+}
+
+const confirmation=prompt("Confirma a nova palavra-passe.");
+
+if(newPassword!==confirmation){
+authMessage("As palavras-passe não coincidem.");
+return;
+}
+
+found.passwordHash=await hashPassword(newPassword);
+save();
+
+authMessage("Palavra-passe atualizada. Já podes iniciar sessão.",true);
+
+}catch(error){
+authMessage(error.message);
+}
+}
+
+function roleName(role){
+return {
+admin:"Administrador",
+teacher:"Professor",
+student:"Aluno"
+}[role]||role;
 }
 
 function openApp(){
 $("auth").classList.add("hidden");
 $("app").classList.remove("hidden");
+
 $("userName").textContent=currentUser.name;
 $("greeting").textContent="Bem-vindo, "+currentUser.name;
 $("roleLabel").textContent=roleName(currentUser.role);
-document.querySelectorAll("[data-role]").forEach(el=>{
+
+document.querySelectorAll("[data-role]").forEach(function(el){
 const roles=el.dataset.role.split(",");
 el.classList.toggle("hidden",!roles.includes(currentUser.role));
 });
+
 refresh();
 showPage("dashboard");
-}
-
-function roleName(r){
-return {admin:"Administrador",teacher:"Professor",student:"Aluno"}[r]||r;
 }
 
 function logout(){
@@ -428,101 +565,188 @@ sessionStorage.removeItem(SESSIONKEY);
 $("app").classList.add("hidden");
 $("auth").classList.remove("hidden");
 $("password").value="";
+authMessage("Sessão encerrada.",true);
 }
 
 function showPage(id){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 $(id).classList.add("active");
-document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+
+document.querySelectorAll("[data-page]").forEach(function(button){
+button.classList.toggle("active",button.dataset.page===id);
+});
 }
 
 function requireAdmin(){
-if(currentUser.role!=="admin") throw Error("Apenas o administrador pode executar esta operação.");
+if(!currentUser||currentUser.role!=="admin"){
+throw new Error("Apenas o administrador pode executar esta operação.");
+}
 }
 
-function addRecord(type,obj){
-db[type].push({id:crypto.randomUUID(),...obj});
+function addRecord(type,object){
+db[type].push({id:makeId(),...object});
 save();
 refresh();
 }
 
 function removeRecord(type,id){
-if(currentUser.role!=="admin") return alert("Apenas o administrador pode eliminar registos.");
-if(!confirm("Tens a certeza que desejas eliminar?")) return;
+if(!currentUser||currentUser.role!=="admin"){
+alert("Apenas o administrador pode eliminar registos.");
+return;
+}
+
+if(!confirm("Tens a certeza que desejas eliminar este registo?"))return;
+
 db[type]=db[type].filter(x=>x.id!==id);
 save();
 refresh();
 }
 
 function draw(id,headers,rows){
-$(id).innerHTML="<thead><tr>"+headers.map(h=>"<th>"+h+"</th>").join("")+"</tr></thead><tbody>"+
-(rows.length?rows.join(""):`<tr><td colspan="${headers.length}">Nenhum registo encontrado.</td></tr>")+"</tbody>";
+const table=$(id);
+
+const head="<thead><tr>"+
+headers.map(h=>"<th>"+safe(h)+"</th>").join("")+
+"</tr></thead>";
+
+let body;
+
+if(rows.length){
+body="<tbody>"+rows.join("")+"</tbody>";
+}else{
+body="<tbody><tr><td colspan='"+headers.length+"'>Nenhum registo encontrado.</td></tr></tbody>";
 }
 
-function del(type,item){
-return currentUser.role==="admin"?`<button class="danger" onclick="removeRecord('${type}','${item.id}')">Eliminar</button>`:"";
+table.innerHTML=head+body;
+}
+
+function deleteButton(type,item){
+if(currentUser.role!=="admin")return "";
+return '<button class="danger" onclick="removeRecord(\''+type+'\',\''+item.id+'\')">Eliminar</button>';
 }
 
 function fillSelect(id,items,label){
-$(id).innerHTML=items.map(x=>`<option value="${x.id}">${safe(label(x))}</option>`).join("");
+$(id).innerHTML=items.map(function(item){
+return '<option value="'+safe(item.id)+'">'+safe(label(item))+'</option>';
+}).join("");
 }
 
 function refresh(){
+if(!currentUser)return;
+
 $("schoolHeader").textContent=db.settings.name;
+
 $("countStudents").textContent=db.students.length;
 $("countTeachers").textContent=db.teachers.length;
 $("countClasses").textContent=db.classes.length;
 $("countSubjects").textContent=db.subjects.length;
+
 $("rStudents").textContent=db.students.length;
 $("rGrades").textContent=db.grades.length;
 $("rAttendance").textContent=db.attendance.length;
 
-let students=db.students;
-if(currentUser.role==="student") students=db.students.filter(s=>s.userId===currentUser.id);
+let visibleStudents=db.students;
 
-draw("studentsTable",["Nome","Matrícula","Turma","Email","Ação"],
-students.filter(s=>(s.name+" "+s.registration).toLowerCase().includes(($("searchStudent").value||"").toLowerCase())).map(s=>`<tr><td>${safe(s.name)}</td><td>${safe(s.registration)}</td><td>${safe(s.className)}</td><td>${safe(s.email)}</td><td>${del("students",s)}</td></tr>`));
+if(currentUser.role==="student"){
+visibleStudents=db.students.filter(s=>s.userId===currentUser.id);
+}
 
-draw("teachersTable",["Nome","Especialidade","Email","Ação"],
-db.teachers.map(t=>`<tr><td>${safe(t.name)}</td><td>${safe(t.specialty)}</td><td>${safe(t.email)}</td><td>${del("teachers",t)}</td></tr>`));
+const search=($("searchStudent").value||"").toLowerCase();
 
-draw("classesTable",["Turma","Ano","Diretor","Ação"],
-db.classes.map(c=>`<tr><td>${safe(c.name)}</td><td>${safe(c.year)}</td><td>${safe(c.teacher)}</td><td>${del("classes",c)}</td></tr>`));
+visibleStudents=visibleStudents.filter(function(s){
+return (s.name+" "+s.registration+" "+s.className).toLowerCase().includes(search);
+});
 
-draw("subjectsTable",["Disciplina","Professor","Turma","Ação"],
-db.subjects.map(s=>`<tr><td>${safe(s.name)}</td><td>${safe(s.teacher)}</td><td>${safe(s.className)}</td><td>${del("subjects",s)}</td></tr>`));
+draw("studentsTable",
+["Nome","Matrícula","Turma","Email","Ação"],
+visibleStudents.map(s=>
+"<tr><td>"+safe(s.name)+"</td><td>"+safe(s.registration)+"</td><td>"+safe(s.className)+"</td><td>"+safe(s.email)+"</td><td>"+deleteButton("students",s)+"</td></tr>"
+));
 
-const grades=currentUser.role==="student"?db.grades.filter(g=>g.studentId===currentUser.id):db.grades;
+draw("teachersTable",
+["Nome","Especialidade","Email","Ação"],
+db.teachers.map(t=>
+"<tr><td>"+safe(t.name)+"</td><td>"+safe(t.specialty)+"</td><td>"+safe(t.email)+"</td><td>"+deleteButton("teachers",t)+"</td></tr>"
+));
 
-draw("gradesTable",["Aluno","Disciplina","Trimestre","Nota","Ação"],
-grades.map(g=>`<tr><td>${safe(g.studentName)}</td><td>${safe(g.subject)}</td><td>${safe(g.term)}</td><td>${g.value}</td><td>${del("grades",g)}</td></tr>`));
+draw("classesTable",
+["Turma","Ano","Diretor","Ação"],
+db.classes.map(c=>
+"<tr><td>"+safe(c.name)+"</td><td>"+safe(c.year)+"</td><td>"+safe(c.teacher)+"</td><td>"+deleteButton("classes",c)+"</td></tr>"
+));
 
-draw("attendanceTable",["Aluno","Data","Estado","Ação"],
-db.attendance.map(a=>`<tr><td>${safe(a.studentName)}</td><td>${safe(a.date)}</td><td>${safe(a.status)}</td><td>${del("attendance",a)}</td></tr>`));
+draw("subjectsTable",
+["Disciplina","Professor","Turma","Ação"],
+db.subjects.map(s=>
+"<tr><td>"+safe(s.name)+"</td><td>"+safe(s.teacher)+"</td><td>"+safe(s.className)+"</td><td>"+deleteButton("subjects",s)+"</td></tr>"
+));
 
-draw("usersTable",["Nome","Email","Função"],
-db.users.map(u=>`<tr><td>${safe(u.name)}</td><td>${safe(u.email)}</td><td>${roleName(u.role)}</td></tr>`));
+const visibleGrades=currentUser.role==="student"
+?db.grades.filter(g=>g.studentId===currentUser.id)
+:db.grades;
 
-$("noticeList").innerHTML=db.notifications.map(n=>`<div class="card"><h3>${safe(n.title)}</h3><p>${safe(n.body)}</p></div>`).join("")||"Sem notificações.";
-$("recentNotices").innerHTML=db.notifications.slice(-3).reverse().map(n=>`<p><b>${safe(n.title)}</b><br>${safe(n.body)}</p>`).join("")||"Sem notificações.";
+draw("gradesTable",
+["Aluno","Disciplina","Trimestre","Nota","Ação"],
+visibleGrades.map(g=>
+"<tr><td>"+safe(g.studentName)+"</td><td>"+safe(g.subject)+"</td><td>"+safe(g.term)+"</td><td>"+safe(g.value)+"</td><td>"+deleteButton("grades",g)+"</td></tr>"
+));
+
+draw("attendanceTable",
+["Aluno","Data","Estado","Ação"],
+db.attendance.map(a=>
+"<tr><td>"+safe(a.studentName)+"</td><td>"+safe(a.date)+"</td><td>"+safe(a.status)+"</td><td>"+deleteButton("attendance",a)+"</td></tr>"
+));
+
+draw("usersTable",
+["Nome","Email","Função"],
+db.users.map(u=>
+"<tr><td>"+safe(u.name)+"</td><td>"+safe(u.email)+"</td><td>"+roleName(u.role)+"</td></tr>"
+));
+
+$("noticeList").innerHTML=db.notifications.map(n=>
+'<div class="card"><h3>'+safe(n.title)+'</h3><p>'+safe(n.body)+'</p></div>'
+).join("")||"Sem notificações.";
+
+$("recentNotices").innerHTML=db.notifications.slice(-3).reverse().map(n=>
+"<p><b>"+safe(n.title)+"</b><br>"+safe(n.body)+"</p>"
+).join("")||"Sem notificações.";
 
 fillSelect("gradeStudent",db.students,s=>s.name);
 fillSelect("attStudent",db.students,s=>s.name);
 fillSelect("gradeSubject",db.subjects,s=>s.name);
 
 const myGrades=db.grades.filter(g=>g.studentId===currentUser.id);
-const avg=myGrades.length?myGrades.reduce((a,g)=>a+Number(g.value),0)/myGrades.length:null;
-$("myAverage").textContent=avg===null?"—":avg.toFixed(2)+"/20";
+
+const average=myGrades.length
+?myGrades.reduce((sum,g)=>sum+Number(g.value),0)/myGrades.length
+:null;
+
+$("myAverage").textContent=average===null?"—":average.toFixed(2)+"/20";
 $("myGradeCount").textContent=myGrades.length;
-$("myPresence").textContent=db.attendance.filter(a=>a.studentId===currentUser.id&&a.status==="Presente").length;
 
-draw("myGrades",["Disciplina","Trimestre","Nota","Resultado"],
-myGrades.map(g=>`<tr><td>${safe(g.subject)}</td><td>${safe(g.term)}</td><td>${g.value}</td><td>${g.value>=Number(db.settings.passMark)?"Aprovado":"Abaixo da média"}</td></tr>`));
+$("myPresence").textContent=db.attendance.filter(a=>
+a.studentId===currentUser.id&&a.status==="Presente"
+).length;
 
-$("myProfile").innerHTML=`<p>Nome: ${safe(currentUser.name)}</p><p>Email: ${safe(currentUser.email)}</p><p>Perfil: ${roleName(currentUser.role)}</p>`;
+draw("myGrades",
+["Disciplina","Trimestre","Nota","Resultado"],
+myGrades.map(g=>
+"<tr><td>"+safe(g.subject)+"</td><td>"+safe(g.term)+"</td><td>"+safe(g.value)+"</td><td>"+(Number(g.value)>=Number(db.settings.passMark)?"Aprovado":"Abaixo da média")+"</td></tr>"
+));
 
-const allAvg=db.grades.length?db.grades.reduce((a,g)=>a+Number(g.value),0)/db.grades.length:0;
-$("gradeSummary").innerHTML=`<p>Total de notas: ${db.grades.length}</p><p>Média geral: ${db.grades.length?allAvg.toFixed(2):"—"}</p><p>Registos de presenças: ${db.attendance.length}</p>`;
+$("myProfile").innerHTML=
+"<p>Nome: "+safe(currentUser.name)+"</p>"+
+"<p>Email: "+safe(currentUser.email)+"</p>"+
+"<p>Perfil: "+roleName(currentUser.role)+"</p>";
+
+const allAverage=db.grades.length
+?db.grades.reduce((sum,g)=>sum+Number(g.value),0)/db.grades.length
+:0;
+
+$("gradeSummary").innerHTML=
+"<p>Total de notas: "+db.grades.length+"</p>"+
+"<p>Média geral: "+(db.grades.length?allAverage.toFixed(2):"—")+"</p>"+
+"<p>Registos de presenças: "+db.attendance.length+"</p>";
 
 $("schoolName").value=db.settings.name;
 $("schoolYear").value=db.settings.year;
@@ -531,107 +755,295 @@ $("passMark").value=db.settings.passMark;
 
 function printSection(id,title){
 const content=$(id).innerHTML;
-const w=window.open("","_blank");
-if(!w) return alert("Permite abrir a janela de impressão.");
-w.document.write(`<html><head><title>${safe(title)}</title><style>body{font-family:Arial;padding:25px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ddd;padding:8px;text-align:left}</style></head><body><h1>${safe(title)}</h1><p>SIGE — Desenvolvido por Hélio Mufenji</p>${content}</body></html>`);
-w.document.close();
-w.print();
+const win=window.open("","_blank");
+
+if(!win){
+alert("Permite abrir janelas de impressão no navegador.");
+return;
 }
 
-$("mainAuth").addEventListener("click",()=>registering?createAccount():login());
+win.document.write(
+"<html><head><title>"+safe(title)+"</title>"+
+"<style>body{font-family:Arial;padding:25px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ddd;padding:8px;text-align:left}</style>"+
+"</head><body><h1>"+safe(title)+"</h1>"+
+"<p>SIGE — Desenvolvido por Hélio Mufenji</p>"+
+content+"</body></html>"
+);
+
+win.document.close();
+win.print();
+}
+
+/* EVENTOS DE AUTENTICAÇÃO */
+
+$("mainAuth").addEventListener("click",function(){
+if(registering){
+createAccount();
+}else{
+login();
+}
+});
+
 $("switchAuth").addEventListener("click",toggleAuth);
-$("recover").addEventListener("click",recover);
+$("recover").addEventListener("click",recoverPassword);
 $("logout").addEventListener("click",logout);
 
-document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+/* NAVEGAÇÃO */
 
-$("addStudent").addEventListener("click",()=>{
+document.querySelectorAll("[data-page]").forEach(function(button){
+button.addEventListener("click",function(){
+showPage(button.dataset.page);
+});
+});
+
+/* ALUNOS */
+
+$("addStudent").addEventListener("click",function(){
 try{
 requireAdmin();
+
 const name=$("sName").value.trim();
 const registration=$("sNumber").value.trim();
 const className=$("sClass").value.trim();
 const email=$("sEmail").value.trim();
-if(!name||!registration||!className) return alert("Preenche os campos obrigatórios.");
+
+if(!name||!registration||!className){
+alert("Preenche o nome, matrícula e turma.");
+return;
+}
+
 addRecord("students",{name,registration,className,email});
+
 ["sName","sNumber","sClass","sEmail"].forEach(id=>$(id).value="");
-}catch(e){alert(e.message)}
+
+}catch(e){
+alert(e.message);
+}
 });
 
-$("addTeacher").addEventListener("click",()=>{
+/* PROFESSORES */
+
+$("addTeacher").addEventListener("click",function(){
 try{
 requireAdmin();
-addRecord("teachers",{name:$("tName").value, specialty:$("tSpecialty").value,email:$("tEmail").value});
-}catch(e){alert(e.message)}
+
+const name=$("tName").value.trim();
+const email=$("tEmail").value.trim();
+
+if(!name||!email){
+alert("Preenche o nome e o email.");
+return;
+}
+
+addRecord("teachers",{
+name:name,
+specialty:$("tSpecialty").value,
+email:email
 });
 
-$("addClass").addEventListener("click",()=>{
+}catch(e){
+alert(e.message);
+}
+});
+
+/* TURMAS */
+
+$("addClass").addEventListener("click",function(){
 try{
 requireAdmin();
-addRecord("classes",{name:$("cName").value,year:$("cYear").value,teacher:$("cTeacher").value});
-}catch(e){alert(e.message)}
+
+const name=$("cName").value.trim();
+
+if(!name){
+alert("Introduz o nome da turma.");
+return;
+}
+
+addRecord("classes",{
+name:name,
+year:$("cYear").value,
+teacher:$("cTeacher").value
 });
 
-$("addSubject").addEventListener("click",()=>{
+}catch(e){
+alert(e.message);
+}
+});
+
+/* DISCIPLINAS */
+
+$("addSubject").addEventListener("click",function(){
 try{
 requireAdmin();
-addRecord("subjects",{name:$("subName").value,teacher:$("subTeacher").value,className:$("subClass").value});
-}catch(e){alert(e.message)}
+
+const name=$("subName").value.trim();
+
+if(!name){
+alert("Introduz o nome da disciplina.");
+return;
+}
+
+addRecord("subjects",{
+name:name,
+teacher:$("subTeacher").value,
+className:$("subClass").value
 });
 
-$("addGrade").addEventListener("click",()=>{
+}catch(e){
+alert(e.message);
+}
+});
+
+/* NOTAS */
+
+$("addGrade").addEventListener("click",function(){
+if(!["admin","teacher"].includes(currentUser.role)){
+alert("Sem autorização.");
+return;
+}
+
 const student=db.students.find(s=>s.id===$("gradeStudent").value);
 const subject=db.subjects.find(s=>s.id===$("gradeSubject").value);
 const value=Number($("gradeValue").value);
-if(!student||!subject||$("gradeValue").value===""||value<0||value>20) return alert("Seleciona aluno, disciplina e uma nota entre 0 e 20.");
-addRecord("grades",{studentId:student.id,studentName:student.name,subject:subject.name,term:$("gradeTerm").value,value});
+
+if(!student||!subject||$("gradeValue").value===""||value<0||value>20){
+alert("Seleciona um aluno, uma disciplina e uma nota entre 0 e 20.");
+return;
+}
+
+addRecord("grades",{
+studentId:student.userId||student.id,
+studentName:student.name,
+subject:subject.name,
+term:$("gradeTerm").value,
+value:value
 });
 
-$("addAttendance").addEventListener("click",()=>{
+$("gradeValue").value="";
+});
+
+/* PRESENÇAS */
+
+$("addAttendance").addEventListener("click",function(){
+if(!["admin","teacher"].includes(currentUser.role)){
+alert("Sem autorização.");
+return;
+}
+
 const student=db.students.find(s=>s.id===$("attStudent").value);
-if(!student||!$("attDate").value) return alert("Seleciona aluno e data.");
-addRecord("attendance",{studentId:student.id,studentName:student.name,date:$("attDate").value,status:$("attStatus").value});
+const date=$("attDate").value;
+
+if(!student||!date){
+alert("Seleciona um aluno e uma data.");
+return;
+}
+
+addRecord("attendance",{
+studentId:student.userId||student.id,
+studentName:student.name,
+date:date,
+status:$("attStatus").value
+});
 });
 
-$("publishNotice").addEventListener("click",()=>{
+/* NOTIFICAÇÕES */
+
+$("publishNotice").addEventListener("click",function(){
 try{
 requireAdmin();
+
 const title=$("noticeTitle").value.trim();
 const body=$("noticeBody").value.trim();
-if(!title||!body) return alert("Preenche o título e a mensagem.");
+
+if(!title||!body){
+alert("Preenche o título e a mensagem.");
+return;
+}
+
 addRecord("notifications",{title,body});
-}catch(e){alert(e.message)}
+
+$("noticeTitle").value="";
+$("noticeBody").value="";
+
+}catch(e){
+alert(e.message);
+}
 });
 
-$("saveSettings").addEventListener("click",()=>{
+/* CONFIGURAÇÕES */
+
+$("saveSettings").addEventListener("click",function(){
 try{
 requireAdmin();
-db.settings={name:$("schoolName").value,year:$("schoolYear").value,passMark:Number($("passMark").value)};
-save();refresh();alert("Configurações guardadas.");
-}catch(e){alert(e.message)}
+
+db.settings={
+name:$("schoolName").value.trim()||"SIGE",
+year:$("schoolYear").value.trim(),
+passMark:Number($("passMark").value)||10
+};
+
+save();
+refresh();
+
+alert("Configurações guardadas.");
+
+}catch(e){
+alert(e.message);
+}
 });
 
-$("exportBackup").addEventListener("click",()=>{
+/* EXPORTAR DADOS */
+
+$("exportBackup").addEventListener("click",function(){
 try{
 requireAdmin();
-const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
-const a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="SIGE-backup.json";
-a.click();
-URL.revokeObjectURL(a.href);
-}catch(e){alert(e.message)}
+
+const blob=new Blob(
+[JSON.stringify(db,null,2)],
+{type:"application/json"}
+);
+
+const url=URL.createObjectURL(blob);
+const link=document.createElement("a");
+
+link.href=url;
+link.download="SIGE-backup.json";
+link.click();
+
+URL.revokeObjectURL(url);
+
+}catch(e){
+alert(e.message);
+}
 });
 
-$("printBoletim").addEventListener("click",()=>printSection("studentArea","Boletim escolar"));
-$("printReports").addEventListener("click",()=>printSection("reports","Relatório escolar"));
+/* IMPRESSÃO */
+
+$("printBoletim").addEventListener("click",function(){
+printSection("studentArea","Boletim escolar");
+});
+
+$("printReports").addEventListener("click",function(){
+printSection("reports","Relatório escolar");
+});
+
+/* PESQUISA */
+
 $("searchStudent").addEventListener("input",refresh);
 
+/* RECUPERAR SESSÃO */
+
 const savedSession=sessionStorage.getItem(SESSIONKEY);
+
 if(savedSession){
 const found=db.users.find(u=>u.id===savedSession);
-if(found){currentUser=found;openApp()}
+
+if(found){
+currentUser=found;
+openApp();
 }
+}
+
 </script>
 </body>
 </html>
