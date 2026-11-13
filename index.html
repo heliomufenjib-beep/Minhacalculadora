@@ -4,19 +4,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SIGE - Gestão Escolar</title>
+<title>SIGE - Sistema Integrado de Gestão Escolar</title>
 
 <style>
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
 body {
     background: #f1f5f9;
     color: #1e293b;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 16px;
+    background: #1769d2;
+    color: white;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    outline: none;
+    background: white;
+}
+
+input:focus, select:focus {
+    border-color: #1769d2;
 }
 
 /* AUTENTICAÇÃO */
@@ -27,169 +59,119 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background: linear-gradient(135deg, #102b50, #2563eb);
+    background: linear-gradient(135deg, #0b2c59, #1769d2);
 }
 
-.auth-box {
+.auth-card {
     background: white;
-    padding: 35px;
     width: 100%;
     max-width: 420px;
-    border-radius: 14px;
-    box-shadow: 0 5px 25px #0003;
-    text-align: center;
+    padding: 32px;
+    border-radius: 15px;
+    box-shadow: 0 10px 35px #0003;
 }
 
-.auth-box h1 {
-    font-size: 32px;
-    color: #102b50;
+.auth-card h1 {
+    color: #1769d2;
+    text-align: center;
     margin-bottom: 8px;
 }
 
-.auth-box .subtitle {
+.auth-card .subtitle {
+    text-align: center;
     color: #64748b;
     margin-bottom: 25px;
-    font-size: 14px;
 }
 
-.auth-box input {
-    width: 100%;
-    padding: 13px;
-    margin-bottom: 13px;
-    border: 1px solid #cbd5e1;
-    border-radius: 7px;
-    outline: none;
-    font-size: 14px;
-}
-
-.auth-box input:focus {
-    border-color: #2563eb;
-}
-
-.auth-button {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    margin-top: 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    font-size: 16px;
+.auth-card label {
     font-weight: bold;
-    cursor: pointer;
-}
-
-.auth-button:hover {
-    background: #1d4ed8;
-}
-
-.auth-link {
-    margin-top: 20px;
     font-size: 14px;
-    color: #64748b;
 }
 
-.auth-link button {
-    color: #2563eb;
-    background: none;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 14px;
+.auth-card button {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.auth-card .secondary {
+    background: #1769d2;
 }
 
 .auth-message {
-    margin-top: 15px;
-    font-size: 13px;
+    margin-top: 14px;
+    text-align: center;
+    font-size: 14px;
     color: #dc2626;
 }
 
-.auth-message.success {
-    color: #15803d;
+.auth-hidden {
+    display: none !important;
 }
 
-#registerScreen {
-    display: none;
-}
+/* SISTEMA */
 
 #app {
     display: none;
+    min-height: 100vh;
 }
 
-/* SISTEMA ORIGINAL */
-
 header {
-    background: #102b50;
+    background: #12376a;
     color: white;
-    padding: 22px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 header h1 {
-    font-size: 25px;
+    font-size: 23px;
 }
 
 header p {
-    color: #cbd5e1;
+    font-size: 12px;
+    opacity: .8;
     margin-top: 5px;
 }
 
-nav {
-    background: #173b65;
+.header-user {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-user button {
+    background: #dc3545;
+}
+
+nav {
+    display: flex;
     gap: 5px;
+    flex-wrap: wrap;
+    background: white;
     padding: 10px;
+    box-shadow: 0 2px 5px #0001;
 }
 
 nav button {
-    background: transparent;
-    color: white;
-    border: 0;
-    padding: 12px;
-    cursor: pointer;
-    border-radius: 5px;
+    background: #e8eef7;
+    color: #12376a;
+    padding: 11px 13px;
 }
 
-nav button:hover,
 nav button.active {
-    background: #2563eb;
+    background: #1769d2;
+    color: white;
 }
 
 main {
-    max-width: 1100px;
-    margin: auto;
     padding: 22px;
-}
-
-h2 {
-    margin-bottom: 18px;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #0000000d;
-}
-
-.card h3 {
-    font-size: 14px;
-    color: #64748b;
-}
-
-.card p {
-    font-size: 28px;
-    font-weight: bold;
-    color: #2563eb;
-    margin-top: 12px;
+    max-width: 1400px;
+    margin: auto;
 }
 
 .section {
@@ -200,87 +182,142 @@ h2 {
     display: block;
 }
 
-input {
-    padding: 11px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    width: 100%;
-    margin-bottom: 10px;
+.section-title {
+    margin-bottom: 20px;
 }
 
-button.action {
-    background: #2563eb;
-    color: white;
-    padding: 11px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-bottom: 12px;
+.section-title h2 {
+    color: #12376a;
+    margin-bottom: 6px;
 }
 
-button.delete {
-    background: #dc2626;
-    color: white;
-    border: 0;
-    padding: 7px;
-    border-radius: 4px;
-    cursor: pointer;
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
 }
 
-button.edit {
-    background: #0f766e;
-    color: white;
-    border: 0;
-    padding: 7px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 4px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
+.stat-card {
     background: white;
-    margin-top: 15px;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 2px 8px #0000000c;
+    border-left: 5px solid #1769d2;
 }
 
-th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
+.stat-card p {
+    color: #64748b;
+    font-size: 14px;
 }
 
-th {
-    background: #e2e8f0;
+.stat-card h2 {
+    margin-top: 10px;
+    font-size: 30px;
+    color: #12376a;
+}
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px #0000000c;
+}
+
+.panel h3 {
+    margin-bottom: 15px;
+    color: #12376a;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.form-grid label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.form-grid button {
+    align-self: end;
+    margin-bottom: 14px;
 }
 
 .table-wrap {
     overflow-x: auto;
 }
 
-.notice {
-    margin-top: 15px;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 550px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+th {
+    background: #eaf1fb;
+    color: #12376a;
+}
+
+.delete-btn {
+    background: #dc3545;
+    padding: 7px 10px;
+    font-size: 12px;
+}
+
+.edit-btn {
+    background: #e09b18;
+    padding: 7px 10px;
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+.search-box {
+    max-width: 400px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge.fail {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+footer {
+    text-align: center;
     color: #64748b;
+    padding: 20px;
     font-size: 13px;
 }
 
-@media(max-width:600px) {
+@media(max-width: 600px) {
+    header {
+        align-items: flex-start;
+    }
+
     main {
-        padding: 12px;
+        padding: 13px;
     }
 
-    nav button {
-        font-size: 12px;
-        padding: 9px;
-    }
-
-    th, td {
-        padding: 9px;
-        font-size: 13px;
-    }
-
-    .auth-box {
-        padding: 25px;
+    .auth-card {
+        padding: 23px;
     }
 }
 </style>
@@ -288,710 +325,937 @@ th {
 
 <body>
 
-<!-- TELA DE ENTRADA -->
+<!-- TELA DE LOGIN -->
 
 <div id="loginScreen" class="auth-screen">
-    <div class="auth-box">
-
+    <div class="auth-card">
         <h1>SIGE</h1>
-
-        <p class="subtitle">
-            Sistema Integrado de Gestão Escolar
-        </p>
-
-        <h3 style="margin-bottom:20px">Entrar na conta</h3>
+        <p class="subtitle">Sistema Integrado de Gestão Escolar</p>
 
         <form id="loginForm">
+            <label>E-mail</label>
+            <input type="email" id="loginEmail"
+                   placeholder="Introduz o teu e-mail" required>
 
-            <input
-                type="email"
-                id="loginEmail"
-                placeholder="Endereço de e-mail"
-                required
-            >
+            <label>Palavra-passe</label>
+            <input type="password" id="loginPassword"
+                   placeholder="Introduz a tua palavra-passe" required>
 
-            <input
-                type="password"
-                id="loginPassword"
-                placeholder="Palavra-passe"
-                required
-            >
-
-            <button type="submit" class="auth-button">
-                ENTRAR
-            </button>
-
+            <button type="submit">ENTRAR</button>
         </form>
 
-        <p class="auth-link">
-            Não tens uma conta?
-        </p>
-
-        <button
-            class="auth-button"
-            onclick="mostrarRegisto()">
+        <button class="secondary" onclick="mostrarRegisto()">
             CRIAR CONTA
         </button>
 
         <p id="loginMessage" class="auth-message"></p>
-
     </div>
 </div>
 
-<!-- TELA DE CRIAÇÃO DE CONTA -->
+<!-- TELA DE CRIAR CONTA -->
 
-<div id="registerScreen" class="auth-screen">
-    <div class="auth-box">
-
-        <h1>SIGE</h1>
-
-        <p class="subtitle">
-            Cria a tua conta para aceder à plataforma
-        </p>
-
-        <h3 style="margin-bottom:20px">
-            Criar nova conta
-        </h3>
+<div id="registerScreen" class="auth-screen auth-hidden">
+    <div class="auth-card">
+        <h1>Criar conta</h1>
+        <p class="subtitle">Regista-te para aceder ao SIGE</p>
 
         <form id="registerForm">
+            <label>Nome completo</label>
+            <input type="text" id="registerName"
+                   placeholder="O teu nome completo" required>
 
-            <input
-                type="text"
-                id="registerName"
-                placeholder="Nome completo"
-                required
-                minlength="3"
-            >
+            <label>E-mail</label>
+            <input type="email" id="registerEmail"
+                   placeholder="O teu e-mail" required>
 
-            <input
-                type="email"
-                id="registerEmail"
-                placeholder="Endereço de e-mail"
-                required
-            >
+            <label>Palavra-passe</label>
+            <input type="password" id="registerPassword"
+                   placeholder="Mínimo de 8 caracteres" required>
 
-            <input
-                type="password"
-                id="registerPassword"
-                placeholder="Criar palavra-passe (mínimo 8 caracteres)"
-                required
-                minlength="8"
-            >
+            <label>Confirmar palavra-passe</label>
+            <input type="password" id="confirmPassword"
+                   placeholder="Repete a palavra-passe" required>
 
-            <input
-                type="password"
-                id="confirmPassword"
-                placeholder="Confirmar palavra-passe"
-                required
-            >
-
-            <button type="submit" class="auth-button">
-                CRIAR CONTA
-            </button>
-
+            <button type="submit">CRIAR CONTA</button>
         </form>
 
-        <p class="auth-link">
-            Já tens uma conta?
-            <button onclick="mostrarLogin()">Entrar</button>
-        </p>
+        <button class="secondary" onclick="mostrarLogin()">
+            VOLTAR AO LOGIN
+        </button>
 
         <p id="registerMessage" class="auth-message"></p>
-
     </div>
 </div>
 
-<!-- APLICAÇÃO SIGE ORIGINAL -->
+<!-- APLICAÇÃO SIGE -->
 
 <div id="app">
 
 <header>
-    <h1>SIGE</h1>
-    <p>Sistema Integrado de Gestão Escolar</p>
+    <div>
+        <h1>SIGE</h1>
+        <p>Sistema Integrado de Gestão Escolar</p>
+    </div>
+
+    <div class="header-user">
+        <span id="userName"></span>
+        <button onclick="terminarSessao()">SAIR</button>
+    </div>
 </header>
 
-<nav id="navigation">
-    <button class="active" data-page="dashboard">Início</button>
-    <button data-page="alunos">Alunos</button>
-    <button data-page="professores">Professores</button>
-    <button data-page="turmas">Turmas</button>
-    <button data-page="disciplinas">Disciplinas</button>
-    <button data-page="notas">Notas</button>
+<nav>
+    <button class="active" onclick="abrirSecao('dashboard', this)">Painel</button>
+    <button onclick="abrirSecao('alunos', this)">Alunos</button>
+    <button onclick="abrirSecao('professores', this)">Professores</button>
+    <button onclick="abrirSecao('turmas', this)">Turmas</button>
+    <button onclick="abrirSecao('disciplinas', this)">Disciplinas</button>
+    <button onclick="abrirSecao('notas', this)">Notas</button>
 </nav>
 
 <main>
 
+<!-- PAINEL PRINCIPAL -->
+
 <section id="dashboard" class="section active">
-    <h2>Painel Principal</h2>
+    <div class="section-title">
+        <h2>Painel principal</h2>
+        <p>Bem-vindo ao Sistema Integrado de Gestão Escolar.</p>
+    </div>
 
     <div class="stats">
-        <div class="card">
-            <h3>Total de alunos</h3>
-            <p id="totalAlunos">0</p>
+        <div class="stat-card">
+            <p>Total de alunos</p>
+            <h2 id="totalAlunos">0</h2>
         </div>
 
-        <div class="card">
-            <h3>Professores</h3>
-            <p id="totalProfessores">0</p>
+        <div class="stat-card">
+            <p>Total de professores</p>
+            <h2 id="totalProfessores">0</h2>
         </div>
 
-        <div class="card">
-            <h3>Turmas</h3>
-            <p id="totalTurmas">0</p>
+        <div class="stat-card">
+            <p>Total de turmas</p>
+            <h2 id="totalTurmas">0</h2>
         </div>
 
-        <div class="card">
-            <h3>Disciplinas</h3>
-            <p id="totalDisciplinas">0</p>
+        <div class="stat-card">
+            <p>Total de disciplinas</p>
+            <h2 id="totalDisciplinas">0</h2>
         </div>
     </div>
 
-    <div class="card">
-        <h3>Bem-vindo ao SIGE!</h3>
-        <p style="font-size:16px;color:#334155">
-            Sistema de administração e gestão escolar.
-        </p>
-        <p class="notice">
-            Utilize o menu para gerir os dados da instituição.
+    <div class="panel">
+        <h3>Sobre o SIGE</h3>
+        <p>
+            O SIGE é um sistema desenvolvido para facilitar a gestão
+            escolar, permitindo organizar alunos, professores, turmas,
+            disciplinas e notas num único ambiente digital.
         </p>
     </div>
 </section>
+
+<!-- ALUNOS -->
 
 <section id="alunos" class="section">
-    <h2>Gestão de Alunos</h2>
+    <div class="section-title">
+        <h2>Gestão de alunos</h2>
+        <p>Registar, consultar e gerir alunos.</p>
+    </div>
 
-    <input id="nomeAluno" placeholder="Nome completo">
-    <input id="idadeAluno" type="number" placeholder="Idade">
-    <input id="turmaAluno" placeholder="Turma">
+    <div class="panel">
+        <h3>Adicionar aluno</h3>
 
-    <button class="action" onclick="adicionar('alunos')">
-        Guardar Aluno
-    </button>
+        <form id="alunoForm" class="form-grid">
+            <div>
+                <label>Nome do aluno</label>
+                <input id="alunoNome" required>
+            </div>
 
-    <input id="pesquisaAlunos" placeholder="Pesquisar aluno..."
-    oninput="renderizar('alunos')">
+            <div>
+                <label>Número de processo</label>
+                <input id="alunoProcesso" required>
+            </div>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Idade</th>
-                    <th>Turma</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="listaAlunos"></tbody>
-        </table>
+            <div>
+                <label>Turma</label>
+                <input id="alunoTurma" required>
+            </div>
+
+            <div>
+                <label>Classe</label>
+                <input id="alunoClasse" required>
+            </div>
+
+            <button type="submit">Adicionar aluno</button>
+        </form>
+    </div>
+
+    <div class="panel">
+        <h3>Lista de alunos</h3>
+        <input class="search-box" id="pesquisaAlunos"
+               placeholder="Pesquisar aluno...">
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Processo</th>
+                        <th>Turma</th>
+                        <th>Classe</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaAlunos"></tbody>
+            </table>
+        </div>
     </div>
 </section>
+
+<!-- PROFESSORES -->
 
 <section id="professores" class="section">
-    <h2>Gestão de Professores</h2>
+    <div class="section-title">
+        <h2>Gestão de professores</h2>
+        <p>Organização dos professores da instituição.</p>
+    </div>
 
-    <input id="nomeProfessor" placeholder="Nome do professor">
-    <input id="especialidadeProfessor" placeholder="Especialidade">
+    <div class="panel">
+        <h3>Adicionar professor</h3>
 
-    <button class="action" onclick="adicionar('professores')">
-        Guardar Professor
-    </button>
+        <form id="professorForm" class="form-grid">
+            <div>
+                <label>Nome completo</label>
+                <input id="professorNome" required>
+            </div>
 
-    <input id="pesquisaProfessores"
-    placeholder="Pesquisar professor..."
-    oninput="renderizar('professores')">
+            <div>
+                <label>Disciplina</label>
+                <input id="professorDisciplina" required>
+            </div>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Especialidade</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="listaProfessores"></tbody>
-        </table>
+            <div>
+                <label>Contacto</label>
+                <input id="professorContacto" required>
+            </div>
+
+            <button type="submit">Adicionar professor</button>
+        </form>
+    </div>
+
+    <div class="panel">
+        <h3>Lista de professores</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Disciplina</th>
+                        <th>Contacto</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaProfessores"></tbody>
+            </table>
+        </div>
     </div>
 </section>
+
+<!-- TURMAS -->
 
 <section id="turmas" class="section">
-    <h2>Gestão de Turmas</h2>
+    <div class="section-title">
+        <h2>Gestão de turmas</h2>
+        <p>Registo e organização das turmas.</p>
+    </div>
 
-    <input id="nomeTurma" placeholder="Ex: 10ª Informática">
-    <input id="salaTurma" placeholder="Sala">
+    <div class="panel">
+        <h3>Adicionar turma</h3>
 
-    <button class="action" onclick="adicionar('turmas')">
-        Guardar Turma
-    </button>
+        <form id="turmaForm" class="form-grid">
+            <div>
+                <label>Nome da turma</label>
+                <input id="turmaNome" required>
+            </div>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Turma</th>
-                    <th>Sala</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="listaTurmas"></tbody>
-        </table>
+            <div>
+                <label>Classe</label>
+                <input id="turmaClasse" required>
+            </div>
+
+            <div>
+                <label>Sala</label>
+                <input id="turmaSala" required>
+            </div>
+
+            <button type="submit">Adicionar turma</button>
+        </form>
+    </div>
+
+    <div class="panel">
+        <h3>Lista de turmas</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Turma</th>
+                        <th>Classe</th>
+                        <th>Sala</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaTurmas"></tbody>
+            </table>
+        </div>
     </div>
 </section>
+
+<!-- DISCIPLINAS -->
 
 <section id="disciplinas" class="section">
-    <h2>Gestão de Disciplinas</h2>
+    <div class="section-title">
+        <h2>Gestão de disciplinas</h2>
+        <p>Adicionar e consultar disciplinas.</p>
+    </div>
 
-    <input id="nomeDisciplina" placeholder="Nome da disciplina">
+    <div class="panel">
+        <h3>Adicionar disciplina</h3>
 
-    <button class="action" onclick="adicionar('disciplinas')">
-        Guardar Disciplina
-    </button>
+        <form id="disciplinaForm" class="form-grid">
+            <div>
+                <label>Nome da disciplina</label>
+                <input id="disciplinaNome" required>
+            </div>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Disciplina</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="listaDisciplinas"></tbody>
-        </table>
+            <div>
+                <label>Carga horária</label>
+                <input id="disciplinaCarga" type="number"
+                       min="1" required>
+            </div>
+
+            <button type="submit">Adicionar disciplina</button>
+        </form>
+    </div>
+
+    <div class="panel">
+        <h3>Lista de disciplinas</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Disciplina</th>
+                        <th>Carga horária</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaDisciplinas"></tbody>
+            </table>
+        </div>
     </div>
 </section>
 
+<!-- NOTAS -->
+
 <section id="notas" class="section">
-    <h2>Registo de Notas</h2>
+    <div class="section-title">
+        <h2>Gestão de notas</h2>
+        <p>Registar e acompanhar o aproveitamento escolar.</p>
+    </div>
 
-    <input id="alunoNota" placeholder="Nome do aluno">
-    <input id="disciplinaNota" placeholder="Disciplina">
-    <input id="valorNota" type="number" min="0" max="20"
-    step="0.1" placeholder="Nota (0 a 20)">
+    <div class="panel">
+        <h3>Adicionar nota</h3>
 
-    <button class="action" onclick="adicionar('notas')">
-        Registar Nota
-    </button>
+        <form id="notaForm" class="form-grid">
+            <div>
+                <label>Nome do aluno</label>
+                <input id="notaAluno" required>
+            </div>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Aluno</th>
-                    <th>Disciplina</th>
-                    <th>Nota</th>
-                    <th>Resultado</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="listaNotas"></tbody>
-        </table>
+            <div>
+                <label>Disciplina</label>
+                <input id="notaDisciplina" required>
+            </div>
+
+            <div>
+                <label>Nota (0 a 20)</label>
+                <input id="notaValor" type="number"
+                       min="0" max="20" step="0.1" required>
+            </div>
+
+            <button type="submit">Registar nota</button>
+        </form>
+    </div>
+
+    <div class="panel">
+        <h3>Notas registadas</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Disciplina</th>
+                        <th>Nota</th>
+                        <th>Resultado</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaNotas"></tbody>
+            </table>
+        </div>
     </div>
 </section>
 
 </main>
+
+<footer>
+    SIGE © 2026 — Sistema Integrado de Gestão Escolar
+</footer>
+
 </div>
 
 <script>
 
-/* ==================================
-   SISTEMA DE AUTENTICAÇÃO
-================================== */
+/* =====================================
+   AUTENTICAÇÃO E CONTAS
+===================================== */
 
-const CHAVE_CONTAS = 'sige_contas';
-
-/* OBTER CONTAS */
+const CHAVE_CONTAS = "sige_contas";
 
 function obterContas() {
-    return JSON.parse(
-        localStorage.getItem(CHAVE_CONTAS) || '[]'
-    );
+    try {
+        return JSON.parse(localStorage.getItem(CHAVE_CONTAS)) || [];
+    } catch {
+        return [];
+    }
 }
 
-/* MOSTRAR LOGIN */
-
-function mostrarLogin() {
-    document.getElementById('registerScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
-
-    document.getElementById('registerMessage').textContent = '';
+function guardarContas(contas) {
+    localStorage.setItem(CHAVE_CONTAS, JSON.stringify(contas));
 }
-
-/* MOSTRAR REGISTO */
 
 function mostrarRegisto() {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('registerScreen').style.display = 'flex';
-
-    document.getElementById('loginMessage').textContent = '';
+    document.getElementById("loginScreen").classList.add("auth-hidden");
+    document.getElementById("registerScreen").classList.remove("auth-hidden");
+    document.getElementById("registerMessage").textContent = "";
 }
 
-/* GERAR HASH DA PALAVRA-PASSE */
+function mostrarLogin() {
+    document.getElementById("registerScreen").classList.add("auth-hidden");
+    document.getElementById("loginScreen").classList.remove("auth-hidden");
+    document.getElementById("loginMessage").textContent = "";
+}
 
 async function criarHash(senha, salt) {
     const dados = new TextEncoder().encode(salt + senha);
-
-    const resultado = await crypto.subtle.digest(
-        'SHA-256',
-        dados
-    );
+    const resultado = await crypto.subtle.digest("SHA-256", dados);
 
     return Array.from(new Uint8Array(resultado))
-        .map(byte => byte.toString(16).padStart(2, '0'))
-        .join('');
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
 }
 
-/* CRIAR CONTA */
+function gerarSalt() {
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
 
-document.getElementById('registerForm')
-.addEventListener('submit', async function(event) {
+    return Array.from(bytes)
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
+}
 
+document.getElementById("registerForm").addEventListener("submit",
+async function(event) {
     event.preventDefault();
 
-    const nome = document.getElementById('registerName').value.trim();
-    const email = document.getElementById('registerEmail').value.trim().toLowerCase();
-    const senha = document.getElementById('registerPassword').value;
-    const confirmar = document.getElementById('confirmPassword').value;
-
-    const mensagem = document.getElementById('registerMessage');
-
-    mensagem.className = 'auth-message';
+    const nome = document.getElementById("registerName").value.trim();
+    const email = document.getElementById("registerEmail").value.trim().toLowerCase();
+    const senha = document.getElementById("registerPassword").value;
+    const confirmar = document.getElementById("confirmPassword").value;
+    const mensagem = document.getElementById("registerMessage");
 
     if (nome.length < 3) {
-        mensagem.textContent = 'Introduza o seu nome completo.';
+        mensagem.textContent = "Introduz um nome válido.";
         return;
     }
 
     if (senha.length < 8) {
-        mensagem.textContent = 'A palavra-passe deve ter pelo menos 8 caracteres.';
+        mensagem.textContent = "A palavra-passe deve ter pelo menos 8 caracteres.";
         return;
     }
 
     if (senha !== confirmar) {
-        mensagem.textContent = 'As palavras-passe não coincidem.';
+        mensagem.textContent = "As palavras-passe não coincidem.";
+        return;
+    }
+
+    if (!window.crypto || !crypto.subtle) {
+        mensagem.textContent = "Abre o site através de HTTPS para criar uma conta.";
         return;
     }
 
     const contas = obterContas();
 
     if (contas.some(conta => conta.email === email)) {
-        mensagem.textContent = 'Este e-mail já possui uma conta.';
+        mensagem.textContent = "Este e-mail já possui uma conta.";
+        return;
+    }
+
+    try {
+        const salt = gerarSalt();
+        const hash = await criarHash(senha, salt);
+
+        contas.push({
+            id: crypto.randomUUID(),
+            nome: nome,
+            email: email,
+            salt: salt,
+            hash: hash
+        });
+
+        guardarContas(contas);
+
+        mensagem.style.color = "green";
+        mensagem.textContent = "Conta criada com sucesso! Agora podes entrar.";
+
+        document.getElementById("registerForm").reset();
+
+        setTimeout(mostrarLogin, 1200);
+
+    } catch (erro) {
+        mensagem.textContent = "Não foi possível criar a conta.";
+    }
+});
+
+document.getElementById("loginForm").addEventListener("submit",
+async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+    const senha = document.getElementById("loginPassword").value;
+    const mensagem = document.getElementById("loginMessage");
+
+    const contas = obterContas();
+    const conta = contas.find(item => item.email === email);
+
+    if (!conta) {
+        mensagem.textContent = "Conta não encontrada. Cria primeiro uma conta.";
         return;
     }
 
     if (!window.crypto || !crypto.subtle) {
-        mensagem.textContent =
-            'A autenticação requer uma ligação HTTPS.';
+        mensagem.textContent = "Abre o site através de HTTPS para entrar.";
         return;
     }
 
-    const salt = crypto.randomUUID();
-    const hash = await criarHash(senha, salt);
+    try {
+        const hash = await criarHash(senha, conta.salt);
 
-    const novaConta = {
-        id: crypto.randomUUID(),
-        nome: nome,
-        email: email,
-        salt: salt,
-        hash: hash
-    };
-
-    contas.push(novaConta);
-
-    localStorage.setItem(
-        CHAVE_CONTAS,
-        JSON.stringify(contas)
-    );
-
-    document.getElementById('registerForm').reset();
-
-    mostrarLogin();
-
-    document.getElementById('loginEmail').value = email;
-
-    const loginMensagem = document.getElementById('loginMessage');
-
-    loginMensagem.className = 'auth-message success';
-    loginMensagem.textContent =
-        'Conta criada com sucesso! Agora podes entrar.';
-});
-
-/* INICIAR SESSÃO */
-
-document.getElementById('loginForm')
-.addEventListener('submit', async function(event) {
-
-    event.preventDefault();
-
-    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-    const senha = document.getElementById('loginPassword').value;
-
-    const mensagem = document.getElementById('loginMessage');
-
-    mensagem.className = 'auth-message';
-
-    const contas = obterContas();
-
-    const conta = contas.find(c => c.email === email);
-
-    if (!conta) {
-        mensagem.textContent = 'Conta não encontrada. Cria uma conta primeiro.';
-        return;
-    }
-
-    const hash = await criarHash(senha, conta.salt);
-
-    if (hash !== conta.hash) {
-        mensagem.textContent = 'Palavra-passe incorreta.';
-        return;
-    }
-
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('registerScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-
-    document.getElementById('loginForm').reset();
-
-});
-
-/* ==================================
-   BASE DE DADOS LOCAL DO SIGE
-================================== */
-
-const dados = {
-    alunos: JSON.parse(localStorage.getItem('sige_alunos') || '[]'),
-    professores: JSON.parse(localStorage.getItem('sige_professores') || '[]'),
-    turmas: JSON.parse(localStorage.getItem('sige_turmas') || '[]'),
-    disciplinas: JSON.parse(localStorage.getItem('sige_disciplinas') || '[]'),
-    notas: JSON.parse(localStorage.getItem('sige_notas') || '[]')
-};
-
-const campos = {
-    alunos: ['nomeAluno', 'idadeAluno', 'turmaAluno'],
-    professores: ['nomeProfessor', 'especialidadeProfessor'],
-    turmas: ['nomeTurma', 'salaTurma'],
-    disciplinas: ['nomeDisciplina'],
-    notas: ['alunoNota', 'disciplinaNota', 'valorNota']
-};
-
-const propriedades = {
-    alunos: ['Nome', 'Idade', 'Turma'],
-    professores: ['Nome', 'Especialidade'],
-    turmas: ['Turma', 'Sala'],
-    disciplinas: ['Disciplina'],
-    notas: ['Aluno', 'Disciplina', 'Nota']
-};
-
-const armazenamento = {
-    alunos: 'sige_alunos',
-    professores: 'sige_professores',
-    turmas: 'sige_turmas',
-    disciplinas: 'sige_disciplinas',
-    notas: 'sige_notas'
-};
-
-let edicao = null;
-
-// GUARDAR DADOS
-
-function guardar(tipo) {
-    localStorage.setItem(
-        armazenamento[tipo],
-        JSON.stringify(dados[tipo])
-    );
-}
-
-// LIMPAR FORMULÁRIO
-
-function limpar(tipo) {
-    campos[tipo].forEach(id => {
-        document.getElementById(id).value = '';
-    });
-}
-
-// ADICIONAR OU EDITAR
-
-function adicionar(tipo) {
-    const valores = campos[tipo].map(id =>
-        document.getElementById(id).value.trim()
-    );
-
-    if (valores.some(v => v === '')) {
-        alert('Preencha todos os campos!');
-        return;
-    }
-
-    if (tipo === 'notas') {
-        const nota = Number(valores[2]);
-
-        if (!Number.isFinite(nota) || nota < 0 || nota > 20) {
-            alert('A nota deve estar entre 0 e 20.');
+        if (hash !== conta.hash) {
+            mensagem.textContent = "Palavra-passe incorreta.";
             return;
         }
 
-        valores[2] = nota;
+        sessionStorage.setItem("sige_sessao", JSON.stringify({
+            id: conta.id,
+            nome: conta.nome,
+            email: conta.email
+        }));
+
+        entrarNoSistema(conta);
+
+    } catch (erro) {
+        mensagem.textContent = "Não foi possível iniciar sessão.";
     }
+});
 
-    if (tipo === 'alunos') {
-        const idade = Number(valores[1]);
+function entrarNoSistema(conta) {
+    document.getElementById("loginScreen").classList.add("auth-hidden");
+    document.getElementById("registerScreen").classList.add("auth-hidden");
+    document.getElementById("app").style.display = "block";
 
-        if (!Number.isInteger(idade) || idade < 1 || idade > 120) {
-            alert('Introduza uma idade válida.');
-            return;
-        }
+    document.getElementById("userName").textContent = conta.nome;
 
-        valores[1] = idade;
-    }
-
-    const registro = {
-        id: edicao ?? Date.now(),
-        valores: valores
-    };
-
-    if (edicao !== null) {
-        const index = dados[tipo].findIndex(
-            item => item.id === edicao
-        );
-        dados[tipo][index] = registro;
-        edicao = null;
-    } else {
-        dados[tipo].push(registro);
-    }
-
-    guardar(tipo);
-    limpar(tipo);
-    renderizar(tipo);
+    carregarDados();
     atualizarPainel();
 }
 
-// EXIBIR DADOS
+function terminarSessao() {
+    sessionStorage.removeItem("sige_sessao");
 
-function renderizar(tipo) {
-    const tbody = document.getElementById('lista' +
-        tipo.charAt(0).toUpperCase() + tipo.slice(1));
-
-    const pesquisa = tipo === 'alunos'
-        ? document.getElementById('pesquisaAlunos').value
-        : tipo === 'professores'
-        ? document.getElementById('pesquisaProfessores').value
-        : '';
-
-    tbody.innerHTML = '';
-
-    dados[tipo]
-        .filter(item => item.valores.join(' ')
-        .toLowerCase().includes(pesquisa.toLowerCase()))
-        .forEach(item => {
-
-        const tr = document.createElement('tr');
-
-        item.valores.forEach((valor, index) => {
-            const td = document.createElement('td');
-            td.textContent = valor;
-            tr.appendChild(td);
-        });
-
-        if (tipo === 'notas') {
-            const td = document.createElement('td');
-            td.textContent = item.valores[2] >= 10
-                ? 'Aprovado'
-                : 'Não aprovado';
-            tr.appendChild(td);
-        }
-
-        const td = document.createElement('td');
-
-        const editar = document.createElement('button');
-        editar.textContent = 'Editar';
-        editar.className = 'edit';
-        editar.onclick = () => editarRegistro(tipo, item.id);
-
-        const excluir = document.createElement('button');
-        excluir.textContent = 'Eliminar';
-        excluir.className = 'delete';
-        excluir.onclick = () => eliminar(tipo, item.id);
-
-        td.append(editar, excluir);
-        tr.appendChild(td);
-        tbody.appendChild(tr);
-    });
+    document.getElementById("app").style.display = "none";
+    document.getElementById("loginScreen").classList.remove("auth-hidden");
+    document.getElementById("loginForm").reset();
 }
 
-// EDITAR REGISTRO
+/* =====================================
+   ARMAZENAMENTO DO SIGE
+===================================== */
 
-function editarRegistro(tipo, id) {
-    const item = dados[tipo].find(r => r.id === id);
+let alunos = [];
+let professores = [];
+let turmas = [];
+let disciplinas = [];
+let notas = [];
 
-    if (!item) return;
+function guardarDados() {
+    localStorage.setItem("sige_alunos", JSON.stringify(alunos));
+    localStorage.setItem("sige_professores", JSON.stringify(professores));
+    localStorage.setItem("sige_turmas", JSON.stringify(turmas));
+    localStorage.setItem("sige_disciplinas", JSON.stringify(disciplinas));
+    localStorage.setItem("sige_notas", JSON.stringify(notas));
+}
 
-    campos[tipo].forEach((campo, index) => {
-        document.getElementById(campo).value =
-            item.valores[index];
+function carregarDados() {
+    alunos = JSON.parse(localStorage.getItem("sige_alunos")) || [];
+    professores = JSON.parse(localStorage.getItem("sige_professores")) || [];
+    turmas = JSON.parse(localStorage.getItem("sige_turmas")) || [];
+    disciplinas = JSON.parse(localStorage.getItem("sige_disciplinas")) || [];
+    notas = JSON.parse(localStorage.getItem("sige_notas")) || [];
+
+    atualizarTudo();
+}
+
+/* =====================================
+   NAVEGAÇÃO
+===================================== */
+
+function abrirSecao(id, botao) {
+    document.querySelectorAll(".section").forEach(secao => {
+        secao.classList.remove("active");
     });
 
-    edicao = id;
+    document.getElementById(id).classList.add("active");
 
-    document.getElementById(campos[tipo][0])
-        .scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll("nav button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    botao.classList.add("active");
 }
 
-// ELIMINAR REGISTRO
-
-function eliminar(tipo, id) {
-    if (!confirm('Deseja realmente eliminar este registo?')) {
-        return;
-    }
-
-    dados[tipo] = dados[tipo].filter(
-        item => item.id !== id
-    );
-
-    guardar(tipo);
-    renderizar(tipo);
-    atualizarPainel();
-}
-
-// ATUALIZAR ESTATÍSTICAS
+/* =====================================
+   PAINEL E ESTATÍSTICAS
+===================================== */
 
 function atualizarPainel() {
-    document.getElementById('totalAlunos').textContent =
-        dados.alunos.length;
-
-    document.getElementById('totalProfessores').textContent =
-        dados.professores.length;
-
-    document.getElementById('totalTurmas').textContent =
-        dados.turmas.length;
-
-    document.getElementById('totalDisciplinas').textContent =
-        dados.disciplinas.length;
+    document.getElementById("totalAlunos").textContent = alunos.length;
+    document.getElementById("totalProfessores").textContent = professores.length;
+    document.getElementById("totalTurmas").textContent = turmas.length;
+    document.getElementById("totalDisciplinas").textContent = disciplinas.length;
 }
 
-// NAVEGAÇÃO
+function atualizarTudo() {
+    atualizarPainel();
+    mostrarAlunos();
+    mostrarProfessores();
+    mostrarTurmas();
+    mostrarDisciplinas();
+    mostrarNotas();
+}
 
-document.getElementById('navigation').addEventListener(
-    'click', event => {
-        const botao = event.target.closest('button[data-page]');
-        if (!botao) return;
+/* =====================================
+   ALUNOS
+===================================== */
 
-        document.querySelectorAll('.section').forEach(secao => {
-            secao.classList.remove('active');
-        });
+document.getElementById("alunoForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-        document.querySelectorAll('nav button').forEach(btn => {
-            btn.classList.remove('active');
-        });
+    const processo = document.getElementById("alunoProcesso").value.trim();
 
-        document.getElementById(botao.dataset.page)
-            .classList.add('active');
-
-        botao.classList.add('active');
+    if (alunos.some(a => a.processo.toLowerCase() === processo.toLowerCase())) {
+        alert("Já existe um aluno com este número de processo.");
+        return;
     }
-);
 
-// INICIALIZAÇÃO
+    alunos.push({
+        id: crypto.randomUUID(),
+        nome: document.getElementById("alunoNome").value.trim(),
+        processo: processo,
+        turma: document.getElementById("alunoTurma").value.trim(),
+        classe: document.getElementById("alunoClasse").value.trim()
+    });
 
-Object.keys(dados).forEach(tipo => renderizar(tipo));
-atualizarPainel();
+    guardarDados();
+    atualizarTudo();
+    this.reset();
+
+    alert("Aluno adicionado com sucesso!");
+});
+
+function mostrarAlunos(filtro = "") {
+    const tabela = document.getElementById("listaAlunos");
+    tabela.innerHTML = "";
+
+    alunos.filter(a =>
+        (a.nome + " " + a.processo + " " + a.turma)
+        .toLowerCase().includes(filtro.toLowerCase())
+    ).forEach(a => {
+        const tr = document.createElement("tr");
+
+        adicionarCelula(tr, a.nome);
+        adicionarCelula(tr, a.processo);
+        adicionarCelula(tr, a.turma);
+        adicionarCelula(tr, a.classe);
+
+        const td = document.createElement("td");
+        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
+            if (confirm("Desejas eliminar este aluno?")) {
+                alunos = alunos.filter(item => item.id !== a.id);
+                guardarDados();
+                atualizarTudo();
+            }
+        }));
+
+        tr.appendChild(td);
+        tabela.appendChild(tr);
+    });
+}
+
+document.getElementById("pesquisaAlunos").addEventListener("input", function() {
+    mostrarAlunos(this.value);
+});
+
+/* =====================================
+   PROFESSORES
+===================================== */
+
+document.getElementById("professorForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    professores.push({
+        id: crypto.randomUUID(),
+        nome: document.getElementById("professorNome").value.trim(),
+        disciplina: document.getElementById("professorDisciplina").value.trim(),
+        contacto: document.getElementById("professorContacto").value.trim()
+    });
+
+    guardarDados();
+    atualizarTudo();
+    this.reset();
+
+    alert("Professor adicionado com sucesso!");
+});
+
+function mostrarProfessores() {
+    const tabela = document.getElementById("listaProfessores");
+    tabela.innerHTML = "";
+
+    professores.forEach(p => {
+        const tr = document.createElement("tr");
+
+        adicionarCelula(tr, p.nome);
+        adicionarCelula(tr, p.disciplina);
+        adicionarCelula(tr, p.contacto);
+
+        const td = document.createElement("td");
+        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
+            if (confirm("Eliminar este professor?")) {
+                professores = professores.filter(item => item.id !== p.id);
+                guardarDados();
+                atualizarTudo();
+            }
+        }));
+
+        tr.appendChild(td);
+        tabela.appendChild(tr);
+    });
+}
+
+/* =====================================
+   TURMAS
+===================================== */
+
+document.getElementById("turmaForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    turmas.push({
+        id: crypto.randomUUID(),
+        nome: document.getElementById("turmaNome").value.trim(),
+        classe: document.getElementById("turmaClasse").value.trim(),
+        sala: document.getElementById("turmaSala").value.trim()
+    });
+
+    guardarDados();
+    atualizarTudo();
+    this.reset();
+
+    alert("Turma adicionada com sucesso!");
+});
+
+function mostrarTurmas() {
+    const tabela = document.getElementById("listaTurmas");
+    tabela.innerHTML = "";
+
+    turmas.forEach(t => {
+        const tr = document.createElement("tr");
+
+        adicionarCelula(tr, t.nome);
+        adicionarCelula(tr, t.classe);
+        adicionarCelula(tr, t.sala);
+
+        const td = document.createElement("td");
+        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
+            if (confirm("Eliminar esta turma?")) {
+                turmas = turmas.filter(item => item.id !== t.id);
+                guardarDados();
+                atualizarTudo();
+            }
+        }));
+
+        tr.appendChild(td);
+        tabela.appendChild(tr);
+    });
+}
+
+/* =====================================
+   DISCIPLINAS
+===================================== */
+
+document.getElementById("disciplinaForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    disciplinas.push({
+        id: crypto.randomUUID(),
+        nome: document.getElementById("disciplinaNome").value.trim(),
+        carga: document.getElementById("disciplinaCarga").value
+    });
+
+    guardarDados();
+    atualizarTudo();
+    this.reset();
+
+    alert("Disciplina adicionada com sucesso!");
+});
+
+function mostrarDisciplinas() {
+    const tabela = document.getElementById("listaDisciplinas");
+    tabela.innerHTML = "";
+
+    disciplinas.forEach(d => {
+        const tr = document.createElement("tr");
+
+        adicionarCelula(tr, d.nome);
+        adicionarCelula(tr, d.carga + " horas");
+
+        const td = document.createElement("td");
+        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
+            if (confirm("Eliminar esta disciplina?")) {
+                disciplinas = disciplinas.filter(item => item.id !== d.id);
+                guardarDados();
+                atualizarTudo();
+            }
+        }));
+
+        tr.appendChild(td);
+        tabela.appendChild(tr);
+    });
+}
+
+/* =====================================
+   NOTAS
+===================================== */
+
+document.getElementById("notaForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const valor = Number(document.getElementById("notaValor").value);
+
+    if (!Number.isFinite(valor) || valor < 0 || valor > 20) {
+        alert("A nota deve estar entre 0 e 20.");
+        return;
+    }
+
+    notas.push({
+        id: crypto.randomUUID(),
+        aluno: document.getElementById("notaAluno").value.trim(),
+        disciplina: document.getElementById("notaDisciplina").value.trim(),
+        valor: valor
+    });
+
+    guardarDados();
+    atualizarTudo();
+    this.reset();
+
+    alert("Nota registada com sucesso!");
+});
+
+function mostrarNotas() {
+    const tabela = document.getElementById("listaNotas");
+    tabela.innerHTML = "";
+
+    notas.forEach(n => {
+        const tr = document.createElement("tr");
+
+        adicionarCelula(tr, n.aluno);
+        adicionarCelula(tr, n.disciplina);
+        adicionarCelula(tr, n.valor);
+
+        const tdResultado = document.createElement("td");
+        const resultado = document.createElement("span");
+
+        resultado.className = n.valor >= 10 ? "badge" : "badge fail";
+        resultado.textContent = n.valor >= 10 ? "Aprovado" : "Reprovado";
+
+        tdResultado.appendChild(resultado);
+        tr.appendChild(tdResultado);
+
+        const td = document.createElement("td");
+
+        td.appendChild(criarBotao("Eliminar", "delete-btn", () => {
+            if (confirm("Eliminar esta nota?")) {
+                notas = notas.filter(item => item.id !== n.id);
+                guardarDados();
+                atualizarTudo();
+            }
+        }));
+
+        tr.appendChild(td);
+        tabela.appendChild(tr);
+    });
+}
+
+/* =====================================
+   FUNÇÕES AUXILIARES
+===================================== */
+
+function adicionarCelula(linha, valor) {
+    const td = document.createElement("td");
+    td.textContent = valor;
+    linha.appendChild(td);
+}
+
+function criarBotao(texto, classe, acao) {
+    const botao = document.createElement("button");
+
+    botao.textContent = texto;
+    botao.className = classe;
+    botao.type = "button";
+    botao.addEventListener("click", acao);
+
+    return botao;
+}
+
+/* =====================================
+   VERIFICAR SESSÃO
+===================================== */
+
+(function verificarSessao() {
+    try {
+        const sessao = JSON.parse(sessionStorage.getItem("sige_sessao"));
+
+        if (sessao) {
+            const conta = obterContas().find(item => item.id === sessao.id);
+
+            if (conta) {
+                entrarNoSistema(conta);
+                return;
+            }
+
+            sessionStorage.removeItem("sige_sessao");
+        }
+    } catch {
+        sessionStorage.removeItem("sige_sessao");
+    }
+})();
 
 </script>
 
